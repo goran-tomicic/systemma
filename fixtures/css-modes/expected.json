@@ -1,0 +1,193 @@
+{
+  "count": 19,
+  "tokens": [
+    {
+      "id": "color-white",
+      "label": "--color-white",
+      "modes": {
+        "light": {
+          "lit": "#ffffff"
+        },
+        "dark": {
+          "lit": "#0b0f19"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css",
+      "description": "===== Colors ===== */ :root { /* Section header, too short to be a description"
+    },
+    {
+      "id": "color-gray-900",
+      "label": "--color-gray-900",
+      "modes": {
+        "light": {
+          "lit": "#111827"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css",
+      "description": "Darkest neutral"
+    },
+    {
+      "id": "color-surface-base",
+      "label": "--color-surface-base",
+      "modes": {
+        "light": {
+          "ref": "color-white"
+        },
+        "dark": {
+          "lit": "#0b0f19"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css",
+      "description": "Page background behind every surface in the product."
+    },
+    {
+      "id": "color-fg-base",
+      "label": "--color-fg-base",
+      "modes": {
+        "light": {
+          "ref": "color-gray-900"
+        },
+        "dark": {
+          "lit": "#f9fafb"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "color-border-base",
+      "label": "--color-border-base",
+      "modes": {
+        "light": {
+          "ref": "color-gray-900"
+        },
+        "dark": {
+          "lit": "#374151"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "shadow-card",
+      "label": "--shadow-card",
+      "modes": {
+        "light": {
+          "lit": "0 1px 2px var(--color-gray-900), 0 4px 12px rgba(0, 0, 0, 0.1)"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "space-4",
+      "label": "--space-4",
+      "modes": {
+        "light": {
+          "lit": "24px"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "font-sans",
+      "label": "--font-sans",
+      "modes": {
+        "light": {
+          "lit": "\"Inter\", system-ui, sans-serif"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "ease-out",
+      "label": "--ease-out",
+      "modes": {
+        "light": {
+          "lit": "cubic-bezier(0.2, 0, 0, 1)"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "color-accent",
+      "label": "--color-accent",
+      "modes": {
+        "dark": {
+          "lit": "#7aa2ff"
+        },
+        "light": {
+          "lit": "#0066ff"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "color-accent-hover",
+      "label": "--color-accent-hover",
+      "modes": {
+        "dark": {
+          "lit": "#9bbaff"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "card-padding",
+      "label": "--card-padding",
+      "modes": {
+        "light": {
+          "ref": "space-4"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    },
+    {
+      "id": "mixed-case",
+      "label": "--Mixed-Case",
+      "modes": {
+        "light": {
+          "lit": "1"
+        }
+      },
+      "type": "",
+      "source": "tokens.css",
+      "collection": "",
+      "format": "css"
+    }
+  ],
+  "usage": []
+}

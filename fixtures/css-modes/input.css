@@ -1,0 +1,51 @@
+/* ===== Colors ===== */
+:root {
+  /* Section header, too short to be a description */
+  --color-white: #ffffff;
+  --color-gray-900: #111827; /* Darkest neutral */
+  /* Page background behind every surface in the product. */
+  --color-surface-base: var(--color-white);
+  --color-fg-base: var(--color-gray-900);
+  --color-border-base: var(--color-gray-900, #000);
+  --shadow-card: 0 1px 2px var(--color-gray-900), 0 4px 12px rgba(0, 0, 0, 0.1);
+  --space-4: 16px;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-theme="dark"] {
+  --color-white: #0b0f19;
+  --color-surface-base: #0b0f19;
+  --color-fg-base: #f9fafb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-border-base: #374151;
+  }
+}
+
+@media (min-width: 40em) {
+  :root {
+    --space-4: 24px;
+  }
+}
+
+.dark {
+  --color-accent: #7aa2ff;
+}
+
+.theme-dark,
+.dark-mode {
+  --color-accent-hover: #9bbaff;
+}
+
+.card {
+  --card-padding: var(--space-4);
+  padding: var(--card-padding);
+}
+
+:root {
+  --color-accent: #0066ff;
+  --Mixed-Case: 1;
+}

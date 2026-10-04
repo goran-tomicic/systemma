@@ -15,3 +15,4 @@ export { deltaE76 } from './a11y/lab.js';
 export type { ParseResult } from './parse/types.js';
 export type { JsonOptions } from './parse/dtcg.js';
 export { parseTokensJson } from './parse/dtcg.js';
+export { parseCss } from './parse/css.js';
