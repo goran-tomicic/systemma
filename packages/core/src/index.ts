@@ -20,3 +20,6 @@ export { parseFigmaVariables } from './parse/figma.js';
 export { parseUsage } from './parse/usage.js';
 export type { Detected, DetectedKind } from './parse/detect.js';
 export { detectFormat } from './parse/detect.js';
+
+export type { Resolution, ResolveError } from './resolve/resolve.js';
+export { resolve } from './resolve/resolve.js';

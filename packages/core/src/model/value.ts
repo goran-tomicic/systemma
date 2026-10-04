@@ -6,7 +6,7 @@ const GROUP_VALUE_SUFFIX = /\.(DEFAULT|\$root)$/i;
 const BRACE_REF = /\{([^}]+)\}/g;
 const VAR_REF = /var\(\s*--([\w-]+)/g;
 
-const refId = (path: string): string => canon(path.replace(GROUP_VALUE_SUFFIX, ''));
+export const refId = (path: string): string => canon(path.replace(GROUP_VALUE_SUFFIX, ''));
 
 export function parseValue(v: unknown): TokenValue {
   if (typeof v !== 'string') return { lit: String(v) };
