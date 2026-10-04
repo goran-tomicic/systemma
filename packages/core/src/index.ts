@@ -17,3 +17,6 @@ export type { JsonOptions } from './parse/dtcg.js';
 export { parseTokensJson } from './parse/dtcg.js';
 export { parseCss } from './parse/css.js';
 export { parseFigmaVariables } from './parse/figma.js';
+export { parseUsage } from './parse/usage.js';
+export type { Detected, DetectedKind } from './parse/detect.js';
+export { detectFormat } from './parse/detect.js';

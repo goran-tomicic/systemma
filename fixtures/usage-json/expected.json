@@ -1,0 +1,84 @@
+{
+  "count": 13,
+  "warnings": [],
+  "usage": [
+    {
+      "component": "Button",
+      "file": "src/Button.tsx",
+      "prop": "background",
+      "token": "color-palette-brand-solid"
+    },
+    {
+      "component": "Button",
+      "file": "src/Button.tsx",
+      "prop": "color",
+      "token": "color-fg-base"
+    },
+    {
+      "component": "Button",
+      "file": "src/Button.tsx",
+      "prop": "border-color",
+      "token": "color-border-base"
+    },
+    {
+      "component": "Card",
+      "file": "",
+      "prop": "background",
+      "token": "color-surface-base"
+    },
+    {
+      "component": "Badge",
+      "file": "",
+      "prop": "",
+      "token": "color-fg-muted"
+    },
+    {
+      "component": "Badge",
+      "file": "",
+      "prop": "",
+      "token": "color-surface-base"
+    },
+    {
+      "component": "Link",
+      "file": "",
+      "prop": "color",
+      "token": "color-fg-brand"
+    },
+    {
+      "component": "Link",
+      "file": "",
+      "prop": "",
+      "token": "color-fg-base"
+    },
+    {
+      "component": "src/Footer.tsx",
+      "file": "src/Footer.tsx",
+      "prop": "",
+      "token": "space-4"
+    },
+    {
+      "component": "Both",
+      "file": "",
+      "prop": "",
+      "token": "a"
+    },
+    {
+      "component": "Both",
+      "file": "",
+      "prop": "p",
+      "token": "b"
+    },
+    {
+      "component": "Odd",
+      "file": "",
+      "prop": "",
+      "token": "{-}"
+    },
+    {
+      "component": "Dots",
+      "file": "",
+      "prop": "",
+      "token": "color-gray-50"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "component": "Button",
+    "file": "src/Button.tsx",
+    "tokens": {
+      "background": "color/palette/brand/solid",
+      "color": "{color.fg.base}",
+      "border-color": "var(--color-border-base)"
+    }
+  },
+  { "name": "Card", "token": "color-surface-base", "prop": "background" },
+  { "component": "Badge", "tokens": ["color.fg.muted", "color/surface/base"] },
+  {
+    "component": "Link",
+    "tokens": [{ "token": "color-fg-brand", "prop": "color" }, { "prop": "orphan-prop" }, null, { "token": "color-fg-base" }]
+  },
+  { "file": "src/Footer.tsx", "token": "var(--space-4, 16px)" },
+  { "tokens": ["no-component-so-skipped"] },
+  { "component": "Both", "token": "a", "tokens": { "p": "b" } },
+  { "component": "Odd", "token": "{ }" },
+  { "component": "Dots", "token": "Color.Gray.50" },
+  null,
+  "not an object"
+]
