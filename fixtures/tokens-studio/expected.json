@@ -1,0 +1,126 @@
+{
+  "count": 8,
+  "warnings": [],
+  "tokens": [
+    {
+      "id": "color-primary",
+      "label": "color/primary",
+      "modes": {
+        "light": {
+          "lit": "#66a3ff"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true,
+      "description": "Primary action color"
+    },
+    {
+      "id": "color-text",
+      "label": "color/text",
+      "modes": {
+        "light": {
+          "ref": "color-primary"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "spacing-sm",
+      "label": "spacing/sm",
+      "modes": {
+        "light": {
+          "lit": "4px"
+        }
+      },
+      "type": "dimension",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "spacing-md",
+      "label": "spacing/md",
+      "modes": {
+        "light": {
+          "lit": "8"
+        }
+      },
+      "type": "dimension",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "shadow-card",
+      "label": "shadow/card",
+      "modes": {
+        "light": {
+          "comp": {
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "8px",
+            "spread": "0px",
+            "color": "#00000033",
+            "inset": false
+          }
+        }
+      },
+      "type": "shadow",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "shadow-inner",
+      "label": "shadow/inner",
+      "modes": {
+        "light": {
+          "comp": [
+            {
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "0px",
+              "color": "#00000022",
+              "inset": true
+            }
+          ]
+        }
+      },
+      "type": "shadow",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "typography-body",
+      "label": "typography/body",
+      "modes": {
+        "light": {
+          "comp": {
+            "fontFamily": "Inter",
+            "fontSize": "16px",
+            "lineHeight": "150%"
+          }
+        }
+      },
+      "type": "typography",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    }
+  ],
+  "usage": []
+}

@@ -1,0 +1,43 @@
+{
+  "$description": "Root metadata is ignored.",
+  "color": {
+    "$type": "color",
+    "white": { "$value": { "colorSpace": "srgb", "components": [1, 1, 1], "hex": "#ffffff" } },
+    "brand": {
+      "$root": { "$value": "#0066ff" },
+      "hover": { "$value": "#0055dd", "$description": "Hover state for brand surfaces" }
+    },
+    "overlay": { "$value": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.4 } },
+    "hexAlpha": { "$value": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.5, "hex": "#000000" } },
+    "accent": { "$value": { "colorSpace": "oklch", "components": [0.7, 0.15, 250] } },
+    "wide": { "$value": { "colorSpace": "display-p3", "components": [1, 0, 0] } },
+    "tint": { "$value": { "colorSpace": "hsl", "components": [210, 50, 40], "alpha": 0.5 } },
+    "link": { "$value": "{color.brand}" },
+    "legacy": { "$value": "#999999", "$deprecated": "Use color.brand" },
+    "shade": {
+      "DEFAULT": { "$value": "#222222" },
+      "light": { "$value": "#444444" }
+    },
+    "ext": { "$value": "#abc", "$extensions": { "com.example": { "note": "ignored" } } },
+    "pointer": { "$value": { "$ref": "#/color/white/$value" } }
+  },
+  "space": {
+    "$type": "dimension",
+    "sm": { "$value": { "value": 4, "unit": "px" } },
+    "md": { "$value": "8" },
+    "lg": { "$value": "1.5rem" }
+  },
+  "motion": {
+    "fast": { "$type": "duration", "$value": { "value": 150, "unit": "ms" } },
+    "ease": { "$type": "cubicBezier", "$value": [0.4, 0, 0.2, 1] }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "base": { "$value": ["Inter", "Helvetica Neue", "sans-serif"] }
+    },
+    "weight": { "$type": "fontWeight", "bold": { "$value": 700 } }
+  },
+  "untyped": { "$value": "#123456" },
+  "Color": { "Brand": { "$type": "color", "$value": "#0066ff" } }
+}

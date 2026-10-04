@@ -1,0 +1,319 @@
+{
+  "count": 23,
+  "warnings": [],
+  "tokens": [
+    {
+      "id": "color-white",
+      "label": "color/white",
+      "modes": {
+        "light": {
+          "lit": "#FFFFFF"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-brand",
+      "label": "color/brand",
+      "modes": {
+        "light": {
+          "lit": "#0066ff"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true,
+      "caseVariants": [
+        "Color/Brand"
+      ]
+    },
+    {
+      "id": "color-brand-hover",
+      "label": "color/brand/hover",
+      "modes": {
+        "light": {
+          "lit": "#0055dd"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true,
+      "description": "Hover state for brand surfaces"
+    },
+    {
+      "id": "color-overlay",
+      "label": "color/overlay",
+      "modes": {
+        "light": {
+          "lit": "rgba(0, 0, 0, 0.4)"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-hexalpha",
+      "label": "color/hexAlpha",
+      "modes": {
+        "light": {
+          "lit": "rgba(0, 0, 0, 0.5)"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-accent",
+      "label": "color/accent",
+      "modes": {
+        "light": {
+          "lit": "oklch(0.7 0.15 250)"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-wide",
+      "label": "color/wide",
+      "modes": {
+        "light": {
+          "lit": "color(display-p3 1 0 0)"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-tint",
+      "label": "color/tint",
+      "modes": {
+        "light": {
+          "lit": "hsl(210 50% 40% / 0.5)"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-link",
+      "label": "color/link",
+      "modes": {
+        "light": {
+          "ref": "color-brand"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-legacy",
+      "label": "color/legacy",
+      "modes": {
+        "light": {
+          "lit": "#999999"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true,
+      "deprecated": "Use color.brand"
+    },
+    {
+      "id": "color-shade",
+      "label": "color/shade",
+      "modes": {
+        "light": {
+          "lit": "#222222"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-shade-light",
+      "label": "color/shade/light",
+      "modes": {
+        "light": {
+          "lit": "#444444"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-ext",
+      "label": "color/ext",
+      "modes": {
+        "light": {
+          "lit": "#abc"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "color-pointer",
+      "label": "color/pointer",
+      "modes": {
+        "light": {
+          "ref": "color-white"
+        }
+      },
+      "type": "color",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "space-sm",
+      "label": "space/sm",
+      "modes": {
+        "light": {
+          "lit": "4px"
+        }
+      },
+      "type": "dimension",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "space-md",
+      "label": "space/md",
+      "modes": {
+        "light": {
+          "lit": "8px"
+        }
+      },
+      "type": "dimension",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "space-lg",
+      "label": "space/lg",
+      "modes": {
+        "light": {
+          "lit": "1.5rem"
+        }
+      },
+      "type": "dimension",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "motion-fast",
+      "label": "motion/fast",
+      "modes": {
+        "light": {
+          "lit": "150ms"
+        }
+      },
+      "type": "duration",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "motion-ease",
+      "label": "motion/ease",
+      "modes": {
+        "light": {
+          "lit": "cubic-bezier(0.4, 0, 0.2, 1)"
+        }
+      },
+      "type": "cubicBezier",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "font-family-base",
+      "label": "font/family/base",
+      "modes": {
+        "light": {
+          "lit": "Inter, \"Helvetica Neue\", sans-serif"
+        }
+      },
+      "type": "fontFamily",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "font-weight-bold",
+      "label": "font/weight/bold",
+      "modes": {
+        "light": {
+          "lit": "700"
+        }
+      },
+      "type": "fontWeight",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "untyped",
+      "label": "untyped",
+      "modes": {
+        "light": {
+          "lit": "#123456"
+        }
+      },
+      "type": "",
+      "source": "t.json",
+      "collection": "",
+      "format": "dtcg"
+    }
+  ],
+  "usage": []
+}

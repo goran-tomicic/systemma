@@ -1,0 +1,24 @@
+{
+  "global": {
+    "color": {
+      "primary": { "value": "#0066ff", "type": "color", "description": "Primary action color" },
+      "text": { "value": "{color.primary}", "type": "color" }
+    },
+    "spacing": {
+      "sm": { "value": "4", "type": "spacing" },
+      "md": { "value": 8, "type": "spacing" }
+    },
+    "shadow": {
+      "card": { "value": { "x": "0", "y": "2", "blur": "8", "spread": "0", "color": "#00000033", "type": "dropShadow" }, "type": "boxShadow" },
+      "inner": { "value": [{ "x": 0, "y": 1, "blur": 2, "spread": 0, "color": "#00000022", "type": "innerShadow" }], "type": "boxShadow" }
+    },
+    "typography": {
+      "body": { "value": { "fontFamily": "Inter", "fontSize": "16", "lineHeight": "150%" }, "type": "typography" }
+    }
+  },
+  "dark": {
+    "color": { "primary": { "value": "#66a3ff", "type": "color" } }
+  },
+  "$themes": [],
+  "$metadata": { "tokenSetOrder": ["global", "dark"] }
+}

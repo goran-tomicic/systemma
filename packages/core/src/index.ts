@@ -11,3 +11,7 @@ export { contrastRatio, flatten } from './a11y/contrast.js';
 export { apcaLc } from './a11y/apca.js';
 export { simulate } from './a11y/cvd.js';
 export { deltaE76 } from './a11y/lab.js';
+
+export type { ParseResult } from './parse/types.js';
+export type { JsonOptions } from './parse/dtcg.js';
+export { parseTokensJson } from './parse/dtcg.js';
