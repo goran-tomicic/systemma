@@ -5,3 +5,9 @@ export type {
 export { canon } from './model/ids.js';
 export { parseValue, refsOf } from './model/value.js';
 export { createDataset } from './model/dataset.js';
+
+export type { RGB, RGBA, Simulation } from './a11y/types.js';
+export { contrastRatio, flatten } from './a11y/contrast.js';
+export { apcaLc } from './a11y/apca.js';
+export { simulate } from './a11y/cvd.js';
+export { deltaE76 } from './a11y/lab.js';
