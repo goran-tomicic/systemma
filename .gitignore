@@ -1,0 +1,8 @@
+node_modules
+dist
+.DS_Store
+
+# Private reference material, never tracked or published
+docs/
+prototype/
+CLAUDE.md

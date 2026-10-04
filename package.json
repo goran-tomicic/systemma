@@ -1,0 +1,22 @@
+{
+  "name": "systemma",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.18.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "pnpm -r test",
+    "test:update": "pnpm -r test:update",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "build": "pnpm --filter @systemma/core build"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "eslint": "^9",
+    "typescript": "^5",
+    "typescript-eslint": "^8"
+  }
+}
