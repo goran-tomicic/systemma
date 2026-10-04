@@ -1,0 +1,222 @@
+{
+  "count": 18,
+  "warnings": [],
+  "tokens": [
+    {
+      "id": "color-gray-900",
+      "label": "color/gray/900",
+      "modes": {
+        "light": {
+          "lit": "#111827"
+        }
+      },
+      "type": "color",
+      "source": "Figma",
+      "collection": "Primitives",
+      "format": "figma",
+      "scopes": [
+        "ALL_SCOPES"
+      ]
+    },
+    {
+      "id": "color-white",
+      "label": "color/white",
+      "modes": {
+        "light": {
+          "lit": "#FFFFFF"
+        }
+      },
+      "type": "color",
+      "source": "Figma",
+      "collection": "Primitives",
+      "format": "figma",
+      "scopes": []
+    },
+    {
+      "id": "color-surface-base",
+      "label": "color/surface/base",
+      "modes": {
+        "light": {
+          "ref": "color-white"
+        },
+        "dark": {
+          "ref": "color-gray-900"
+        }
+      },
+      "type": "color",
+      "source": "Figma",
+      "collection": "Color - Semantic",
+      "format": "figma",
+      "description": "Page background behind every surface.",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--color-surface-base)"
+      }
+    },
+    {
+      "id": "color-fg-base",
+      "label": "color/fg/base",
+      "modes": {
+        "light": {
+          "ref": "color-gray-900"
+        },
+        "dark": {
+          "ref": "figma-VariableID:99:99"
+        }
+      },
+      "type": "color",
+      "source": "Figma",
+      "collection": "Color - Semantic",
+      "format": "figma",
+      "scopes": [
+        "TEXT_FILL"
+      ]
+    },
+    {
+      "id": "color-overlay",
+      "label": "color/overlay",
+      "modes": {
+        "light": {
+          "lit": "rgba(0, 0, 0, 0.4)"
+        },
+        "dark": {
+          "lit": "rgba(255, 255, 255, 0.2)"
+        }
+      },
+      "type": "color",
+      "source": "Figma",
+      "collection": "Color - Semantic",
+      "format": "figma",
+      "scopes": []
+    },
+    {
+      "id": "space-4",
+      "label": "space/4",
+      "modes": {
+        "light": {
+          "lit": "16px"
+        }
+      },
+      "type": "dimension",
+      "source": "Figma",
+      "collection": "Sizing",
+      "format": "figma",
+      "scopes": [
+        "GAP"
+      ]
+    },
+    {
+      "id": "font-weight-bold",
+      "label": "font/weight/bold",
+      "modes": {
+        "light": {
+          "lit": "700"
+        }
+      },
+      "type": "fontWeight",
+      "source": "Figma",
+      "collection": "Primitives",
+      "format": "figma",
+      "scopes": [
+        "FONT_WEIGHT"
+      ]
+    },
+    {
+      "id": "opacity-disabled",
+      "label": "opacity/disabled",
+      "modes": {
+        "light": {
+          "lit": "0.4"
+        }
+      },
+      "type": "number",
+      "source": "Figma",
+      "collection": "Primitives",
+      "format": "figma",
+      "scopes": [
+        "OPACITY"
+      ]
+    },
+    {
+      "id": "font-family-base",
+      "label": "font/family/base",
+      "modes": {
+        "light": {
+          "lit": "Inter"
+        }
+      },
+      "type": "fontFamily",
+      "source": "Figma",
+      "collection": "Primitives",
+      "format": "figma",
+      "scopes": [
+        "FONT_FAMILY"
+      ]
+    },
+    {
+      "id": "copy-cta",
+      "label": "copy/cta",
+      "modes": {
+        "light": {
+          "lit": "Get started"
+        }
+      },
+      "type": "string",
+      "source": "Figma",
+      "collection": "Primitives",
+      "format": "figma",
+      "scopes": [
+        "TEXT_CONTENT"
+      ]
+    },
+    {
+      "id": "flag-compact",
+      "label": "flag/compact",
+      "modes": {
+        "light": {
+          "lit": "true"
+        }
+      },
+      "type": "string",
+      "source": "Figma",
+      "collection": "Primitives",
+      "format": "figma",
+      "scopes": []
+    },
+    {
+      "id": "color-accent",
+      "label": "Color/Accent",
+      "modes": {
+        "light": {
+          "lit": "#FF6600"
+        },
+        "dark": {
+          "lit": "#66A3FF"
+        }
+      },
+      "type": "color",
+      "source": "Figma",
+      "collection": "Brands",
+      "format": "figma",
+      "scopes": []
+    },
+    {
+      "id": "color-orphan",
+      "label": "color/orphan",
+      "modes": {
+        "light": {
+          "lit": "#000000"
+        }
+      },
+      "type": "color",
+      "source": "Figma",
+      "collection": "",
+      "format": "figma",
+      "scopes": []
+    }
+  ],
+  "usage": []
+}
