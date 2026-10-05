@@ -1,7 +1,8 @@
 import type { Dataset, TokenInfo, UsageRecord } from '../model/types.js';
 import { audit } from '../rules/audit.js';
 import { refsOf } from '../model/value.js';
-import { classify, TIERED_PROFILE } from '../resolve/classify.js';
+import { classify } from '../resolve/classify.js';
+import { resolveProfile } from '../resolve/profile.js';
 import type { Finding } from '../rules/types.js';
 import type { Analysis, AnalyzeOptions } from './types.js';
 
@@ -19,7 +20,7 @@ export function indexFindings(findings: Finding[]): Map<string, Finding[]> {
 // Classifies every token, builds the reverse indexes and runs the audit. Nothing is written back to the
 // dataset, so the same dataset can be analyzed again with another profile or rule options.
 export function analyze(ds: Dataset, opts: AnalyzeOptions = {}): Analysis {
-  const profile = opts.profile ?? TIERED_PROFILE;
+  const profile = resolveProfile(opts.profile, ds);
   const info = new Map<string, TokenInfo>();
   const dependents = new Map<string, Set<string>>();
   const usageBy = new Map<string, UsageRecord[]>();

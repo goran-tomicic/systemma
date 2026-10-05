@@ -110,7 +110,24 @@ a.findings;                        // [{ rule, set, severity, id, subject, messa
 a.byId.get('color-link');          // findings about one token
 ```
 
-`analyze` does not change the dataset. Rule sets and severities are options, not global switches:
+`analyze` does not change the dataset. A token's tier and group depend on how the data is named, so classification uses a **profile**:
+
+```ts
+analyze(ds, { profile: 'auto' });      // the default
+analyze(ds, { profile: 'generic' });   // no naming assumptions
+analyze(ds, { profile: 'tiered' });    // the foundation / common / palette naming scheme
+```
+
+`'auto'` picks the tiered profile when the data follows that scheme (five or more `color-palette-*` or `color-surface-*` tokens) and the generic profile otherwise. The generic profile takes a token's tier from its collection name or from whether it is a raw value or an alias, and a color's group from its first segment after an optional leading `color`. You can also pass your own profile as data:
+
+```ts
+analyze(ds, { profile: { id: 'acme', tiers: { palette: ['^action-'] }, groupSegment: { palette: 1 } } });
+// action-primary: { tier: 'palette', group: 'primary', kind: 'color', category: 'color' }
+```
+
+`tiers` lists regular expression sources matched against the canonical id (tried as foundation, then palette, then common). `groupSegment` gives the hyphen segment that names a color's group. A pattern that is not a valid regular expression throws an error that names it.
+
+Rule sets and severities are options, not global switches:
 
 ```ts
 analyze(ds, {
@@ -180,7 +197,7 @@ In a browser, build the paths from `File.webkitRelativePath` without its first s
 These are known and are tracked, not hidden.
 
 - **Ids are lossy.** `a/b-c` and `a-b/c` both become `a-b-c` and merge into one token, and so do names that differ only by case (the second is recorded as a case variant). Some structure rules cannot see a collision that the id has already erased.
-- **Tier, group and role inference follows one naming scheme.** Classification and the naming and contrast rules assume a particular token vocabulary (`color-surface-*`, `color-palette-*`). `classify` takes a `Profile`, and the default is that scheme's profile, so data named differently will classify poorly.
+- **The tiered naming rules assume one vocabulary.** The tiered ruleset, the contrast pair inference and the role checks look for `color-surface-*`, `color-fg-*`, `color-palette-*` and similar names. Classification no longer depends on it, because the generic profile makes no assumptions, but those rules only mean something on data that uses that vocabulary.
 - **Contrast pairs are inferred from names.** Only `color-fg-*` on the base surface and palette `-fg` on its background are checked. There is no way to declare pairs yet.
 - **The Figma parser is experimental.** It is written from Figma's documentation and has not been checked against a real export.
 - **Font weight names.** The DTCG format treats named weights as case-sensitive; the units check accepts any case.

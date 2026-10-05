@@ -24,8 +24,9 @@ export { detectFormat } from './parse/detect.js';
 export type { Resolution, ResolveError } from './resolve/resolve.js';
 export { resolve } from './resolve/resolve.js';
 
-export type { Profile } from './resolve/classify.js';
-export { classify, TIERED_PROFILE } from './resolve/classify.js';
+export type { Profile, ProfileConfig, ProfileSpec } from './resolve/profile.js';
+export { chooseProfile, createProfile, GENERIC_PROFILE, PROFILES, resolveProfile, TIERED_PROFILE } from './resolve/profile.js';
+export { classify } from './resolve/classify.js';
 export { categoryOf, inferKind } from './resolve/kinds.js';
 
 export type { AuditOptions, Confidence, Finding, RuleId, RuleMeta, Ruleset, RulesetId, Severity } from './rules/types.js';

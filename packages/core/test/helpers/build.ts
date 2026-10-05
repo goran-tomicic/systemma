@@ -26,8 +26,10 @@ export function literal(ds: Dataset, label: string, light: string | null, dark?:
   return ds;
 }
 
+// Most rule tests build a handful of tokens named in the tiered scheme, which 'auto' would not recognise
+// at that size, so they select the tiered profile. Pass `profile` in opts to test another one.
 export function findings(ds: Dataset, rule: RuleId, opts: AnalyzeOptions = {}): Finding[] {
-  return analyze(ds, opts).findings.filter((f) => f.rule === rule);
+  return analyze(ds, { profile: 'tiered', ...opts }).findings.filter((f) => f.rule === rule);
 }
 
 export const subjects = (fs: Finding[]): string[] => fs.map((f) => f.subject);

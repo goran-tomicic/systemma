@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { categoryOf, classify, createDataset, TIERED_PROFILE, inferKind } from '../src/index.js';
+import { categoryOf, classify, createDataset, GENERIC_PROFILE, TIERED_PROFILE, inferKind } from '../src/index.js';
 import type { Dataset, Kind, Mode, Profile, Token, TokenValue } from '../src/index.js';
 import { addToken } from '../src/parse/add-token.js';
 
@@ -161,7 +161,7 @@ describe('classify kind', () => {
 describe('classify tier (tiered profile)', () => {
   const tier = (id: string, extra: { collection?: string } = {}, value: TokenValue = lit('#fff')): string => {
     const { ds, token } = one(id, { light: value }, extra);
-    return classify(token, ds).tier;
+    return classify(token, ds, TIERED_PROFILE).tier;
   };
 
   it.each(['color-white', 'color-black', 'color-transparent', 'color-gray-50', 'color-blue-900'])('%s is foundation by id', (id) => {
@@ -205,21 +205,21 @@ describe('classify tier (tiered profile)', () => {
 
   it('is common when any mode aliases', () => {
     const { ds, token } = one('space-4', { light: lit('1px'), dark: ref('base') });
-    expect(classify(token, ds).tier).toBe('common');
+    expect(classify(token, ds, TIERED_PROFILE).tier).toBe('common');
   });
 
   it('treats a token with no values as foundation', () => {
     const ds = createDataset();
     const token: Token = { id: 'x', label: 'x', modes: {}, type: '', source: '' };
     ds.tokens.set('x', token);
-    expect(classify(token, ds).tier).toBe('foundation');
+    expect(classify(token, ds, TIERED_PROFILE).tier).toBe('foundation');
   });
 });
 
 describe('classify group (tiered profile)', () => {
   const group = (id: string, value: TokenValue = lit('#fff'), extra: { collection?: string } = {}): string => {
     const { ds, token } = one(id, { light: value }, extra);
-    return classify(token, ds).group;
+    return classify(token, ds, TIERED_PROFILE).group;
   };
 
   it.each([
@@ -273,8 +273,8 @@ describe('profiles', () => {
     expect(classify(one('sys-red', { light: lit('#f00') }).token, createDataset(), custom).tier).toBe('foundation');
   });
 
-  it('defaults to the tiered profile', () => {
+  it('defaults to the profile that fits the dataset', () => {
     const { ds, token } = one('color-gray-50', { light: lit('#fff') });
-    expect(classify(token, ds)).toEqual(classify(token, ds, TIERED_PROFILE));
+    expect(classify(token, ds)).toEqual(classify(token, ds, GENERIC_PROFILE));
   });
 });

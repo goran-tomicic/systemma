@@ -1,0 +1,24 @@
+/* A stylesheet that does not follow the tiered naming scheme, with names that the tiered rules misread. */
+:root {
+  --brand-500: #0066ff;
+  --brand-600: #0052cc;
+  --neutral-100: #f4f5f7;
+  --neutral-900: #172b4d;
+
+  /* Looks like a semantic name to the tiered rules, but it is a raw value here. */
+  --color-surface-base: #ffffff;
+  --color-fg-base: var(--neutral-900);
+
+  --surface-card: var(--color-surface-base);
+  --action-primary: var(--brand-500);
+  --action-primary-hover: var(--brand-600);
+
+  --space-4: 16px;
+  --radius-md: 6px;
+  --font-sans: "Inter", sans-serif;
+}
+
+[data-theme="dark"] {
+  --surface-card: #1f2937;
+  --action-primary: #4c9aff;
+}

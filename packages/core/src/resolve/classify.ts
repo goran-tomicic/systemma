@@ -2,33 +2,10 @@ import { refsOf } from '../model/value.js';
 import type { Dataset, Mode, Tier, Token, TokenInfo } from '../model/types.js';
 import { inferCompositeKind } from '../parse/dtcg-value.js';
 import { categoryOf, inferKind, isKind } from './kinds.js';
+import { chooseProfile } from './profile.js';
+import type { Profile } from './profile.js';
 import { resolve } from './resolve.js';
 import type { Resolution } from './resolve.js';
-
-// Tier and group depend on how a team names its tokens. A profile carries those naming rules; the
-// collection-name and literal-versus-alias fallbacks are shared by every profile.
-export interface Profile {
-  id: string;
-  // Decide a tier from the id alone. Return undefined to fall through to collection names and values.
-  tierOfId(id: string): Tier | undefined;
-  // Name the group within a tier, from the id segments. Empty or undefined becomes 'other'.
-  groupOfColor(tier: Tier, segments: string[]): string | undefined;
-}
-
-export const TIERED_PROFILE: Profile = {
-  id: 'tiered',
-  tierOfId(id) {
-    if (/^color-(white|black|transparent)$/.test(id) || /^color-[a-z]+-\d+$/.test(id)) return 'foundation';
-    if (id.startsWith('color-palette-')) return 'palette';
-    if (/^color-(surface|fg|border|bg)-/.test(id)) return 'common';
-    return undefined;
-  },
-  groupOfColor(tier, seg) {
-    if (tier === 'foundation') return seg.length > 2 ? seg[1] : 'utility';
-    if (tier === 'palette') return seg[0] === 'color' && seg[1] === 'palette' ? seg[2] : seg[1] || seg[0];
-    return seg.length > 1 ? seg[1] : seg[0];
-  },
-};
 
 const MODES: readonly Mode[] = ['light', 'dark'];
 
@@ -49,7 +26,8 @@ function tierOfCollection(collection: string): Tier | undefined {
   return undefined;
 }
 
-export function classify(t: Token, ds: Dataset, profile: Profile = TIERED_PROFILE): TokenInfo {
+// The profile defaults to the one that fits the dataset; see chooseProfile().
+export function classify(t: Token, ds: Dataset, profile: Profile = chooseProfile(ds)): TokenInfo {
   const id = t.id;
   let kind = isKind(t.type) ? t.type : undefined;
   if (!kind) {

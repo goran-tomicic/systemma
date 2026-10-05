@@ -26,7 +26,7 @@ function sample(): Dataset {
 }
 
 describe('analyze info', () => {
-  const a = analyze(sample());
+  const a = analyze(sample(), { profile: 'tiered' });
 
   it('classifies every token', () => {
     expect([...a.info.keys()]).toEqual([...sample().tokens.keys()]);

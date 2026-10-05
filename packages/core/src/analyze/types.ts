@@ -1,5 +1,5 @@
 import type { TokenInfo, UsageRecord } from '../model/types.js';
-import type { Profile } from '../resolve/classify.js';
+import type { ProfileSpec } from '../resolve/profile.js';
 import type { AuditOptions, Finding } from '../rules/types.js';
 
 export interface Analysis {
@@ -12,5 +12,6 @@ export interface Analysis {
 }
 
 export interface AnalyzeOptions extends AuditOptions {
-  profile?: Profile;
+  // 'auto' (the default) picks the tiered profile for data that follows that scheme, else the generic one.
+  profile?: ProfileSpec;
 }

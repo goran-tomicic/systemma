@@ -1,3 +1,4 @@
+import { followsTieredScheme } from '../resolve/profile.js';
 import type { Ruleset } from './types.js';
 
 export const RULESETS: readonly Ruleset[] = [
@@ -35,8 +36,8 @@ export const RULESETS: readonly Ruleset[] = [
     description: 'Tier structure, role and variant names, vocabulary and pairing rules of the tiered naming scheme.',
     defaultOn: true,
     rules: ['tiered-palette', 'tiered-common', 'tiered-vocab', 'tiered-common-states', 'foundation-direct', 'pairing', 'missing-pair'],
-    // Five color tokens in the scheme's palette or surface namespaces is enough to say the data follows it.
-    applies: (ds) => [...ds.tokens.keys()].filter((id) => /^color-(palette|surface)-/.test(id)).length >= 5,
+    // The same check that makes 'auto' choose the tiered profile.
+    applies: followsTieredScheme,
   },
   {
     id: 'wcag',

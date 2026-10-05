@@ -1,0 +1,45 @@
+{
+  "auto": "generic",
+  "generic": {
+    "info": {
+      "brand-500": "foundation / brand / color",
+      "brand-600": "foundation / brand / color",
+      "neutral-100": "foundation / neutral / color",
+      "neutral-900": "foundation / neutral / color",
+      "color-surface-base": "foundation / surface / color",
+      "color-fg-base": "common / fg / color",
+      "surface-card": "common / surface / color",
+      "action-primary": "common / action / color",
+      "action-primary-hover": "common / action / color",
+      "space-4": "foundation / spacing / dimension",
+      "radius-md": "foundation / radius / dimension",
+      "font-sans": "foundation / typography / fontFamily"
+    },
+    "findings": {
+      "mode-gap": 2,
+      "desc-missing": 4,
+      "desc-intent": 1
+    }
+  },
+  "tiered": {
+    "info": {
+      "brand-500": "foundation / utility / color",
+      "brand-600": "foundation / utility / color",
+      "neutral-100": "foundation / utility / color",
+      "neutral-900": "foundation / utility / color",
+      "color-surface-base": "common / surface / color",
+      "color-fg-base": "common / fg / color",
+      "surface-card": "common / card / color",
+      "action-primary": "common / primary / color",
+      "action-primary-hover": "common / primary / color",
+      "space-4": "foundation / spacing / dimension",
+      "radius-md": "foundation / radius / dimension",
+      "font-sans": "foundation / typography / fontFamily"
+    },
+    "findings": {
+      "mode-gap": 3,
+      "desc-missing": 4,
+      "desc-intent": 1
+    }
+  }
+}
