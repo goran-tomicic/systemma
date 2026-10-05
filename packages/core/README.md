@@ -158,6 +158,8 @@ analyze(ds, {
 
 Tokens can be named as ids, slash or dot paths, `{aliases}` or `var(--x)`. `level` is `AA` (the default) or `AAA`; large text needs 3:1 at AA and 4.5:1 at AAA, against 4.5:1 and 7:1 for other text. An empty list checks nothing, and a pair that names an undefined token is reported, not skipped.
 
+The `mode-gap` rule flags semantic colors that have no dark value once some color has one. `modeGapKinds: ['color', 'dimension']` widens it to other kinds. Each kind is checked on its own, only once a token of that kind has a dark value.
+
 `RULESETS` lists the rulesets and which are on by default. `RULE_META` has, for each of the 36 rules, its ruleset, title, description, default severity, source name, source URL and confidence.
 
 ```ts

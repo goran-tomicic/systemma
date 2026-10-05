@@ -1,0 +1,21 @@
+{
+  "color": {
+    "$type": "color",
+    "white": { "$value": "#ffffff" },
+    "black": { "$value": "#000000" },
+    "surface": { "$value": "{color.white}" },
+    "text": { "$value": "{color.black}" },
+    "border": { "$value": "{color.black}" }
+  },
+  "size": {
+    "$type": "dimension",
+    "base": { "$value": "16px" },
+    "content": { "$value": "{size.base}" },
+    "gutter": { "$value": "{size.base}" }
+  },
+  "font": {
+    "$type": "fontWeight",
+    "body": { "$value": 400 },
+    "strong": { "$value": "{font.body}" }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "color": {
+    "$type": "color",
+    "surface": { "$value": "#111111" },
+    "text": { "$value": "#eeeeee" }
+  },
+  "size": {
+    "$type": "dimension",
+    "content": { "$value": "14px" }
+  }
+}

@@ -1,6 +1,6 @@
 import { refsOf } from '../model/value.js';
 import { resolve } from '../resolve/resolve.js';
-import type { Mode } from '../model/types.js';
+import type { Kind, Mode } from '../model/types.js';
 import type { RuleFn } from './context.js';
 import type { RuleId } from './types.js';
 
@@ -35,14 +35,24 @@ const brokenUsage: RuleFn = ({ ds, add, label }) => {
   }
 };
 
-// Only meaningful when the set has dark values at all; a light-only set is not "missing" them.
-const modeGap: RuleFn = ({ tokens, analysis, add }) => {
+// A kind is only checked once some token of that kind has a dark value; a light-only set is not "missing"
+// them. This is decided per kind, so widening the list to dimensions does not flag every dimension in a
+// system where only colors change between modes.
+const DEFAULT_MODE_GAP_KINDS: readonly Kind[] = ['color'];
+
+const modeGap: RuleFn = ({ tokens, analysis, options, add }) => {
   const { info } = analysis;
-  const hasDark = tokens.some((t) => t.modes.dark && info.get(t.id)?.kind === 'color');
-  if (!hasDark) return;
+  const watched = new Set<Kind>(options.modeGapKinds ?? DEFAULT_MODE_GAP_KINDS);
+  const kindsWithDark = new Set<Kind>();
+  for (const t of tokens) {
+    const kind = info.get(t.id)?.kind;
+    if (kind && watched.has(kind) && t.modes.dark) kindsWithDark.add(kind);
+  }
   for (const t of tokens) {
     const i = info.get(t.id);
-    if (i && i.kind === 'color' && i.tier !== 'foundation' && !t.modes.dark) add('mode-gap', 'warn', t.id, t.label, 'has a light value but no dark value');
+    if (i && kindsWithDark.has(i.kind) && i.tier !== 'foundation' && !t.modes.dark) {
+      add('mode-gap', 'warn', t.id, t.label, 'has a light value but no dark value');
+    }
   }
 };
 

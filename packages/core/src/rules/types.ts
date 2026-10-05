@@ -1,4 +1,4 @@
-import type { Dataset } from '../model/types.js';
+import type { Dataset, Kind } from '../model/types.js';
 
 export type Severity = 'error' | 'warn' | 'info';
 export type Confidence = 'high' | 'medium' | 'low';
@@ -71,4 +71,6 @@ export interface AuditOptions {
   // The text pairs the contrast rules check. When given, only these pairs are checked; when omitted, the
   // pairs are inferred from token names. An empty list checks none.
   contrastPairs?: readonly ContrastPair[];
+  // Which kinds of token the mode-gap rule expects to have a dark value. Colors by default.
+  modeGapKinds?: readonly Kind[];
 }

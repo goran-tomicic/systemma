@@ -1,0 +1,13 @@
+{
+  "default": [
+    "color-border"
+  ],
+  "colorAndDimension": [
+    "color-border",
+    "size-gutter"
+  ],
+  "everything": [
+    "color-border",
+    "size-gutter"
+  ]
+}
