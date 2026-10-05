@@ -1,21 +1,9 @@
 import type { Dataset, TokenInfo, UsageRecord } from '../model/types.js';
+import { audit } from '../rules/audit.js';
 import { refsOf } from '../model/value.js';
 import { classify, FORTIS_PROFILE } from '../resolve/classify.js';
-import type { Profile } from '../resolve/classify.js';
 import type { Finding } from '../rules/types.js';
-
-export interface Analysis {
-  info: Map<string, TokenInfo>;
-  // target id -> ids that reference it, through an alias, a composite or an embedded var()
-  dependents: Map<string, Set<string>>;
-  usageBy: Map<string, UsageRecord[]>;
-  findings: Finding[];
-  byId: Map<string, Finding[]>;
-}
-
-export interface AnalyzeOptions {
-  profile?: Profile;
-}
+import type { Analysis, AnalyzeOptions } from './types.js';
 
 export function indexFindings(findings: Finding[]): Map<string, Finding[]> {
   const byId = new Map<string, Finding[]>();
@@ -28,8 +16,8 @@ export function indexFindings(findings: Finding[]): Map<string, Finding[]> {
   return byId;
 }
 
-// Classifies every token and builds the reverse indexes. Nothing is written back to the dataset, so
-// the same dataset can be analyzed again with another profile.
+// Classifies every token, builds the reverse indexes and runs the audit. Nothing is written back to the
+// dataset, so the same dataset can be analyzed again with another profile or rule options.
 export function analyze(ds: Dataset, opts: AnalyzeOptions = {}): Analysis {
   const profile = opts.profile ?? FORTIS_PROFILE;
   const info = new Map<string, TokenInfo>();
@@ -54,6 +42,8 @@ export function analyze(ds: Dataset, opts: AnalyzeOptions = {}): Analysis {
     else usageBy.set(u.token, [u]);
   }
 
-  const findings: Finding[] = [];
-  return { info, dependents, usageBy, findings, byId: indexFindings(findings) };
+  const analysis: Analysis = { info, dependents, usageBy, findings: [], byId: new Map() };
+  analysis.findings = audit(ds, analysis, opts);
+  analysis.byId = indexFindings(analysis.findings);
+  return analysis;
 }

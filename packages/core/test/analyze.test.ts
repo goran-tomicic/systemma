@@ -99,10 +99,18 @@ describe('analyze usage', () => {
 });
 
 describe('analyze result', () => {
-  it('has no findings until rules are wired in', () => {
+  it('runs the audit and indexes its findings by token id', () => {
     const a = analyze(sample());
-    expect(a.findings).toEqual([]);
-    expect(a.byId.size).toBe(0);
+    expect(a.findings.length).toBeGreaterThan(0);
+    for (const f of a.findings) if (f.id) expect(a.byId.get(f.id)).toContain(f);
+    expect(a.findings.some((f) => f.rule === 'mode-gap')).toBe(true);
+  });
+
+  it('passes audit options through', () => {
+    const on = analyze(sample());
+    const off = analyze(sample(), { severityOverrides: { 'mode-gap': 'off' } });
+    expect(on.findings.some((f) => f.rule === 'mode-gap')).toBe(true);
+    expect(off.findings.some((f) => f.rule === 'mode-gap')).toBe(false);
   });
 
   it('handles an empty dataset', () => {
