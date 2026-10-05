@@ -30,11 +30,11 @@ export const RULESETS: readonly Ruleset[] = [
     rules: ['base-unit', 'scale-order', 'duplicate-semantic'],
   },
   {
-    id: 'fortis',
-    name: 'Fortis conventions',
-    description: 'Tier structure, role and variant names, vocabulary and pairing rules of the Fortis naming scheme.',
+    id: 'tiered',
+    name: 'Tiered naming conventions',
+    description: 'Tier structure, role and variant names, vocabulary and pairing rules of the tiered naming scheme.',
     defaultOn: true,
-    rules: ['fortis-palette', 'fortis-common', 'fortis-vocab', 'fortis-common-states', 'foundation-direct', 'pairing', 'missing-pair'],
+    rules: ['tiered-palette', 'tiered-common', 'tiered-vocab', 'tiered-common-states', 'foundation-direct', 'pairing', 'missing-pair'],
     // Five color tokens in the scheme's palette or surface namespaces is enough to say the data follows it.
     applies: (ds) => [...ds.tokens.keys()].filter((id) => /^color-(palette|surface)-/.test(id)).length >= 5,
   },

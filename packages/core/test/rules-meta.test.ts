@@ -15,7 +15,7 @@ describe('ids', () => {
 
 describe('rulesets', () => {
   it('keeps the established order', () => {
-    expect(RULESETS.map((s) => s.id)).toEqual(['integrity', 'dtcg', 'structure', 'scales', 'fortis', 'wcag', 'wcag-aaa', 'descriptions', 'm3']);
+    expect(RULESETS.map((s) => s.id)).toEqual(['integrity', 'dtcg', 'structure', 'scales', 'tiered', 'wcag', 'wcag-aaa', 'descriptions', 'm3']);
     expect(RULESETS.map((s) => s.id)).toEqual([...RULESET_IDS]);
   });
 
@@ -36,8 +36,8 @@ describe('rulesets', () => {
     }
   });
 
-  it('only gives the fortis ruleset an applicability check', () => {
-    expect(RULESETS.filter((s) => s.applies).map((s) => s.id)).toEqual(['fortis']);
+  it('only gives the tiered ruleset an applicability check', () => {
+    expect(RULESETS.filter((s) => s.applies).map((s) => s.id)).toEqual(['tiered']);
   });
 });
 
@@ -67,12 +67,12 @@ describe('rule metadata', () => {
   // These two sources are not published pages: basic correctness, and the naming scheme's own docs.
   it('has a URL for every source except those two', () => {
     const without = [...new Set(entries.filter(([, m]) => !m.source.url).map(([, m]) => m.set))].sort();
-    expect(without).toEqual(['fortis', 'integrity']);
+    expect(without).toEqual(['integrity', 'tiered']);
   });
 
   it('does not rate a rule high unless its source states it', () => {
     const high = entries.filter(([, m]) => m.confidence === 'high').map(([id]) => id);
-    for (const id of high) expect(['integrity', 'dtcg', 'fortis', 'wcag', 'wcag-aaa']).toContain(RULE_META[id].set);
+    for (const id of high) expect(['integrity', 'dtcg', 'tiered', 'wcag', 'wcag-aaa']).toContain(RULE_META[id].set);
   });
 
   it('pins the severity of each rule as the prototype emits it', () => {
@@ -100,21 +100,21 @@ const names = (ds: Dataset, opts?: AuditOptions): RulesetId[] => activeRulesets(
 
 describe('activeRulesets', () => {
   const plain = withTokens(['a', 'b']);
-  const fortis = withTokens(['color-palette-brand-solid', 'color-palette-brand-subtle', 'color-palette-danger-solid', 'color-surface-base', 'color-surface-elevated']);
+  const tiered = withTokens(['color-palette-brand-solid', 'color-palette-brand-subtle', 'color-palette-danger-solid', 'color-surface-base', 'color-surface-elevated']);
 
   it('runs the default rulesets that apply, in order', () => {
     expect(names(plain)).toEqual(['integrity', 'dtcg', 'structure', 'scales', 'wcag', 'descriptions']);
-    expect(names(fortis)).toEqual(['integrity', 'dtcg', 'structure', 'scales', 'fortis', 'wcag', 'descriptions']);
+    expect(names(tiered)).toEqual(['integrity', 'dtcg', 'structure', 'scales', 'tiered', 'wcag', 'descriptions']);
   });
 
-  it('needs five palette or surface color tokens for the fortis ruleset', () => {
+  it('needs five palette or surface color tokens for the tiered ruleset', () => {
     const four = withTokens(['color-palette-a-solid', 'color-palette-b-solid', 'color-surface-base', 'color-surface-elevated']);
-    expect(names(four)).not.toContain('fortis');
-    expect(names(withTokens(['color-surface-a', 'color-surface-b', 'color-surface-c', 'color-surface-d', 'color-surface-e']))).toContain('fortis');
+    expect(names(four)).not.toContain('tiered');
+    expect(names(withTokens(['color-surface-a', 'color-surface-b', 'color-surface-c', 'color-surface-d', 'color-surface-e']))).toContain('tiered');
   });
 
   it('counts only palette and surface ids, not other color namespaces', () => {
-    expect(names(withTokens(['color-fg-a', 'color-fg-b', 'color-fg-c', 'color-border-a', 'color-bg-a']))).not.toContain('fortis');
+    expect(names(withTokens(['color-fg-a', 'color-fg-b', 'color-fg-c', 'color-border-a', 'color-bg-a']))).not.toContain('tiered');
   });
 
   it('uses exactly the enabled set when one is given, replacing the defaults', () => {
@@ -128,8 +128,8 @@ describe('activeRulesets', () => {
   });
 
   it('still applies the applicability check to an enabled ruleset', () => {
-    expect(names(plain, { enabledRulesets: new Set<RulesetId>(['fortis']) })).toEqual([]);
-    expect(names(fortis, { enabledRulesets: new Set<RulesetId>(['fortis']) })).toEqual(['fortis']);
+    expect(names(plain, { enabledRulesets: new Set<RulesetId>(['tiered']) })).toEqual([]);
+    expect(names(tiered, { enabledRulesets: new Set<RulesetId>(['tiered']) })).toEqual(['tiered']);
   });
 
   it('does not change the options it is given', () => {

@@ -6,38 +6,38 @@ import type { RuleId } from './types.js';
 const PALETTE_RE = /^color-palette-(brand|danger|success|warning|info|accent|discovery|premium)-((solid|subtle|border)(-(hover|active|disabled))?|(solid|subtle)-fg)$/;
 const COMMON_RE = /^color-(surface-(canvas|base|elevated|backdrop|emphasis)|fg-(base|muted|subtle|on-emphasis|brand|danger|success|warning|info)|border-(base|muted|emphasis)|bg-(subtle|muted|emphasis))$/;
 
-const fortisPalette: RuleFn = ({ tokens, analysis, add }) => {
+const tieredPalette: RuleFn = ({ tokens, analysis, add }) => {
   for (const t of tokens) {
     if (analysis.info.get(t.id)?.tier === 'palette' && t.id.startsWith('color-palette-') && !PALETTE_RE.test(t.id)) {
-      add('fortis-palette', 'warn', t.id, t.label, 'does not match palette/{role}/{variant}[/state]');
+      add('tiered-palette', 'warn', t.id, t.label, 'does not match palette/{role}/{variant}[/state]');
     }
   }
 };
 
-const fortisCommon: RuleFn = ({ ds, tokens, analysis, add, label }) => {
+const tieredCommon: RuleFn = ({ ds, tokens, analysis, add, label }) => {
   for (const t of tokens) {
     if (analysis.info.get(t.id)?.tier !== 'common' || !/^color-(surface|fg|border|bg)-/.test(t.id) || COMMON_RE.test(t.id)) continue;
     const renamed = ds.renames && Object.hasOwn(ds.renames, t.id) ? ds.renames[t.id] : undefined;
-    add('fortis-common', 'warn', t.id, t.label, 'not a documented surface, fg, border or bg variant' + (renamed ? ` (renamed to ${label(renamed)})` : ''));
+    add('tiered-common', 'warn', t.id, t.label, 'not a documented surface, fg, border or bg variant' + (renamed ? ` (renamed to ${label(renamed)})` : ''));
   }
 };
 
 // default, light and dark describe intensity or mode, which the naming scheme keeps out of variant names.
-const fortisVocab: RuleFn = ({ tokens, analysis, add }) => {
+const tieredVocab: RuleFn = ({ tokens, analysis, add }) => {
   for (const t of tokens) {
     const i = analysis.info.get(t.id);
     if (!i || i.category !== 'color' || i.tier === 'foundation') continue;
     const word = t.id.split('-').slice(2).find((x) => ['default', 'light', 'dark'].includes(x));
-    if (word) add('fortis-vocab', 'warn', t.id, t.label, `uses '${word}' as a variant name`);
+    if (word) add('tiered-vocab', 'warn', t.id, t.label, `uses '${word}' as a variant name`);
   }
 };
 
-const fortisCommonStates: RuleFn = ({ tokens, analysis, add }) => {
+const tieredCommonStates: RuleFn = ({ tokens, analysis, add }) => {
   for (const t of tokens) {
     const i = analysis.info.get(t.id);
     if (i?.tier !== 'common' || i.category !== 'color') continue;
     const word = t.id.split('-').find((x) => STATE_ALL.has(x));
-    if (word) add('fortis-common-states', 'warn', t.id, t.label, `has the state '${word}'`);
+    if (word) add('tiered-common-states', 'warn', t.id, t.label, `has the state '${word}'`);
   }
 };
 
@@ -79,11 +79,11 @@ const missingPair: RuleFn = ({ ds, tokens, add }) => {
   }
 };
 
-export const FORTIS_RULES: Partial<Record<RuleId, RuleFn>> = {
-  'fortis-palette': fortisPalette,
-  'fortis-common': fortisCommon,
-  'fortis-vocab': fortisVocab,
-  'fortis-common-states': fortisCommonStates,
+export const TIERED_RULES: Partial<Record<RuleId, RuleFn>> = {
+  'tiered-palette': tieredPalette,
+  'tiered-common': tieredCommon,
+  'tiered-vocab': tieredVocab,
+  'tiered-common-states': tieredCommonStates,
   'foundation-direct': foundationDirect,
   pairing,
   'missing-pair': missingPair,

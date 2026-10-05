@@ -15,8 +15,8 @@ export interface Profile {
   groupOfColor(tier: Tier, segments: string[]): string | undefined;
 }
 
-export const FORTIS_PROFILE: Profile = {
-  id: 'fortis',
+export const TIERED_PROFILE: Profile = {
+  id: 'tiered',
   tierOfId(id) {
     if (/^color-(white|black|transparent)$/.test(id) || /^color-[a-z]+-\d+$/.test(id)) return 'foundation';
     if (id.startsWith('color-palette-')) return 'palette';
@@ -49,7 +49,7 @@ function tierOfCollection(collection: string): Tier | undefined {
   return undefined;
 }
 
-export function classify(t: Token, ds: Dataset, profile: Profile = FORTIS_PROFILE): TokenInfo {
+export function classify(t: Token, ds: Dataset, profile: Profile = TIERED_PROFILE): TokenInfo {
   const id = t.id;
   let kind = isKind(t.type) ? t.type : undefined;
   if (!kind) {

@@ -25,7 +25,7 @@ export type { Resolution, ResolveError } from './resolve/resolve.js';
 export { resolve } from './resolve/resolve.js';
 
 export type { Profile } from './resolve/classify.js';
-export { classify, FORTIS_PROFILE } from './resolve/classify.js';
+export { classify, TIERED_PROFILE } from './resolve/classify.js';
 export { categoryOf, inferKind } from './resolve/kinds.js';
 
 export type { AuditOptions, Confidence, Finding, RuleId, RuleMeta, Ruleset, RulesetId, Severity } from './rules/types.js';

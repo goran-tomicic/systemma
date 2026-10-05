@@ -7,7 +7,7 @@ const SRC = {
   dtcg: { name: 'W3C Design Tokens Format Module 2025.10', url: 'https://www.designtokens.org/TR/2025.10/format/' },
   curtis: { name: 'Nathan Curtis, "Naming Tokens in Design Systems"', url: 'https://nathanacurtis.substack.com/p/naming-tokens-in-design-systems-9e86c7444676' },
   atlassian: { name: 'Atlassian Design System, Spacing', url: 'https://atlassian.design/foundations/spacing' },
-  fortis: { name: 'Fortis project docs' },
+  tiered: { name: 'Tiered naming scheme docs' },
   wcagMin: { name: 'WCAG 2.2 SC 1.4.3 Contrast (Minimum)', url: 'https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html' },
   wcagNonText: { name: 'WCAG 2.2 SC 1.4.11 Non-text Contrast', url: 'https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html' },
   wcagEnhanced: { name: 'WCAG 2.2 SC 1.4.6 Contrast (Enhanced)', url: 'https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html' },
@@ -46,14 +46,14 @@ export const RULE_META: Readonly<Record<RuleId, RuleMeta>> = {
   'scale-order': { set: 'scales', title: 'Scale not increasing', description: 'A numbered step is not larger than the step before it.', defaultSeverity: 'warn', source: SRC.atlassian, confidence: 'low' },
   'duplicate-semantic': { set: 'scales', title: 'Identical resolved values', description: 'Different roles resolve to exactly the same colors, so they cannot be told apart.', defaultSeverity: 'info', source: SRC.atlassian, confidence: 'low' },
 
-  // fortis
-  'fortis-palette': { set: 'fortis', title: 'Off-pattern palette token', description: 'A palette token does not follow {role}-{solid|subtle|border}[-hover|active|disabled] or {solid|subtle}-fg.', defaultSeverity: 'warn', source: SRC.fortis, confidence: 'high' },
-  'fortis-common': { set: 'fortis', title: 'Unknown common token', description: 'A common token is outside the documented surface, fg, border and bg set.', defaultSeverity: 'warn', source: SRC.fortis, confidence: 'high' },
-  'fortis-vocab': { set: 'fortis', title: 'Avoided intensity word', description: 'default, light or dark is used as a variant name.', defaultSeverity: 'warn', source: SRC.fortis, confidence: 'high' },
-  'fortis-common-states': { set: 'fortis', title: 'State on a common token', description: 'Common tokens are static; states belong in the palette tier.', defaultSeverity: 'warn', source: SRC.fortis, confidence: 'high' },
-  'foundation-direct': { set: 'fortis', title: 'Foundation token used directly', description: 'A component uses a foundation color instead of going through the semantic layer.', defaultSeverity: 'warn', source: SRC.fortis, confidence: 'high' },
-  pairing: { set: 'fortis', title: 'Mismatched fg/bg pair', description: 'A component uses a solid background with subtle foreground text, or the reverse.', defaultSeverity: 'warn', source: SRC.fortis, confidence: 'high' },
-  'missing-pair': { set: 'fortis', title: 'Missing -fg partner', description: 'A solid or subtle token has no matching foreground token.', defaultSeverity: 'warn', source: SRC.fortis, confidence: 'high' },
+  // tiered
+  'tiered-palette': { set: 'tiered', title: 'Off-pattern palette token', description: 'A palette token does not follow {role}-{solid|subtle|border}[-hover|active|disabled] or {solid|subtle}-fg.', defaultSeverity: 'warn', source: SRC.tiered, confidence: 'high' },
+  'tiered-common': { set: 'tiered', title: 'Unknown common token', description: 'A common token is outside the documented surface, fg, border and bg set.', defaultSeverity: 'warn', source: SRC.tiered, confidence: 'high' },
+  'tiered-vocab': { set: 'tiered', title: 'Avoided intensity word', description: 'default, light or dark is used as a variant name.', defaultSeverity: 'warn', source: SRC.tiered, confidence: 'high' },
+  'tiered-common-states': { set: 'tiered', title: 'State on a common token', description: 'Common tokens are static; states belong in the palette tier.', defaultSeverity: 'warn', source: SRC.tiered, confidence: 'high' },
+  'foundation-direct': { set: 'tiered', title: 'Foundation token used directly', description: 'A component uses a foundation color instead of going through the semantic layer.', defaultSeverity: 'warn', source: SRC.tiered, confidence: 'high' },
+  pairing: { set: 'tiered', title: 'Mismatched fg/bg pair', description: 'A component uses a solid background with subtle foreground text, or the reverse.', defaultSeverity: 'warn', source: SRC.tiered, confidence: 'high' },
+  'missing-pair': { set: 'tiered', title: 'Missing -fg partner', description: 'A solid or subtle token has no matching foreground token.', defaultSeverity: 'warn', source: SRC.tiered, confidence: 'high' },
 
   // wcag. contrast is an error below 3:1 and a warning from 3:1 to 4.5:1.
   contrast: { set: 'wcag', title: 'Low-contrast pair', description: 'Foreground on its intended background is below 4.5:1; below 3:1 is an error.', defaultSeverity: 'warn', source: SRC.wcagMin, confidence: 'high' },

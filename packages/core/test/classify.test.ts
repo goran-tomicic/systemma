@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { categoryOf, classify, createDataset, FORTIS_PROFILE, inferKind } from '../src/index.js';
+import { categoryOf, classify, createDataset, TIERED_PROFILE, inferKind } from '../src/index.js';
 import type { Dataset, Kind, Mode, Profile, Token, TokenValue } from '../src/index.js';
 import { addToken } from '../src/parse/add-token.js';
 
@@ -158,7 +158,7 @@ describe('classify kind', () => {
   });
 });
 
-describe('classify tier (fortis profile)', () => {
+describe('classify tier (tiered profile)', () => {
   const tier = (id: string, extra: { collection?: string } = {}, value: TokenValue = lit('#fff')): string => {
     const { ds, token } = one(id, { light: value }, extra);
     return classify(token, ds).tier;
@@ -216,7 +216,7 @@ describe('classify tier (fortis profile)', () => {
   });
 });
 
-describe('classify group (fortis profile)', () => {
+describe('classify group (tiered profile)', () => {
   const group = (id: string, value: TokenValue = lit('#fff'), extra: { collection?: string } = {}): string => {
     const { ds, token } = one(id, { light: value }, extra);
     return classify(token, ds).group;
@@ -273,8 +273,8 @@ describe('profiles', () => {
     expect(classify(one('sys-red', { light: lit('#f00') }).token, createDataset(), custom).tier).toBe('foundation');
   });
 
-  it('defaults to the fortis profile', () => {
+  it('defaults to the tiered profile', () => {
     const { ds, token } = one('color-gray-50', { light: lit('#fff') });
-    expect(classify(token, ds)).toEqual(classify(token, ds, FORTIS_PROFILE));
+    expect(classify(token, ds)).toEqual(classify(token, ds, TIERED_PROFILE));
   });
 });

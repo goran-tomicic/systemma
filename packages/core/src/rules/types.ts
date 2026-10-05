@@ -3,7 +3,7 @@ import type { Dataset } from '../model/types.js';
 export type Severity = 'error' | 'warn' | 'info';
 export type Confidence = 'high' | 'medium' | 'low';
 
-export const RULESET_IDS = ['integrity', 'dtcg', 'structure', 'scales', 'fortis', 'wcag', 'wcag-aaa', 'descriptions', 'm3'] as const;
+export const RULESET_IDS = ['integrity', 'dtcg', 'structure', 'scales', 'tiered', 'wcag', 'wcag-aaa', 'descriptions', 'm3'] as const;
 export type RulesetId = (typeof RULESET_IDS)[number];
 
 export const RULE_IDS = [
@@ -11,7 +11,7 @@ export const RULE_IDS = [
   'dtcg-name', 'dtcg-case', 'dtcg-untyped', 'dtcg-composite', 'dtcg-units',
   'mixed-separator', 'state-position', 'state-vocab', 'hue-in-semantic', 'sibling-gap', 'size-style',
   'base-unit', 'scale-order', 'duplicate-semantic',
-  'fortis-palette', 'fortis-common', 'fortis-vocab', 'fortis-common-states', 'foundation-direct', 'pairing', 'missing-pair',
+  'tiered-palette', 'tiered-common', 'tiered-vocab', 'tiered-common-states', 'foundation-direct', 'pairing', 'missing-pair',
   'contrast', 'contrast-nontext', 'contrast-focus',
   'contrast-aaa',
   'desc-missing', 'desc-intent', 'scope-role', 'usage-role',
