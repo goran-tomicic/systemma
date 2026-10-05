@@ -27,3 +27,9 @@ export { resolve } from './resolve/resolve.js';
 export type { Profile } from './resolve/classify.js';
 export { classify, FORTIS_PROFILE } from './resolve/classify.js';
 export { categoryOf, inferKind } from './resolve/kinds.js';
+
+export type { Finding, RuleId, RulesetId, Severity } from './rules/types.js';
+export type { Analysis, AnalyzeOptions } from './analyze/analyze.js';
+export { analyze } from './analyze/analyze.js';
+export type { DiffChange, DiffResult } from './analyze/diff.js';
+export { diff } from './analyze/diff.js';
