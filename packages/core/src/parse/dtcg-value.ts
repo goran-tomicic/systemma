@@ -113,7 +113,7 @@ function fromStudioShadow(o: unknown): unknown {
   return { offsetX: o['x'], offsetY: o['y'], blur: o['blur'], spread: o['spread'], color: o['color'], inset: o['type'] === 'innerShadow' || o['inset'] === true };
 }
 
-function inferCompositeKind(c: unknown): Kind | '' {
+export function inferCompositeKind(c: unknown): Kind | '' {
   const first = Array.isArray(c) ? (c[0] ?? {}) : (c ?? {});
   const keys = Object.keys(typeof first === 'object' ? (first as object) : {});
   if (keys.includes('fontSize') || keys.includes('fontFamily')) return 'typography';

@@ -23,3 +23,7 @@ export { detectFormat } from './parse/detect.js';
 
 export type { Resolution, ResolveError } from './resolve/resolve.js';
 export { resolve } from './resolve/resolve.js';
+
+export type { Profile } from './resolve/classify.js';
+export { classify, FORTIS_PROFILE } from './resolve/classify.js';
+export { categoryOf, inferKind } from './resolve/kinds.js';
