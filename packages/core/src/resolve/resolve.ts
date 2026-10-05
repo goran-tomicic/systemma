@@ -4,15 +4,28 @@ import type { Dataset, Mode } from '../model/types.js';
 
 export type ResolveError = 'missing' | 'nomode' | 'cycle';
 
-// `chain` is the path of token ids followed, starting at the requested token.
+// `chain` is the path of token ids followed, starting at the requested token. A composite comes back twice:
+// `composite` has every {reference} inside it replaced by what it resolves to, and `raw` is the composite
+// as authored, references intact, so a UI can show the alias and its value without working one out of the other.
 export type Resolution =
   | { value: string; chain: string[] }
-  | { composite: unknown; chain: string[] }
+  | { composite: unknown; raw: unknown; chain: string[] }
   | { error: ResolveError; chain: string[] };
 
 // Nesting deeper than this is treated as a loop. Real token graphs are far shallower, and it bounds
 // the recursion that composite refs and embedded var() can start.
 const MAX_DEPTH = 8;
+
+// A copy, so a caller that edits `raw` cannot change the dataset it came from. Composites are plain JSON.
+function cloneComposite(c: unknown): unknown {
+  if (Array.isArray(c)) return c.map(cloneComposite);
+  if (c && typeof c === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(c)) out[k] = cloneComposite(v);
+    return out;
+  }
+  return c;
+}
 
 function resolveComposite(ds: Dataset, c: unknown, mode: Mode, depth: number): unknown {
   if (depth > MAX_DEPTH) return c;
@@ -44,7 +57,7 @@ export function resolve(ds: Dataset, id: string, mode: Mode, depth = 0): Resolut
     // Primitives are usually mode-less, so once we are past the first token a missing mode falls back to light.
     if (v === undefined && hop > 0) v = token.modes.light;
     if (v === undefined) return { error: 'nomode', chain };
-    if ('comp' in v && v.comp !== undefined) return { composite: resolveComposite(ds, v.comp, mode, depth), chain };
+    if ('comp' in v && v.comp !== undefined) return { composite: resolveComposite(ds, v.comp, mode, depth), raw: cloneComposite(v.comp), chain };
     if ('lit' in v && v.lit !== undefined) {
       let lit = v.lit;
       if (/var\(\s*--/.test(lit)) {

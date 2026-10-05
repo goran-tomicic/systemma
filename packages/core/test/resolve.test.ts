@@ -163,7 +163,11 @@ describe('composites', () => {
   });
 
   it('replaces brace refs with resolved values', () => {
-    expect(resolve(ds, 'brace', 'light')).toEqual({ composite: { color: '#f00', width: '1px', style: 'solid' }, chain: ['brace'] });
+    expect(resolve(ds, 'brace', 'light')).toEqual({
+      composite: { color: '#f00', width: '1px', style: 'solid' },
+      raw: { color: '{red}', width: '1px', style: 'solid' },
+      chain: ['brace'],
+    });
   });
 
   it('resolves refs in the requested mode', () => {
@@ -175,6 +179,7 @@ describe('composites', () => {
   it('follows an alias to a composite', () => {
     expect(resolve(ds, 'alias', 'light')).toEqual({
       composite: { color: '#f00', width: '1px', style: 'solid' },
+      raw: { color: '{red}', width: '1px', style: 'solid' },
       chain: ['alias', 'brace'],
     });
   });

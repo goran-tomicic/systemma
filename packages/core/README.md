@@ -96,7 +96,15 @@ resolve(ds, 'color-link', 'light');
 // { value: '#0066ff', chain: ['color-link', 'color-brand'] }
 ```
 
-The result is a `{ value }`, a `{ composite }` (with references inside it replaced) or an `{ error: 'missing' | 'nomode' | 'cycle' }`, always with the `chain` that was followed. After the first hop a missing mode falls back to the light value, because primitives are usually mode-less.
+The result is a `{ value }`, a `{ composite, raw }` or an `{ error: 'missing' | 'nomode' | 'cycle' }`, always with the `chain` that was followed. For a composite, `composite` has every `{reference}` inside it replaced by what it resolves to, and `raw` is a copy of it as authored, so you can show the alias and its value side by side:
+
+```ts
+resolve(ds, 'typography-heading', 'light');
+// composite: { fontFamily: 'Inter, sans-serif', fontSize: '32px', ... }
+// raw:       { fontFamily: '{font.family.base}', fontSize: '{size.xl}', ... }
+```
+
+A reference that cannot be resolved stays as written in both. After the first hop a missing mode falls back to the light value, because primitives are usually mode-less.
 
 ## Analyzing and auditing
 
@@ -214,6 +222,7 @@ These are known and are tracked, not hidden.
 - **The tiered naming rules assume one vocabulary.** The tiered ruleset, the contrast pair inference and the role checks look for `color-surface-*`, `color-fg-*`, `color-palette-*` and similar names. Classification no longer depends on it, because the generic profile makes no assumptions, but those rules only mean something on data that uses that vocabulary.
 - **Contrast pairs are inferred unless you declare them.** Without `contrastPairs`, only `color-fg-*` on the base surface and palette `-fg` on its background are checked. Border and focus contrast still use the base surface.
 - **The Figma parser is experimental.** It is written from Figma's documentation and has not been checked against a real export.
+- **A token named `default` cannot be referenced.** A trailing `.default` or `.$root` in an alias is read as the group's own value, so `{border.default}` points at `border`, whatever the casing.
 - **Font weight names.** The DTCG format treats named weights as case-sensitive; the units check accepts any case.
 - **A self-referencing `var()`** is cut off at the depth limit instead of reporting a cycle, and a `var()` fallback ends at its first closing parenthesis.
 - **The repo scan reads the property from the nearest preceding declaration**, which is right for CSS and approximate for JavaScript object literals.

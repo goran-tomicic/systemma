@@ -1,0 +1,35 @@
+{
+  "color": {
+    "$type": "color",
+    "border": { "$value": "#d1d5db" },
+    "shadow": { "$value": "#00000033" }
+  },
+  "size": { "$type": "dimension", "xl": { "$value": "32px" } },
+  "font": { "family": { "$type": "fontFamily", "base": { "$value": ["Inter", "sans-serif"] } } },
+  "motion": { "$type": "duration", "fast": { "$value": { "value": 150, "unit": "ms" } } },
+  "border": {
+    "$type": "border",
+    "standard": { "$value": { "color": "{color.border}", "width": { "value": 1, "unit": "px" }, "style": "solid" } },
+    "alias": { "$value": "{border.standard}" }
+  },
+  "typography": {
+    "$type": "typography",
+    "heading": {
+      "$value": { "fontFamily": "{font.family.base}", "fontSize": "{size.xl}", "fontWeight": 700, "letterSpacing": "0px", "lineHeight": 1.2 }
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "card": {
+      "$value": [
+        { "color": "{color.shadow}", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px" },
+        { "color": "{color.missing}", "offsetX": "0px", "offsetY": "4px", "blur": "12px", "spread": "-2px" }
+      ]
+    }
+  },
+  "transition": {
+    "$type": "transition",
+    "fade": { "$value": { "duration": "{motion.fast}", "delay": "0ms", "timingFunction": [0.4, 0, 0.2, 1] } }
+  },
+  "plain": { "$type": "border", "solid": { "$value": { "color": "#000", "width": "1px", "style": "solid" } } }
+}

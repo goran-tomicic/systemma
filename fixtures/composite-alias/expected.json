@@ -1,0 +1,119 @@
+{
+  "border-standard": {
+    "chain": [
+      "border-standard"
+    ],
+    "resolved": {
+      "color": "#d1d5db",
+      "width": "1px",
+      "style": "solid"
+    },
+    "raw": {
+      "color": "{color.border}",
+      "width": "1px",
+      "style": "solid"
+    }
+  },
+  "border-alias": {
+    "chain": [
+      "border-alias",
+      "border-standard"
+    ],
+    "resolved": {
+      "color": "#d1d5db",
+      "width": "1px",
+      "style": "solid"
+    },
+    "raw": {
+      "color": "{color.border}",
+      "width": "1px",
+      "style": "solid"
+    }
+  },
+  "typography-heading": {
+    "chain": [
+      "typography-heading"
+    ],
+    "resolved": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": "32px",
+      "fontWeight": "700",
+      "letterSpacing": "0px",
+      "lineHeight": "1.2"
+    },
+    "raw": {
+      "fontFamily": "{font.family.base}",
+      "fontSize": "{size.xl}",
+      "fontWeight": "700",
+      "letterSpacing": "0px",
+      "lineHeight": "1.2"
+    }
+  },
+  "shadow-card": {
+    "chain": [
+      "shadow-card"
+    ],
+    "resolved": [
+      {
+        "color": "#00000033",
+        "offsetX": "0px",
+        "offsetY": "1px",
+        "blur": "2px",
+        "spread": "0px"
+      },
+      {
+        "color": "{color.missing}",
+        "offsetX": "0px",
+        "offsetY": "4px",
+        "blur": "12px",
+        "spread": "-2px"
+      }
+    ],
+    "raw": [
+      {
+        "color": "{color.shadow}",
+        "offsetX": "0px",
+        "offsetY": "1px",
+        "blur": "2px",
+        "spread": "0px"
+      },
+      {
+        "color": "{color.missing}",
+        "offsetX": "0px",
+        "offsetY": "4px",
+        "blur": "12px",
+        "spread": "-2px"
+      }
+    ]
+  },
+  "transition-fade": {
+    "chain": [
+      "transition-fade"
+    ],
+    "resolved": {
+      "duration": "150ms",
+      "delay": "0ms",
+      "timingFunction": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "raw": {
+      "duration": "{motion.fast}",
+      "delay": "0ms",
+      "timingFunction": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  },
+  "plain-solid": {
+    "chain": [
+      "plain-solid"
+    ],
+    "resolved": {
+      "color": "#000",
+      "width": "1px",
+      "style": "solid"
+    },
+    "raw": {
+      "color": "#000",
+      "width": "1px",
+      "style": "solid"
+    }
+  }
+}
