@@ -73,4 +73,8 @@ export interface AuditOptions {
   contrastPairs?: readonly ContrastPair[];
   // Which kinds of token the mode-gap rule expects to have a dark value. Colors by default.
   modeGapKinds?: readonly Kind[];
+  // Per rule, globs for the tokens to leave alone. A pattern is matched against a token's authored label
+  // (without a leading "--") and its canonical id; a finding that is not about a token is matched on its
+  // subject. For example { unused: ['color/palette/**'] }.
+  ignore?: Partial<Record<RuleId, readonly string[]>>;
 }

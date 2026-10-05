@@ -1,0 +1,35 @@
+{
+  "none": [
+    "broken-usage: Page",
+    "unused: color-palette-brand-solid",
+    "unused: color-palette-brand-subtle",
+    "unused: color-palette-danger-solid",
+    "unused: color-fg-base",
+    "unused: legacy-old-blue",
+    "hue-in-semantic: legacy-old-blue",
+    "desc-missing: color-palette-brand-solid",
+    "desc-missing: color-palette-brand-subtle",
+    "desc-missing: color-palette-danger-solid",
+    "desc-missing: color-fg-base",
+    "desc-missing: legacy-old-blue"
+  ],
+  "palette": [
+    "broken-usage: Page",
+    "unused: color-fg-base",
+    "unused: legacy-old-blue",
+    "hue-in-semantic: legacy-old-blue",
+    "desc-missing: color-palette-brand-solid",
+    "desc-missing: color-palette-brand-subtle",
+    "desc-missing: color-palette-danger-solid",
+    "desc-missing: color-fg-base",
+    "desc-missing: legacy-old-blue"
+  ],
+  "several": [
+    "unused: color-fg-base",
+    "hue-in-semantic: legacy-old-blue",
+    "desc-missing: color-palette-brand-solid",
+    "desc-missing: color-palette-brand-subtle",
+    "desc-missing: color-palette-danger-solid",
+    "desc-missing: legacy-old-blue"
+  ]
+}

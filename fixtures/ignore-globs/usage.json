@@ -1,0 +1,4 @@
+[
+  { "component": "Page", "token": "color/surface/base", "prop": "background" },
+  { "component": "Page", "token": "color/missing/one", "prop": "color" }
+]
