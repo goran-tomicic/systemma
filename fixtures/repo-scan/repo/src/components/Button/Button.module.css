@@ -1,0 +1,12 @@
+.button {
+  --button-gap: 8px;
+  --button-pad: 12px;
+  padding: var(--button-pad);
+  background: var(--color-surface-base);
+  color: var(--color-fg-base);
+  border: 1px solid var(--color-border-base);
+  border-radius: var(--radius-md);
+}
+.button:focus-visible {
+  outline: 2px solid var(--color-border-base);
+}

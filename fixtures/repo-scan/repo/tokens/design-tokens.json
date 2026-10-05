@@ -1,0 +1,10 @@
+{
+  "color": {
+    "$type": "color",
+    "brand": { "$value": "#0066ff" },
+    "accent": { "$value": "#ff6600" },
+    "danger": { "$value": "#cc0000" },
+    "success": { "$value": "#00aa55" },
+    "warning": { "$value": "#ffaa00" }
+  }
+}

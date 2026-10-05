@@ -1,0 +1,10 @@
+:root {
+  --color-white: #ffffff;
+  --color-gray-900: #111827;
+  --color-surface-base: var(--color-white);
+  --color-fg-base: var(--color-gray-900);
+  --color-border-base: #d1d5db;
+  --space-4: 16px;
+  --space-8: 32px;
+  --radius-md: 6px;
+}

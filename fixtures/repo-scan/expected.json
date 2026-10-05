@@ -1,0 +1,136 @@
+{
+  "candidates": [
+    {
+      "path": "src/styles/tokens.css",
+      "kind": "css",
+      "count": 8,
+      "checked": true
+    },
+    {
+      "path": "tokens/design-tokens.json",
+      "kind": "json",
+      "count": 5,
+      "checked": true
+    },
+    {
+      "path": "src/styles/theme.css",
+      "kind": "css",
+      "count": 3,
+      "checked": true
+    },
+    {
+      "path": "src/components/Button/Button.module.css",
+      "kind": "css",
+      "count": 2,
+      "checked": false
+    }
+  ],
+  "declared": [
+    "button-gap",
+    "button-pad",
+    "color-border-base",
+    "color-fg-base",
+    "color-gray-900",
+    "color-surface-base",
+    "color-white",
+    "radius-md",
+    "space-4",
+    "space-8"
+  ],
+  "summary": {
+    "defFiles": 3,
+    "defValues": 16,
+    "scanned": 3,
+    "filesWithUsage": 3,
+    "usages": 12
+  },
+  "tokens": [
+    "color-white",
+    "color-gray-900",
+    "color-surface-base",
+    "color-fg-base",
+    "color-border-base",
+    "space-4",
+    "space-8",
+    "radius-md",
+    "color-brand",
+    "color-accent",
+    "color-danger",
+    "color-success",
+    "color-warning"
+  ],
+  "usage": [
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/Button.module.css",
+      "prop": "background",
+      "token": "color-surface-base"
+    },
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/Button.module.css",
+      "prop": "color",
+      "token": "color-fg-base"
+    },
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/Button.module.css",
+      "prop": "border",
+      "token": "color-border-base"
+    },
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/Button.module.css",
+      "prop": "border-radius",
+      "token": "radius-md"
+    },
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/Button.module.css",
+      "prop": "outline",
+      "token": "color-border-base"
+    },
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/index.tsx",
+      "prop": "padding",
+      "token": "space-4"
+    },
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/index.tsx",
+      "prop": "padding",
+      "token": "color-fg-muted"
+    },
+    {
+      "component": "components/Button",
+      "file": "src/components/Button/index.tsx",
+      "prop": "",
+      "token": "space-4"
+    },
+    {
+      "component": "components/Card",
+      "file": "src/components/Card/Card.tsx",
+      "prop": "background",
+      "token": "color-surface-base"
+    },
+    {
+      "component": "components/Card",
+      "file": "src/components/Card/Card.tsx",
+      "prop": "background",
+      "token": "space-8"
+    },
+    {
+      "component": "components/Card",
+      "file": "src/components/Card/Card.tsx",
+      "prop": "background",
+      "token": "color-gray-900"
+    },
+    {
+      "component": "components/Card",
+      "file": "src/components/Card/Card.tsx",
+      "prop": "background",
+      "token": "color-surface-sunken"
+    }
+  ]
+}

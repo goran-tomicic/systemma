@@ -37,3 +37,8 @@ export { analyze } from './analyze/analyze.js';
 export { audit } from './rules/audit.js';
 export type { DiffChange, DiffResult } from './analyze/diff.js';
 export { diff } from './analyze/diff.js';
+
+export type { Candidate, FileLike, Progress, ScanCandidates, ScanSummary } from './scan/types.js';
+export { componentNameFromPath } from './scan/component-name.js';
+export { scanCandidates } from './scan/candidates.js';
+export { scanUsage } from './scan/usage.js';
