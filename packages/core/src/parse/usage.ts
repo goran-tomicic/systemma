@@ -1,18 +1,9 @@
-import { canon } from '../model/ids.js';
-import { parseValue } from '../model/value.js';
+import { toTokenId } from '../model/value.js';
 import type { Dataset } from '../model/types.js';
 import type { ParseResult } from './types.js';
 
 type Rec = Record<string, unknown>;
 const isRec = (x: unknown): x is Rec => !!x && typeof x === 'object' && !Array.isArray(x);
-
-// Usage data names tokens in whatever form the exporting script had: ids, slash or dot paths,
-// {aliases} or var(--x). All of them end up as a canonical id.
-function toTokenId(token: unknown): string {
-  const raw = String(token);
-  const v = parseValue(raw);
-  return 'ref' in v && v.ref ? v.ref : canon(raw);
-}
 
 // Accepts an array of records, each `{ component | name | file, token | tokens, prop?, file? }`, where
 // `tokens` is a list of strings, a list of `{ token, prop }`, or an object of prop to token.

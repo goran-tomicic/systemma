@@ -51,10 +51,24 @@ export interface Ruleset {
   applies?(ds: Dataset): boolean;
 }
 
+// A foreground and background that must meet a contrast level. Tokens may be named as ids, slash or dot
+// paths, {aliases} or var(--x).
+export interface ContrastPair {
+  foreground: string;
+  background: string;
+  // AA by default. AAA makes the contrast rule require the stricter ratio for this pair.
+  level?: 'AA' | 'AAA';
+  // Large text needs a lower ratio: 3:1 at AA and 4.5:1 at AAA.
+  largeText?: boolean;
+}
+
 export interface AuditOptions {
   // When given, exactly these rulesets are candidates; otherwise the ones that are on by default.
   // A ruleset with an `applies` check still has to pass it.
   enabledRulesets?: ReadonlySet<RulesetId>;
   // Per-rule severity, or 'off' to silence a rule.
   severityOverrides?: Partial<Record<RuleId, Severity | 'off'>>;
+  // The text pairs the contrast rules check. When given, only these pairs are checked; when omitted, the
+  // pairs are inferred from token names. An empty list checks none.
+  contrastPairs?: readonly ContrastPair[];
 }

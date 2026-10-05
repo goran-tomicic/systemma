@@ -1,24 +1,40 @@
 import type { RuleFn } from './context.js';
-import { MODES, pairRatio, roleOfToken, textPairs } from './helpers.js';
+import { pairsToCheck, requiredRatio } from './contrast-pairs.js';
+import { MODES, pairRatio, roleOfToken } from './helpers.js';
 import type { RuleId } from './types.js';
 
 const SURFACE = 'color-surface-base';
 
-// Text needs 4.5:1. Below 3:1 is an error because even large text would fail.
-const contrast: RuleFn = ({ ds, add, label }) => {
-  for (const [fg, bg] of textPairs(ds)) {
+// Text needs 4.5:1 (3:1 for large text). Below 3:1 is an error because even large text would fail. A
+// declared pair at level AAA must reach the AAA ratio instead.
+const contrast: RuleFn = ({ ds, options, add, label }) => {
+  const { pairs, undefinedTokens } = pairsToCheck(ds, options.contrastPairs);
+  for (const [pair, missing] of undefinedTokens) {
+    add('contrast', 'warn', null, `${pair.foreground} on ${pair.background}`, `declared pair names ${missing}, which isn't defined`);
+  }
+  for (const { foreground, background, level, largeText, declared } of pairs) {
+    const needed = requiredRatio(level, largeText);
     for (const mode of MODES) {
-      const r = pairRatio(ds, fg, bg, mode);
-      if (r !== null && r < 4.5) add('contrast', r < 3 ? 'error' : 'warn', fg, label(fg), `on ${label(bg)} · ${r.toFixed(2)}:1 (${mode})`);
+      const r = pairRatio(ds, foreground, background, mode);
+      if (r === null || r >= needed) continue;
+      const base = `on ${label(background)} · ${r.toFixed(2)}:1 (${mode})`;
+      add('contrast', r < 3 ? 'error' : 'warn', foreground, label(foreground), declared ? `${base}, needs ${needed}:1` : base);
     }
   }
 };
 
-const contrastAaa: RuleFn = ({ ds, add, label }) => {
-  for (const [fg, bg] of textPairs(ds)) {
+// Reports pairs that pass AA but not AAA. A declared AAA pair is already held to AAA by `contrast`.
+const contrastAaa: RuleFn = ({ ds, options, add, label }) => {
+  for (const { foreground, background, level, largeText, declared } of pairsToCheck(ds, options.contrastPairs).pairs) {
+    if (level === 'AAA') continue;
+    const aa = requiredRatio('AA', largeText);
+    const aaa = requiredRatio('AAA', largeText);
     for (const mode of MODES) {
-      const r = pairRatio(ds, fg, bg, mode);
-      if (r !== null && r >= 4.5 && r < 7) add('contrast-aaa', 'info', fg, label(fg), `on ${label(bg)} · ${r.toFixed(2)}:1 (${mode})`);
+      const r = pairRatio(ds, foreground, background, mode);
+      if (r !== null && r >= aa && r < aaa) {
+        const base = `on ${label(background)} · ${r.toFixed(2)}:1 (${mode})`;
+        add('contrast-aaa', 'info', foreground, label(foreground), declared ? `${base}, AAA needs ${aaa}:1` : base);
+      }
     }
   }
 };

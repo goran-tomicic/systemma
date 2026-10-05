@@ -136,6 +136,20 @@ analyze(ds, {
 });
 ```
 
+By default the contrast rules infer their text pairs from names. To say which pairs matter, declare them. Declared pairs replace the inferred ones:
+
+```ts
+analyze(ds, {
+  contrastPairs: [
+    { foreground: 'color/brand/text', background: 'color/brand/bg', level: 'AAA' },
+    { foreground: 'color/fg/muted', background: 'color/surface/base', largeText: true },
+  ],
+});
+// color/brand/text: on color/brand/bg · 4.54:1 (light), needs 7:1
+```
+
+Tokens can be named as ids, slash or dot paths, `{aliases}` or `var(--x)`. `level` is `AA` (the default) or `AAA`; large text needs 3:1 at AA and 4.5:1 at AAA, against 4.5:1 and 7:1 for other text. An empty list checks nothing, and a pair that names an undefined token is reported, not skipped.
+
 `RULESETS` lists the rulesets and which are on by default. `RULE_META` has, for each of the 36 rules, its ruleset, title, description, default severity, source name, source URL and confidence.
 
 ```ts
@@ -198,7 +212,7 @@ These are known and are tracked, not hidden.
 
 - **Ids are lossy.** `a/b-c` and `a-b/c` both become `a-b-c` and merge into one token, and so do names that differ only by case (the second is recorded as a case variant). Some structure rules cannot see a collision that the id has already erased.
 - **The tiered naming rules assume one vocabulary.** The tiered ruleset, the contrast pair inference and the role checks look for `color-surface-*`, `color-fg-*`, `color-palette-*` and similar names. Classification no longer depends on it, because the generic profile makes no assumptions, but those rules only mean something on data that uses that vocabulary.
-- **Contrast pairs are inferred from names.** Only `color-fg-*` on the base surface and palette `-fg` on its background are checked. There is no way to declare pairs yet.
+- **Contrast pairs are inferred unless you declare them.** Without `contrastPairs`, only `color-fg-*` on the base surface and palette `-fg` on its background are checked. Border and focus contrast still use the base surface.
 - **The Figma parser is experimental.** It is written from Figma's documentation and has not been checked against a real export.
 - **Font weight names.** The DTCG format treats named weights as case-sensitive; the units check accepts any case.
 - **A self-referencing `var()`** is cut off at the depth limit instead of reporting a cycle, and a `var()` fallback ends at its first closing parenthesis.

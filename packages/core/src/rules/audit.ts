@@ -14,6 +14,7 @@ export function audit(ds: Dataset, analysis: Analysis, opts: AuditOptions = {}):
     ds,
     tokens: [...ds.tokens.values()],
     analysis,
+    options: opts,
     label: (id) => ds.tokens.get(id)?.label ?? id,
     add(rule, emitted, id, subject, message) {
       const severity = severityFor(rule, emitted, opts);

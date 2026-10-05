@@ -8,6 +8,13 @@ const VAR_REF = /var\(\s*--([\w-]+)/g;
 
 export const refId = (path: string): string => canon(path.replace(GROUP_VALUE_SUFFIX, ''));
 
+// Anything a person might write for a token: an id, a slash or dot path, {a.b} or var(--a-b).
+export function toTokenId(token: unknown): string {
+  const raw = String(token);
+  const v = parseValue(raw);
+  return 'ref' in v && v.ref ? v.ref : canon(raw);
+}
+
 export function parseValue(v: unknown): TokenValue {
   if (typeof v !== 'string') return { lit: String(v) };
   const s = v.trim();
