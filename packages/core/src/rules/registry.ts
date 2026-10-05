@@ -1,8 +1,10 @@
 import type { RuleFn } from './context.js';
 import { DTCG_RULES } from './dtcg.js';
+import { FORTIS_RULES } from './fortis.js';
 import { INTEGRITY_RULES } from './integrity.js';
 import { SCALES_RULES } from './scales.js';
 import { STRUCTURE_RULES } from './structure.js';
+import { WCAG_RULES } from './wcag.js';
 import type { RuleId } from './types.js';
 
 // One entry per rule family. A rule without a function is skipped by audit().
@@ -11,4 +13,6 @@ export const RULE_FUNCTIONS: Readonly<Partial<Record<RuleId, RuleFn>>> = {
   ...DTCG_RULES,
   ...STRUCTURE_RULES,
   ...SCALES_RULES,
+  ...FORTIS_RULES,
+  ...WCAG_RULES,
 };
