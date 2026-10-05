@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { analyze, createDataset } from '../src/index.js';
-import type { Dataset, Profile, TokenValue } from '../src/index.js';
+import type { Dataset, Finding, Profile, TokenValue } from '../src/index.js';
 import { indexFindings } from '../src/analyze/analyze.js';
 import { addToken } from '../src/parse/add-token.js';
 
@@ -130,7 +130,7 @@ describe('analyze result', () => {
 });
 
 describe('indexFindings', () => {
-  const f = (id: string | null, message: string) => ({ rule: 'r', set: 's', severity: 'warn' as const, id, subject: 'x', message });
+  const f = (id: string | null, message: string): Finding => ({ rule: 'unused', set: 'integrity', severity: 'warn', id, subject: 'x', message });
 
   it('groups findings by token id, in order, and skips findings without one', () => {
     const idx = indexFindings([f('a', '1'), f(null, '2'), f('b', '3'), f('a', '4')]);

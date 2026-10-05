@@ -1,8 +1,23 @@
-export type Severity = 'error' | 'warn' | 'info';
+import type { Dataset } from '../model/types.js';
 
-// Plain strings until the rule metadata lands; they become unions of the known ids then.
-export type RulesetId = string;
-export type RuleId = string;
+export type Severity = 'error' | 'warn' | 'info';
+export type Confidence = 'high' | 'medium' | 'low';
+
+export const RULESET_IDS = ['integrity', 'dtcg', 'structure', 'scales', 'fortis', 'wcag', 'wcag-aaa', 'descriptions', 'm3'] as const;
+export type RulesetId = (typeof RULESET_IDS)[number];
+
+export const RULE_IDS = [
+  'broken-ref', 'cycle', 'broken-usage', 'mode-gap', 'unused',
+  'dtcg-name', 'dtcg-case', 'dtcg-untyped', 'dtcg-composite', 'dtcg-units',
+  'mixed-separator', 'state-position', 'state-vocab', 'hue-in-semantic', 'sibling-gap', 'size-style',
+  'base-unit', 'scale-order', 'duplicate-semantic',
+  'fortis-palette', 'fortis-common', 'fortis-vocab', 'fortis-common-states', 'foundation-direct', 'pairing', 'missing-pair',
+  'contrast', 'contrast-nontext', 'contrast-focus',
+  'contrast-aaa',
+  'desc-missing', 'desc-intent', 'scope-role', 'usage-role',
+  'm3-type-role', 'm3-motion-names',
+] as const;
+export type RuleId = (typeof RULE_IDS)[number];
 
 export interface Finding {
   rule: RuleId;
@@ -11,4 +26,35 @@ export interface Finding {
   id: string | null;       // token id when the finding is about a token
   subject: string;
   message: string;
+}
+
+export interface RuleMeta {
+  set: RulesetId;
+  title: string;
+  description: string;
+  // The severity of the rule's main case. A few rules emit another severity in a documented
+  // sub-case (see RULE_META); a severity override replaces all of them.
+  defaultSeverity: Severity;
+  source: { name: string; url?: string };
+  // How well the source supports the rule: 'high' states it, 'medium' supports it in part,
+  // 'low' means the rule is a heuristic that the source only motivates.
+  confidence: Confidence;
+}
+
+export interface Ruleset {
+  id: RulesetId;
+  name: string;
+  description: string;
+  defaultOn: boolean;
+  rules: readonly RuleId[];
+  // Some rulesets only make sense for data that follows a naming scheme; they skip everything else.
+  applies?(ds: Dataset): boolean;
+}
+
+export interface AuditOptions {
+  // When given, exactly these rulesets are candidates; otherwise the ones that are on by default.
+  // A ruleset with an `applies` check still has to pass it.
+  enabledRulesets?: ReadonlySet<RulesetId>;
+  // Per-rule severity, or 'off' to silence a rule.
+  severityOverrides?: Partial<Record<RuleId, Severity | 'off'>>;
 }

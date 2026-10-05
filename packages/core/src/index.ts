@@ -28,7 +28,10 @@ export type { Profile } from './resolve/classify.js';
 export { classify, FORTIS_PROFILE } from './resolve/classify.js';
 export { categoryOf, inferKind } from './resolve/kinds.js';
 
-export type { Finding, RuleId, RulesetId, Severity } from './rules/types.js';
+export type { AuditOptions, Confidence, Finding, RuleId, RuleMeta, Ruleset, RulesetId, Severity } from './rules/types.js';
+export { RULE_IDS, RULESET_IDS } from './rules/types.js';
+export { RULESETS } from './rules/rulesets.js';
+export { RULE_META } from './rules/meta.js';
 export type { Analysis, AnalyzeOptions } from './analyze/analyze.js';
 export { analyze } from './analyze/analyze.js';
 export type { DiffChange, DiffResult } from './analyze/diff.js';
