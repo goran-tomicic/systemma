@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { categoryOf, classify, createDataset, GENERIC_PROFILE, TIERED_PROFILE, inferKind } from '../src/index.js';
 import type { Dataset, Kind, Mode, Profile, Token, TokenValue } from '../src/index.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 
 describe('inferKind', () => {
   it.each([
@@ -210,7 +210,7 @@ describe('classify tier (tiered profile)', () => {
 
   it('treats a token with no values as foundation', () => {
     const ds = createDataset();
-    const token: Token = { id: 'x', label: 'x', modes: {}, type: '', source: '' };
+    const token: Token = { id: 'x', label: 'x', path: ['x'], modes: {}, type: '', source: '' };
     ds.tokens.set('x', token);
     expect(classify(token, ds, TIERED_PROFILE).tier).toBe('foundation');
   });

@@ -1,0 +1,41 @@
+{
+  "a": {
+    "b-c": {
+      "$type": "color",
+      "$value": "#111111"
+    }
+  },
+  "a-b": {
+    "c": {
+      "$type": "color",
+      "$value": "#222222"
+    }
+  },
+  "Color": {
+    "Brand": {
+      "$type": "color",
+      "$value": "#0066ff"
+    }
+  },
+  "color": {
+    "brand": {
+      "$type": "color",
+      "$value": "#ff6600"
+    }
+  },
+  "ok": {
+    "$type": "color",
+    "$value": "#aabbcc"
+  },
+  "space": {
+    "$type": "dimension",
+    "1.5": {
+      "$value": "6px"
+    },
+    "1": {
+      "5": {
+        "$value": "6px"
+      }
+    }
+  }
+}

@@ -5,6 +5,10 @@
     {
       "id": "color-primary",
       "label": "color/primary",
+      "path": [
+        "color",
+        "primary"
+      ],
       "modes": {
         "light": {
           "lit": "#66a3ff"
@@ -20,6 +24,10 @@
     {
       "id": "color-text",
       "label": "color/text",
+      "path": [
+        "color",
+        "text"
+      ],
       "modes": {
         "light": {
           "ref": "color-primary"
@@ -34,6 +42,10 @@
     {
       "id": "spacing-sm",
       "label": "spacing/sm",
+      "path": [
+        "spacing",
+        "sm"
+      ],
       "modes": {
         "light": {
           "lit": "4px"
@@ -48,6 +60,10 @@
     {
       "id": "spacing-md",
       "label": "spacing/md",
+      "path": [
+        "spacing",
+        "md"
+      ],
       "modes": {
         "light": {
           "lit": "8"
@@ -62,6 +78,10 @@
     {
       "id": "shadow-card",
       "label": "shadow/card",
+      "path": [
+        "shadow",
+        "card"
+      ],
       "modes": {
         "light": {
           "comp": {
@@ -83,6 +103,10 @@
     {
       "id": "shadow-inner",
       "label": "shadow/inner",
+      "path": [
+        "shadow",
+        "inner"
+      ],
       "modes": {
         "light": {
           "comp": [
@@ -106,6 +130,10 @@
     {
       "id": "typography-body",
       "label": "typography/body",
+      "path": [
+        "typography",
+        "body"
+      ],
       "modes": {
         "light": {
           "comp": {

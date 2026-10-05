@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { analyze, createDataset } from '../src/index.js';
 import type { Dataset } from '../src/index.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 import { findings, literal, subjects, withUsage } from './helpers/build.js';
 
 // The tiered ruleset only runs when five palette or surface color tokens exist. The padding uses the five

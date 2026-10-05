@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createDataset, resolve } from '../src/index.js';
 import type { Dataset, Mode, TokenValue } from '../src/index.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 
 type Modes = Partial<Record<Mode, TokenValue>>;
 const lit = (s: string): TokenValue => ({ lit: s });
@@ -11,7 +11,7 @@ const comp = (c: unknown): TokenValue => ({ comp: c });
 const dataset = (tokens: Record<string, Modes>): Dataset => {
   const ds = createDataset('t');
   for (const [id, modes] of Object.entries(tokens)) {
-    if (!modes.light && !modes.dark) ds.tokens.set(id, { id, label: id, modes: {}, type: '', source: '' });
+    if (!modes.light && !modes.dark) ds.tokens.set(id, { id, label: id, path: [id], modes: {}, type: '', source: '' });
     for (const mode of ['light', 'dark'] as const) {
       const v = modes[mode];
       if (v) addToken(ds, id, mode, v);

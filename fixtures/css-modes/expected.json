@@ -4,6 +4,9 @@
     {
       "id": "color-white",
       "label": "--color-white",
+      "path": [
+        "color-white"
+      ],
       "modes": {
         "light": {
           "lit": "#ffffff"
@@ -21,6 +24,9 @@
     {
       "id": "color-gray-900",
       "label": "--color-gray-900",
+      "path": [
+        "color-gray-900"
+      ],
       "modes": {
         "light": {
           "lit": "#111827"
@@ -35,6 +41,9 @@
     {
       "id": "color-surface-base",
       "label": "--color-surface-base",
+      "path": [
+        "color-surface-base"
+      ],
       "modes": {
         "light": {
           "ref": "color-white"
@@ -52,6 +61,9 @@
     {
       "id": "color-fg-base",
       "label": "--color-fg-base",
+      "path": [
+        "color-fg-base"
+      ],
       "modes": {
         "light": {
           "ref": "color-gray-900"
@@ -68,6 +80,9 @@
     {
       "id": "color-border-base",
       "label": "--color-border-base",
+      "path": [
+        "color-border-base"
+      ],
       "modes": {
         "light": {
           "ref": "color-gray-900"
@@ -84,6 +99,9 @@
     {
       "id": "shadow-card",
       "label": "--shadow-card",
+      "path": [
+        "shadow-card"
+      ],
       "modes": {
         "light": {
           "lit": "0 1px 2px var(--color-gray-900), 0 4px 12px rgba(0, 0, 0, 0.1)"
@@ -97,6 +115,9 @@
     {
       "id": "space-4",
       "label": "--space-4",
+      "path": [
+        "space-4"
+      ],
       "modes": {
         "light": {
           "lit": "24px"
@@ -110,6 +131,9 @@
     {
       "id": "font-sans",
       "label": "--font-sans",
+      "path": [
+        "font-sans"
+      ],
       "modes": {
         "light": {
           "lit": "\"Inter\", system-ui, sans-serif"
@@ -123,6 +147,9 @@
     {
       "id": "ease-out",
       "label": "--ease-out",
+      "path": [
+        "ease-out"
+      ],
       "modes": {
         "light": {
           "lit": "cubic-bezier(0.2, 0, 0, 1)"
@@ -136,6 +163,9 @@
     {
       "id": "color-accent",
       "label": "--color-accent",
+      "path": [
+        "color-accent"
+      ],
       "modes": {
         "dark": {
           "lit": "#7aa2ff"
@@ -152,6 +182,9 @@
     {
       "id": "color-accent-hover",
       "label": "--color-accent-hover",
+      "path": [
+        "color-accent-hover"
+      ],
       "modes": {
         "dark": {
           "lit": "#9bbaff"
@@ -165,6 +198,9 @@
     {
       "id": "card-padding",
       "label": "--card-padding",
+      "path": [
+        "card-padding"
+      ],
       "modes": {
         "light": {
           "ref": "space-4"
@@ -178,6 +214,9 @@
     {
       "id": "mixed-case",
       "label": "--Mixed-Case",
+      "path": [
+        "Mixed-Case"
+      ],
       "modes": {
         "light": {
           "lit": "1"

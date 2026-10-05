@@ -1,0 +1,181 @@
+{
+  "warnings": [
+    "'a-b/c' has the same id as 'a/b-c' (a-b-c) and was not merged.",
+    "'color/brand' has the same id as 'Color/Brand' (color-brand) and was not merged.",
+    "'space/1.5' has the same id as 'space/1/5' (space-1-5) and was not merged.",
+    "'--Brand-X' has the same id as '--brand-x' (brand-x) and was not merged."
+  ],
+  "findings": [
+    "id-collision: a-b-c | a-b/c | has the same id (a-b-c) as 'a/b-c' and was not merged",
+    "id-collision: color-brand | color/brand | has the same id (color-brand) as 'Color/Brand' and was not merged",
+    "id-collision: space-1-5 | space/1.5 | has the same id (space-1-5) as 'space/1/5' and was not merged",
+    "id-collision: brand-x | --Brand-X | has the same id (brand-x) as '--brand-x' and was not merged",
+    "dtcg-case: color-brand | Color/Brand | also defined as 'color/brand'",
+    "dtcg-case: brand-x | --brand-x | also defined as '--Brand-X'"
+  ],
+  "tokens": [
+    {
+      "id": "a-b-c",
+      "label": "a/b-c",
+      "path": [
+        "a",
+        "b-c"
+      ],
+      "modes": {
+        "light": {
+          "lit": "#111111"
+        },
+        "dark": {
+          "lit": "#eeeeee"
+        }
+      },
+      "type": "color",
+      "source": "light.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true,
+      "collisions": [
+        {
+          "label": "a-b/c",
+          "path": [
+            "a-b",
+            "c"
+          ],
+          "source": "light.json",
+          "mode": "light"
+        }
+      ]
+    },
+    {
+      "id": "color-brand",
+      "label": "Color/Brand",
+      "path": [
+        "Color",
+        "Brand"
+      ],
+      "modes": {
+        "light": {
+          "lit": "#0066ff"
+        },
+        "dark": {
+          "lit": "#4c9aff"
+        }
+      },
+      "type": "color",
+      "source": "light.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true,
+      "collisions": [
+        {
+          "label": "color/brand",
+          "path": [
+            "color",
+            "brand"
+          ],
+          "source": "light.json",
+          "mode": "light"
+        }
+      ],
+      "caseVariants": [
+        "color/brand"
+      ]
+    },
+    {
+      "id": "ok",
+      "label": "ok",
+      "path": [
+        "ok"
+      ],
+      "modes": {
+        "light": {
+          "lit": "#aabbcc"
+        },
+        "dark": {
+          "lit": "#112233"
+        }
+      },
+      "type": "color",
+      "source": "light.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true
+    },
+    {
+      "id": "space-1-5",
+      "label": "space/1/5",
+      "path": [
+        "space",
+        "1",
+        "5"
+      ],
+      "modes": {
+        "light": {
+          "lit": "6px"
+        }
+      },
+      "type": "dimension",
+      "source": "light.json",
+      "collection": "",
+      "format": "dtcg",
+      "declaredType": true,
+      "collisions": [
+        {
+          "label": "space/1.5",
+          "path": [
+            "space",
+            "1.5"
+          ],
+          "source": "light.json",
+          "mode": "light"
+        }
+      ]
+    },
+    {
+      "id": "brand-x",
+      "label": "--brand-x",
+      "path": [
+        "brand-x"
+      ],
+      "modes": {
+        "light": {
+          "lit": "#123456"
+        }
+      },
+      "type": "",
+      "source": "theme.css",
+      "collection": "",
+      "format": "css",
+      "collisions": [
+        {
+          "label": "--Brand-X",
+          "path": [
+            "Brand-X"
+          ],
+          "source": "theme.css",
+          "mode": "light"
+        }
+      ],
+      "caseVariants": [
+        "--Brand-X"
+      ]
+    },
+    {
+      "id": "other",
+      "label": "--other",
+      "path": [
+        "other"
+      ],
+      "modes": {
+        "light": {
+          "lit": "#abcdef"
+        }
+      },
+      "type": "",
+      "source": "theme.css",
+      "collection": "",
+      "format": "css"
+    }
+  ],
+  "usage": []
+}

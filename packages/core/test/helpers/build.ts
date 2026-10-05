@@ -19,7 +19,8 @@ export function withUsage(ds: Dataset, usage: Partial<UsageRecord>[]): Dataset {
   return ds;
 }
 
-// A token with literal values per mode, for cases the parsers cannot express (no format, odd labels).
+// A token with literal values per mode, for cases the parsers cannot express (no format, odd labels). It uses the
+// real addToken and ignores a collision, because tests that build colliding names on purpose rely on that.
 export function literal(ds: Dataset, label: string, light: string | null, dark?: string, extra: Parameters<typeof addToken>[4] = {}): Dataset {
   if (light !== null) addToken(ds, label, 'light', { lit: light }, extra);
   if (dark !== undefined) addToken(ds, label, 'dark', { lit: dark }, extra);

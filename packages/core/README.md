@@ -16,6 +16,8 @@ import { createDataset } from '@systemma/core';
 const ds = createDataset('app');   // { name, tokens: Map, usage: [] }
 ```
 
+A token keeps its authored `label` and `path` (the name as segments). The id is derived from the name, and different names can derive the same id (`a/b-c` and `a-b/c` both give `a-b-c`). The first token to hold an id is kept; a later token with a different name is **not merged**. It is recorded in `token.collisions`, the parser adds a warning, and the `id-collision` rule reports it. The same token described in two formats (a CSS `--color-brand` and a DTCG `color.brand`) is not a collision and merges, and so does the same name in two modes.
+
 A token has one value per mode (`light`, `dark`). A value is an alias (`{ ref }`), a literal (`{ lit }`) or a composite (`{ comp }`).
 
 ## Parsers
@@ -168,7 +170,7 @@ A pattern is matched against a token's authored label (without a leading `--`) a
 
 The `mode-gap` rule flags semantic colors that have no dark value once some color has one. `modeGapKinds: ['color', 'dimension']` widens it to other kinds. Each kind is checked on its own, only once a token of that kind has a dark value.
 
-`RULESETS` lists the rulesets and which are on by default. `RULE_META` has, for each of the 36 rules, its ruleset, title, description, default severity, source name, source URL and confidence.
+`RULESETS` lists the rulesets and which are on by default. `RULE_META` has, for each of the 37 rules, its ruleset, title, description, default severity, source name, source URL and confidence.
 
 ```ts
 import { RULE_META } from '@systemma/core';
@@ -228,7 +230,7 @@ In a browser, build the paths from `File.webkitRelativePath` without its first s
 
 These are known and are tracked, not hidden.
 
-- **Ids are lossy.** `a/b-c` and `a-b/c` both become `a-b-c` and merge into one token, and so do names that differ only by case (the second is recorded as a case variant). Some structure rules cannot see a collision that the id has already erased.
+- **Ids are derived, so names can collide.** Colliding tokens are reported but not kept, so the graph is missing the later one until you rename it. Some structure rules cannot see a pair that the id has already collapsed, such as a fused modifier next to its path form.
 - **The tiered naming rules assume one vocabulary.** The tiered ruleset, the contrast pair inference and the role checks look for `color-surface-*`, `color-fg-*`, `color-palette-*` and similar names. Classification no longer depends on it, because the generic profile makes no assumptions, but those rules only mean something on data that uses that vocabulary.
 - **Contrast pairs are inferred unless you declare them.** Without `contrastPairs`, only `color-fg-*` on the base surface and palette `-fg` on its background are checked. Border and focus contrast still use the base surface.
 - **The Figma parser is experimental.** It is written from Figma's documentation and has not been checked against a real export.

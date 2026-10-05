@@ -1,5 +1,5 @@
 import type { Dataset, Mode } from '../model/types.js';
-import { addToken } from './add-token.js';
+import { addToken, collisionWarning } from './add-token.js';
 import { toValue } from './dtcg-value.js';
 import type { ParseResult } from './types.js';
 
@@ -41,9 +41,11 @@ export function parseTokensJson(ds: Dataset, json: unknown, opts: JsonOptions): 
     if (!path.length || val === undefined) return;
     const { kind, v } = toValue(val, type);
     const d = node['$description'] || node['description'];
-    const t = addToken(ds, path.join('/'), opts.mode, v, {
-      type: kind, source: opts.source ?? '', format: 'dtcg', declared: !!kind, description: typeof d === 'string' ? d : '',
+    const label = path.join('/');
+    const t = addToken(ds, label, opts.mode, v, {
+      type: kind, source: opts.source ?? '', format: 'dtcg', declared: !!kind, description: typeof d === 'string' ? d : '', path: [...path],
     });
+    if (!t) { warnings.push(collisionWarning(ds, label)); return; }
     if (node['$deprecated']) t.deprecated = node['$deprecated'] as boolean | string;
     count++;
   };

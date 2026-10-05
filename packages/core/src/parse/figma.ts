@@ -1,7 +1,7 @@
 import { canon } from '../model/ids.js';
 import { unitRgbToHex } from '../model/color.js';
 import type { Dataset, Kind, Mode, TokenValue } from '../model/types.js';
-import { addToken } from './add-token.js';
+import { addToken, collisionWarning } from './add-token.js';
 import type { ParseResult } from './types.js';
 
 type Rec = Record<string, unknown>;
@@ -73,8 +73,9 @@ export function parseFigmaVariables(ds: Dataset, json: unknown): ParseResult {
 
       const t = addToken(ds, name, mode, value, {
         type: kind, source: 'Figma', format: 'figma', collection: colName,
-        description: typeof raw['description'] === 'string' ? raw['description'] : '',
+        description: typeof raw['description'] === 'string' ? raw['description'] : '', path: name.split('/'),
       });
+      if (!t) { warnings.push(collisionWarning(ds, name)); continue; }
       t.scopes = scopes;
       if (isRec(raw['codeSyntax'])) t.codeSyntax = raw['codeSyntax'] as Record<string, string>;
       count++;

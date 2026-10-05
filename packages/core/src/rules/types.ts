@@ -7,7 +7,7 @@ export const RULESET_IDS = ['integrity', 'dtcg', 'structure', 'scales', 'tiered'
 export type RulesetId = (typeof RULESET_IDS)[number];
 
 export const RULE_IDS = [
-  'broken-ref', 'cycle', 'broken-usage', 'mode-gap', 'unused',
+  'broken-ref', 'cycle', 'broken-usage', 'id-collision', 'mode-gap', 'unused',
   'dtcg-name', 'dtcg-case', 'dtcg-untyped', 'dtcg-composite', 'dtcg-units',
   'mixed-separator', 'state-position', 'state-vocab', 'hue-in-semantic', 'sibling-gap', 'size-style',
   'base-unit', 'scale-order', 'duplicate-semantic',

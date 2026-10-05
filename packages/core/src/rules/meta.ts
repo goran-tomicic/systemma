@@ -22,6 +22,9 @@ export const RULE_META: Readonly<Record<RuleId, RuleMeta>> = {
   'broken-ref': { set: 'integrity', title: 'Broken alias', description: 'An alias, a reference inside a composite or a var() points at a token that is not defined.', defaultSeverity: 'error', source: SRC.basic, confidence: 'high' },
   cycle: { set: 'integrity', title: 'Alias cycle', description: 'Aliases loop back on themselves and never resolve.', defaultSeverity: 'error', source: SRC.basic, confidence: 'high' },
   'broken-usage': { set: 'integrity', title: 'Undefined token in use', description: 'A usage record names a token that is not defined. A rename hint is added when one is known.', defaultSeverity: 'error', source: SRC.basic, confidence: 'high' },
+  // A collision drops the later token, so the graph does not hold everything the input said. Case-only
+  // collisions are reported here too, and again by dtcg-case, which is the DTCG-specific wording.
+  'id-collision': { set: 'integrity', title: 'Names collide', description: 'Two different names produce the same id, so only the first was kept and the other was not merged.', defaultSeverity: 'error', source: SRC.basic, confidence: 'high' },
   'mode-gap': { set: 'integrity', title: 'No dark value', description: 'Dark values exist elsewhere in the set, but not for this color token above the foundation tier.', defaultSeverity: 'warn', source: SRC.basic, confidence: 'high' },
   unused: { set: 'integrity', title: 'Unused semantic token', description: 'Nothing in the usage data or in other tokens refers to it. Partial usage data inflates this.', defaultSeverity: 'info', source: SRC.basic, confidence: 'high' },
 

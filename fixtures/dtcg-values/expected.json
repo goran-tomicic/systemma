@@ -1,10 +1,16 @@
 {
-  "count": 23,
-  "warnings": [],
+  "count": 22,
+  "warnings": [
+    "'Color/Brand' has the same id as 'color/brand' (color-brand) and was not merged."
+  ],
   "tokens": [
     {
       "id": "color-white",
       "label": "color/white",
+      "path": [
+        "color",
+        "white"
+      ],
       "modes": {
         "light": {
           "lit": "#FFFFFF"
@@ -19,6 +25,10 @@
     {
       "id": "color-brand",
       "label": "color/brand",
+      "path": [
+        "color",
+        "brand"
+      ],
       "modes": {
         "light": {
           "lit": "#0066ff"
@@ -29,6 +39,17 @@
       "collection": "",
       "format": "dtcg",
       "declaredType": true,
+      "collisions": [
+        {
+          "label": "Color/Brand",
+          "path": [
+            "Color",
+            "Brand"
+          ],
+          "source": "t.json",
+          "mode": "light"
+        }
+      ],
       "caseVariants": [
         "Color/Brand"
       ]
@@ -36,6 +57,11 @@
     {
       "id": "color-brand-hover",
       "label": "color/brand/hover",
+      "path": [
+        "color",
+        "brand",
+        "hover"
+      ],
       "modes": {
         "light": {
           "lit": "#0055dd"
@@ -51,6 +77,10 @@
     {
       "id": "color-overlay",
       "label": "color/overlay",
+      "path": [
+        "color",
+        "overlay"
+      ],
       "modes": {
         "light": {
           "lit": "rgba(0, 0, 0, 0.4)"
@@ -65,6 +95,10 @@
     {
       "id": "color-hexalpha",
       "label": "color/hexAlpha",
+      "path": [
+        "color",
+        "hexAlpha"
+      ],
       "modes": {
         "light": {
           "lit": "rgba(0, 0, 0, 0.5)"
@@ -79,6 +113,10 @@
     {
       "id": "color-accent",
       "label": "color/accent",
+      "path": [
+        "color",
+        "accent"
+      ],
       "modes": {
         "light": {
           "lit": "oklch(0.7 0.15 250)"
@@ -93,6 +131,10 @@
     {
       "id": "color-wide",
       "label": "color/wide",
+      "path": [
+        "color",
+        "wide"
+      ],
       "modes": {
         "light": {
           "lit": "color(display-p3 1 0 0)"
@@ -107,6 +149,10 @@
     {
       "id": "color-tint",
       "label": "color/tint",
+      "path": [
+        "color",
+        "tint"
+      ],
       "modes": {
         "light": {
           "lit": "hsl(210 50% 40% / 0.5)"
@@ -121,6 +167,10 @@
     {
       "id": "color-link",
       "label": "color/link",
+      "path": [
+        "color",
+        "link"
+      ],
       "modes": {
         "light": {
           "ref": "color-brand"
@@ -135,6 +185,10 @@
     {
       "id": "color-legacy",
       "label": "color/legacy",
+      "path": [
+        "color",
+        "legacy"
+      ],
       "modes": {
         "light": {
           "lit": "#999999"
@@ -150,6 +204,10 @@
     {
       "id": "color-shade",
       "label": "color/shade",
+      "path": [
+        "color",
+        "shade"
+      ],
       "modes": {
         "light": {
           "lit": "#222222"
@@ -164,6 +222,11 @@
     {
       "id": "color-shade-light",
       "label": "color/shade/light",
+      "path": [
+        "color",
+        "shade",
+        "light"
+      ],
       "modes": {
         "light": {
           "lit": "#444444"
@@ -178,6 +241,10 @@
     {
       "id": "color-ext",
       "label": "color/ext",
+      "path": [
+        "color",
+        "ext"
+      ],
       "modes": {
         "light": {
           "lit": "#abc"
@@ -192,6 +259,10 @@
     {
       "id": "color-pointer",
       "label": "color/pointer",
+      "path": [
+        "color",
+        "pointer"
+      ],
       "modes": {
         "light": {
           "ref": "color-white"
@@ -206,6 +277,10 @@
     {
       "id": "space-sm",
       "label": "space/sm",
+      "path": [
+        "space",
+        "sm"
+      ],
       "modes": {
         "light": {
           "lit": "4px"
@@ -220,6 +295,10 @@
     {
       "id": "space-md",
       "label": "space/md",
+      "path": [
+        "space",
+        "md"
+      ],
       "modes": {
         "light": {
           "lit": "8px"
@@ -234,6 +313,10 @@
     {
       "id": "space-lg",
       "label": "space/lg",
+      "path": [
+        "space",
+        "lg"
+      ],
       "modes": {
         "light": {
           "lit": "1.5rem"
@@ -248,6 +331,10 @@
     {
       "id": "motion-fast",
       "label": "motion/fast",
+      "path": [
+        "motion",
+        "fast"
+      ],
       "modes": {
         "light": {
           "lit": "150ms"
@@ -262,6 +349,10 @@
     {
       "id": "motion-ease",
       "label": "motion/ease",
+      "path": [
+        "motion",
+        "ease"
+      ],
       "modes": {
         "light": {
           "lit": "cubic-bezier(0.4, 0, 0.2, 1)"
@@ -276,6 +367,11 @@
     {
       "id": "font-family-base",
       "label": "font/family/base",
+      "path": [
+        "font",
+        "family",
+        "base"
+      ],
       "modes": {
         "light": {
           "lit": "Inter, \"Helvetica Neue\", sans-serif"
@@ -290,6 +386,11 @@
     {
       "id": "font-weight-bold",
       "label": "font/weight/bold",
+      "path": [
+        "font",
+        "weight",
+        "bold"
+      ],
       "modes": {
         "light": {
           "lit": "700"
@@ -304,6 +405,9 @@
     {
       "id": "untyped",
       "label": "untyped",
+      "path": [
+        "untyped"
+      ],
       "modes": {
         "light": {
           "lit": "#123456"

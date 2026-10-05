@@ -14,9 +14,21 @@ export type TokenValue =
   | { lit: string }       // literal; may embed var(--x)
   | { comp: unknown };    // composite (object or array); strings inside may be "{a.b}" refs
 
+// A different authored name that produced the same id as a token that was already there, and was not merged.
+export interface Collision {
+  label: string;
+  path: string[];
+  source: string;
+  mode: Mode;
+  collection?: string;
+}
+
 export interface Token {
   id: string;
   label: string;
+  // The authored name split into segments. The id is derived from it, and several different paths can
+  // derive the same id, which is why the path is kept.
+  path: string[];
   modes: Partial<Record<Mode, TokenValue>>;
   type: Kind | '';        // '' means infer from the value
   source: string;
@@ -28,6 +40,7 @@ export interface Token {
   codeSyntax?: Record<string, string>;
   deprecated?: boolean | string;
   caseVariants?: string[];
+  collisions?: Collision[];
 }
 
 export interface UsageRecord {

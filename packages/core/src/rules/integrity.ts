@@ -35,6 +35,23 @@ const brokenUsage: RuleFn = ({ ds, add, label }) => {
   }
 };
 
+// The first token holding an id is kept, so the finding sits on it and names what was left out. The same
+// name in two Figma collections is reported with the collections, since the labels are equal.
+const idCollision: RuleFn = ({ tokens, add }) => {
+  for (const t of tokens) {
+    const seen = new Set<string>();
+    for (const c of t.collisions ?? []) {
+      const key = c.label + '|' + (c.collection ?? '');
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const message = c.label === t.label
+        ? `'${c.label}' in collection '${c.collection ?? ''}' has the same id (${t.id}) as the one in '${t.collection ?? ''}' and was not merged`
+        : `has the same id (${t.id}) as '${t.label}' and was not merged`;
+      add('id-collision', 'error', t.id, c.label, message);
+    }
+  }
+};
+
 // A kind is only checked once some token of that kind has a dark value; a light-only set is not "missing"
 // them. This is decided per kind, so widening the list to dimensions does not flag every dimension in a
 // system where only colors change between modes.
@@ -71,6 +88,7 @@ export const INTEGRITY_RULES: Partial<Record<RuleId, RuleFn>> = {
   'broken-ref': brokenRef,
   cycle,
   'broken-usage': brokenUsage,
+  'id-collision': idCollision,
   'mode-gap': modeGap,
   unused,
 };

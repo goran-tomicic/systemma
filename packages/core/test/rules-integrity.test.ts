@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { analyze, createDataset } from '../src/index.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 import { findings, fromCss, fromJson, literal, subjects, withUsage } from './helpers/build.js';
 
 describe('broken-ref', () => {

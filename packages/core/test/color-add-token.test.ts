@@ -43,14 +43,21 @@ describe('unitRgbToHex', () => {
 });
 
 describe('addToken', () => {
-  it('creates a token keyed by canonical id and keeps the authored label', () => {
+  it('creates a token keyed by canonical id, keeping the authored label and path', () => {
     const ds = createDataset();
     const t = addToken(ds, 'Color/Brand', 'light', { lit: '#fff' }, { type: 'color', source: 'a.json', format: 'dtcg', declared: true, description: 'Brand' });
     expect(ds.tokens.get('color-brand')).toBe(t);
     expect(t).toMatchObject({
-      id: 'color-brand', label: 'Color/Brand', type: 'color', source: 'a.json', format: 'dtcg', declaredType: true,
-      description: 'Brand', collection: '', modes: { light: { lit: '#fff' } },
+      id: 'color-brand', label: 'Color/Brand', path: ['Color', 'Brand'], type: 'color', source: 'a.json', format: 'dtcg',
+      declaredType: true, description: 'Brand', collection: '', modes: { light: { lit: '#fff' } },
     });
+  });
+
+  it('derives the path from the label, and takes one when it is given', () => {
+    const ds = createDataset();
+    expect(addToken(ds, '--space-4', 'light', { lit: '4px' })?.path).toEqual(['space-4']);
+    expect(addToken(ds, 'a/b/c', 'light', { lit: '1' })?.path).toEqual(['a', 'b', 'c']);
+    expect(addToken(ds, 'x.y', 'light', { lit: '1' }, { path: ['x', 'y'] })?.path).toEqual(['x', 'y']);
   });
 
   it('adds a second mode to the same token', () => {
@@ -59,37 +66,81 @@ describe('addToken', () => {
     addToken(ds, 'a', 'dark', { lit: '2' });
     expect(ds.tokens.size).toBe(1);
     expect(ds.tokens.get('a')?.modes).toEqual({ light: { lit: '1' }, dark: { lit: '2' } });
+    expect(ds.tokens.get('a')?.collisions).toBeUndefined();
   });
 
-  it('records labels that differ only by case, once', () => {
+  it('lets the same name overwrite its own value for a mode', () => {
+    const ds = createDataset();
+    addToken(ds, 'a', 'light', { lit: '1' });
+    addToken(ds, 'a', 'light', { lit: '2' });
+    expect(ds.tokens.get('a')?.modes.light).toEqual({ lit: '2' });
+  });
+
+  it('keeps the first token and records a different name that derives the same id', () => {
+    const ds = createDataset();
+    const first = addToken(ds, 'a/b-c', 'light', { lit: '1' }, { source: 'one.json', format: 'dtcg' });
+    const second = addToken(ds, 'a-b/c', 'light', { lit: '2' }, { source: 'two.json', format: 'dtcg' });
+    expect(second).toBeNull();
+    expect(ds.tokens.size).toBe(1);
+    expect(first?.modes.light).toEqual({ lit: '1' });
+    expect(first?.collisions).toEqual([{ label: 'a-b/c', path: ['a-b', 'c'], source: 'two.json', mode: 'light' }]);
+    expect(first?.caseVariants).toBeUndefined();
+  });
+
+  it('does not let a collision change the kept token in any other way', () => {
+    const ds = createDataset();
+    addToken(ds, 'a/b-c', 'light', { lit: '1' }, { format: 'dtcg', type: 'color', description: 'first', collection: 'One' });
+    addToken(ds, 'a-b/c', 'dark', { lit: '2' }, { format: 'dtcg', type: 'number', description: 'second', declared: true });
+    expect(ds.tokens.get('a-b-c')).toMatchObject({ type: 'color', description: 'first', modes: { light: { lit: '1' } } });
+    expect(ds.tokens.get('a-b-c')?.modes.dark).toBeUndefined();
+    expect(ds.tokens.get('a-b-c')?.declaredType).toBeUndefined();
+  });
+
+  it('records a name that differs only by case as a collision and a case variant, once each per mode', () => {
     const ds = createDataset();
     addToken(ds, 'Color/Brand', 'light', { lit: '1' });
     addToken(ds, 'color/brand', 'light', { lit: '2' });
     addToken(ds, 'color/brand', 'dark', { lit: '3' });
     const t = ds.tokens.get('color-brand');
     expect(t?.caseVariants).toEqual(['color/brand']);
-    expect(t?.modes.light).toEqual({ lit: '2' });
+    expect(t?.collisions?.map((c) => [c.label, c.mode])).toEqual([['color/brand', 'light'], ['color/brand', 'dark']]);
+    expect(t?.modes).toEqual({ light: { lit: '1' } });
   });
 
-  // Pins today's behavior: only case-only differences are recorded; other collisions merge silently.
-  it('merges other collisions without recording them', () => {
+  it('merges the same token described in two formats, since that is meant to combine', () => {
     const ds = createDataset();
-    addToken(ds, 'a/b-c', 'light', { lit: '1' });
-    addToken(ds, 'a-b/c', 'light', { lit: '2' });
-    expect(ds.tokens.size).toBe(1);
-    expect(ds.tokens.get('a-b-c')?.caseVariants).toBeUndefined();
+    addToken(ds, 'color/brand', 'light', { lit: '#fff' }, { format: 'dtcg' });
+    const css = addToken(ds, '--color-brand', 'dark', { lit: '#000' }, { format: 'css' });
+    expect(css).not.toBeNull();
+    expect(ds.tokens.get('color-brand')?.modes).toEqual({ light: { lit: '#fff' }, dark: { lit: '#000' } });
+    expect(ds.tokens.get('color-brand')?.collisions).toBeUndefined();
+  });
+
+  it('treats the same name in two collections as two tokens', () => {
+    const ds = createDataset();
+    addToken(ds, 'color/bg', 'light', { lit: '#fff' }, { format: 'figma', collection: 'Semantic' });
+    const other = addToken(ds, 'color/bg', 'light', { lit: '#eee' }, { format: 'figma', collection: 'Legacy' });
+    expect(other).toBeNull();
+    expect(ds.tokens.get('color-bg')?.modes.light).toEqual({ lit: '#fff' });
+    expect(ds.tokens.get('color-bg')?.collisions).toEqual([{ label: 'color/bg', path: ['color', 'bg'], source: '', mode: 'light', collection: 'Legacy' }]);
+  });
+
+  it('keeps the same name in the same collection as one token, whatever the mode', () => {
+    const ds = createDataset();
+    addToken(ds, 'color/bg', 'light', { lit: '#fff' }, { format: 'figma', collection: 'Semantic' });
+    expect(addToken(ds, 'color/bg', 'dark', { lit: '#000' }, { format: 'figma', collection: 'Semantic' })).not.toBeNull();
   });
 
   it('keeps the first format, type and collection, but takes the latest description', () => {
     const ds = createDataset();
     addToken(ds, 'a', 'light', { lit: '1' }, { format: 'css', type: 'color', collection: 'One', description: 'first' });
-    const t = addToken(ds, 'a', 'dark', { lit: '2' }, { format: 'figma', type: 'number', collection: 'Two', description: 'second' });
+    const t = addToken(ds, 'a', 'dark', { lit: '2' }, { format: 'css', type: 'number', description: 'second' });
     expect(t).toMatchObject({ format: 'css', type: 'color', collection: 'One', description: 'second' });
   });
 
   it('does not clear a description when none is given', () => {
     const ds = createDataset();
     addToken(ds, 'a', 'light', { lit: '1' }, { description: 'kept' });
-    expect(addToken(ds, 'a', 'dark', { lit: '2' }).description).toBe('kept');
+    expect(addToken(ds, 'a', 'dark', { lit: '2' })?.description).toBe('kept');
   });
 });

@@ -1,0 +1,5 @@
+{
+  "ok": { "$type": "color", "$value": "#112233" },
+  "Color": { "Brand": { "$type": "color", "$value": "#4c9aff" } },
+  "a": { "b-c": { "$type": "color", "$value": "#eeeeee" } }
+}

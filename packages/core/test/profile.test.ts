@@ -4,7 +4,7 @@ import {
 } from '../src/index.js';
 import type { Dataset, Profile, ProfileConfig, TokenValue } from '../src/index.js';
 import { followsTieredScheme } from '../src/resolve/profile.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 import { fixturePath, readFixture, toGolden } from './helpers/golden.js';
 import { fromCss } from './helpers/build.js';
 

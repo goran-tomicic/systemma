@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createDataset } from '../src/index.js';
 import type { Dataset } from '../src/index.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 import { findings, literal } from './helpers/build.js';
 
 const build = (rows: [string, string, string?][]): Dataset => {

@@ -5,6 +5,11 @@
     {
       "id": "color-gray-900",
       "label": "color/gray/900",
+      "path": [
+        "color",
+        "gray",
+        "900"
+      ],
       "modes": {
         "light": {
           "lit": "#111827"
@@ -21,6 +26,10 @@
     {
       "id": "color-white",
       "label": "color/white",
+      "path": [
+        "color",
+        "white"
+      ],
       "modes": {
         "light": {
           "lit": "#FFFFFF"
@@ -35,6 +44,11 @@
     {
       "id": "color-surface-base",
       "label": "color/surface/base",
+      "path": [
+        "color",
+        "surface",
+        "base"
+      ],
       "modes": {
         "light": {
           "ref": "color-white"
@@ -59,6 +73,11 @@
     {
       "id": "color-fg-base",
       "label": "color/fg/base",
+      "path": [
+        "color",
+        "fg",
+        "base"
+      ],
       "modes": {
         "light": {
           "ref": "color-gray-900"
@@ -78,6 +97,10 @@
     {
       "id": "color-overlay",
       "label": "color/overlay",
+      "path": [
+        "color",
+        "overlay"
+      ],
       "modes": {
         "light": {
           "lit": "rgba(0, 0, 0, 0.4)"
@@ -95,6 +118,10 @@
     {
       "id": "space-4",
       "label": "space/4",
+      "path": [
+        "space",
+        "4"
+      ],
       "modes": {
         "light": {
           "lit": "16px"
@@ -111,6 +138,11 @@
     {
       "id": "font-weight-bold",
       "label": "font/weight/bold",
+      "path": [
+        "font",
+        "weight",
+        "bold"
+      ],
       "modes": {
         "light": {
           "lit": "700"
@@ -127,6 +159,10 @@
     {
       "id": "opacity-disabled",
       "label": "opacity/disabled",
+      "path": [
+        "opacity",
+        "disabled"
+      ],
       "modes": {
         "light": {
           "lit": "0.4"
@@ -143,6 +179,11 @@
     {
       "id": "font-family-base",
       "label": "font/family/base",
+      "path": [
+        "font",
+        "family",
+        "base"
+      ],
       "modes": {
         "light": {
           "lit": "Inter"
@@ -159,6 +200,10 @@
     {
       "id": "copy-cta",
       "label": "copy/cta",
+      "path": [
+        "copy",
+        "cta"
+      ],
       "modes": {
         "light": {
           "lit": "Get started"
@@ -175,6 +220,10 @@
     {
       "id": "flag-compact",
       "label": "flag/compact",
+      "path": [
+        "flag",
+        "compact"
+      ],
       "modes": {
         "light": {
           "lit": "true"
@@ -189,6 +238,10 @@
     {
       "id": "color-accent",
       "label": "Color/Accent",
+      "path": [
+        "Color",
+        "Accent"
+      ],
       "modes": {
         "light": {
           "lit": "#FF6600"
@@ -206,6 +259,10 @@
     {
       "id": "color-orphan",
       "label": "color/orphan",
+      "path": [
+        "color",
+        "orphan"
+      ],
       "modes": {
         "light": {
           "lit": "#000000"

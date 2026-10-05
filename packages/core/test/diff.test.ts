@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createDataset, diff } from '../src/index.js';
 import type { Dataset, Mode, TokenValue } from '../src/index.js';
 import { sameValue } from '../src/analyze/diff.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 
 type Spec = Record<string, Partial<Record<Mode, TokenValue>>>;
 const lit = (s: string): TokenValue => ({ lit: s });

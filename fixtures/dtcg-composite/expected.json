@@ -5,6 +5,10 @@
     {
       "id": "typography-body",
       "label": "typography/body",
+      "path": [
+        "typography",
+        "body"
+      ],
       "modes": {
         "light": {
           "comp": {
@@ -25,6 +29,10 @@
     {
       "id": "typography-heading",
       "label": "typography/heading",
+      "path": [
+        "typography",
+        "heading"
+      ],
       "modes": {
         "light": {
           "comp": {
@@ -44,6 +52,10 @@
     {
       "id": "shadow-card",
       "label": "shadow/card",
+      "path": [
+        "shadow",
+        "card"
+      ],
       "modes": {
         "light": {
           "comp": {
@@ -64,6 +76,10 @@
     {
       "id": "shadow-layered",
       "label": "shadow/layered",
+      "path": [
+        "shadow",
+        "layered"
+      ],
       "modes": {
         "light": {
           "comp": [
@@ -94,6 +110,10 @@
     {
       "id": "border-default",
       "label": "border/default",
+      "path": [
+        "border",
+        "default"
+      ],
       "modes": {
         "light": {
           "comp": {
@@ -112,6 +132,10 @@
     {
       "id": "transition-fade",
       "label": "transition/fade",
+      "path": [
+        "transition",
+        "fade"
+      ],
       "modes": {
         "light": {
           "comp": {
@@ -130,6 +154,10 @@
     {
       "id": "stroke-dashed",
       "label": "stroke/dashed",
+      "path": [
+        "stroke",
+        "dashed"
+      ],
       "modes": {
         "light": {
           "comp": {
@@ -150,6 +178,10 @@
     {
       "id": "gradient-fade",
       "label": "gradient/fade",
+      "path": [
+        "gradient",
+        "fade"
+      ],
       "modes": {
         "light": {
           "comp": [
@@ -173,6 +205,10 @@
     {
       "id": "inferred-shadow",
       "label": "inferred/shadow",
+      "path": [
+        "inferred",
+        "shadow"
+      ],
       "modes": {
         "light": {
           "comp": [

@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { RULE_IDS, RULE_META, RULESET_IDS, RULESETS, createDataset } from '../src/index.js';
 import type { AuditOptions, Dataset, RuleId, RulesetId } from '../src/index.js';
 import { activeRulesets, severityFor } from '../src/rules/options.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 
 describe('ids', () => {
-  it('lists 36 unique rules and 9 unique rulesets', () => {
-    expect(RULE_IDS).toHaveLength(36);
-    expect(new Set(RULE_IDS).size).toBe(36);
+  it('lists 37 unique rules and 9 unique rulesets', () => {
+    expect(RULE_IDS).toHaveLength(37);
+    expect(new Set(RULE_IDS).size).toBe(37);
     expect(RULESET_IDS).toHaveLength(9);
     expect(new Set(RULESET_IDS).size).toBe(9);
   });
@@ -75,14 +75,14 @@ describe('rule metadata', () => {
     for (const id of high) expect(['integrity', 'dtcg', 'tiered', 'wcag', 'wcag-aaa']).toContain(RULE_META[id].set);
   });
 
-  it('pins the severity of each rule as the prototype emits it', () => {
+  it('pins the default severity of each rule', () => {
     const bySeverity = (sev: string): string[] => entries.filter(([, m]) => m.defaultSeverity === sev).map(([id]) => id).sort();
-    expect(bySeverity('error')).toEqual(['broken-ref', 'broken-usage', 'cycle', 'dtcg-composite', 'dtcg-name']);
+    expect(bySeverity('error')).toEqual(['broken-ref', 'broken-usage', 'cycle', 'dtcg-composite', 'dtcg-name', 'id-collision']);
     expect(bySeverity('info')).toEqual([
       'base-unit', 'contrast-aaa', 'contrast-nontext', 'desc-intent', 'desc-missing', 'duplicate-semantic',
       'm3-motion-names', 'm3-type-role', 'state-position', 'unused',
     ]);
-    expect(bySeverity('warn')).toHaveLength(36 - 5 - 10);
+    expect(bySeverity('warn')).toHaveLength(37 - 6 - 10);
   });
 
   it('shares one source object across rules that cite the same page', () => {

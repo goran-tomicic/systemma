@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { analyze, createDataset } from '../src/index.js';
 import type { Dataset, Finding, Profile, TokenValue } from '../src/index.js';
 import { indexFindings } from '../src/analyze/analyze.js';
-import { addToken } from '../src/parse/add-token.js';
+import { addToken } from './helpers/add.js';
 
 const lit = (s: string): TokenValue => ({ lit: s });
 const ref = (s: string): TokenValue => ({ ref: s });
