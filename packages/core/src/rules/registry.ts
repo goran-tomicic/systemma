@@ -1,7 +1,9 @@
 import type { RuleFn } from './context.js';
+import { DESCRIPTION_RULES } from './descriptions.js';
 import { DTCG_RULES } from './dtcg.js';
 import { FORTIS_RULES } from './fortis.js';
 import { INTEGRITY_RULES } from './integrity.js';
+import { M3_RULES } from './m3.js';
 import { SCALES_RULES } from './scales.js';
 import { STRUCTURE_RULES } from './structure.js';
 import { WCAG_RULES } from './wcag.js';
@@ -15,4 +17,6 @@ export const RULE_FUNCTIONS: Readonly<Partial<Record<RuleId, RuleFn>>> = {
   ...SCALES_RULES,
   ...FORTIS_RULES,
   ...WCAG_RULES,
+  ...DESCRIPTION_RULES,
+  ...M3_RULES,
 };

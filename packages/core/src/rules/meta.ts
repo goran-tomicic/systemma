@@ -13,7 +13,8 @@ const SRC = {
   wcagEnhanced: { name: 'WCAG 2.2 SC 1.4.6 Contrast (Enhanced)', url: 'https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html' },
   figmaScope: { name: 'Figma Plugin API, VariableScope', url: 'https://developers.figma.com/docs/plugins/api/VariableScope' },
   m3Type: { name: 'Material 3 Typography (Compose Multiplatform API reference)', url: 'https://kotlinlang.org/api/compose-multiplatform/material3/androidx.compose.material3/-typography/' },
-  m3Easing: { name: 'Material 3 easing tokens (Flutter API reference)', url: 'https://api.flutter.dev/flutter/material/Easing-class.html' },
+  // The duration steps are on the sibling Durations page (https://api.flutter.dev/flutter/material/Durations-class.html), also opened.
+  m3Motion: { name: 'Material 3 easing and duration tokens (Flutter API reference)', url: 'https://api.flutter.dev/flutter/material/Easing-class.html' },
 } as const;
 
 export const RULE_META: Readonly<Record<RuleId, RuleMeta>> = {
@@ -70,5 +71,5 @@ export const RULE_META: Readonly<Record<RuleId, RuleMeta>> = {
 
   // m3
   'm3-type-role': { set: 'm3', title: 'Type style without a role name', description: 'Material names type styles by role: display, headline, title, body, label.', defaultSeverity: 'info', source: SRC.m3Type, confidence: 'medium' },
-  'm3-motion-names': { set: 'm3', title: 'Motion name off-vocabulary', description: 'Easing names in Material are standard or emphasized, with accelerate and decelerate forms. The Flutter page also lists short, medium and long duration steps.', defaultSeverity: 'info', source: SRC.m3Easing, confidence: 'medium' },
+  'm3-motion-names': { set: 'm3', title: 'Motion name off-vocabulary', description: 'A duration is not a short, medium or long step, or an easing is not standard, emphasized, accelerate, decelerate or linear.', defaultSeverity: 'info', source: SRC.m3Motion, confidence: 'medium' },
 };
