@@ -5,8 +5,8 @@ const DOM_GLOBALS = ['window', 'document', 'navigator', 'localStorage', 'session
   .map((name) => ({ name, message: 'packages/core must not depend on DOM or Node globals. Use FileLike for file access.' }));
 
 export default tseslint.config(
-  // Fixtures are sample input for the parsers and the scan, not code to lint.
-  { ignores: ['**/dist/**', '**/node_modules/**', 'prototype/**', 'fixtures/**'] },
+  // Fixtures are sample input for the parsers and the scan, and docs/ holds private working files, not code to lint.
+  { ignores: ['**/dist/**', '**/node_modules/**', 'prototype/**', 'fixtures/**', 'docs/**'] },
   ...tseslint.configs.recommended,
   {
     files: ['packages/core/src/**/*.ts'],

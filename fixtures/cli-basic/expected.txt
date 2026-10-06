@@ -1,0 +1,17 @@
+tokens/light.json
+  error  broken-ref    color/border/base  light: references color-nope, which isn't defined
+  error  contrast      color/fg/muted  on color/surface/base · 2.81:1 (light)
+  warn   mode-gap      color/fg/base  has a light value but no dark value
+  warn   mode-gap      color/border/base  has a light value but no dark value
+  warn   dtcg-untyped  mystery  no $type on the token or a parent group
+  info   unused        color/fg/base  not referenced by usage data or other tokens
+  info   unused        color/border/base  not referenced by usage data or other tokens
+  info   base-unit     space/13  13px is not a multiple of the 4px base unit
+
+(not tied to a file)
+  error  broken-usage  Button  uses color-fg-missing (color), which isn't defined
+
+styles/theme.css
+  warn   mode-gap      --brand-hover  has a light value but no dark value
+
+3 errors, 4 warnings, 3 info across 14 tokens in 4 files.

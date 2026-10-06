@@ -21,6 +21,16 @@ importers:
         specifier: ^8
         version: 8.71.0(eslint@9.39.5)(typescript@5.9.3)
 
+  packages/cli:
+    dependencies:
+      '@systemma/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      vitest:
+        specifier: ^3
+        version: 3.2.7(@types/node@26.6.4)(jsdom@26.1.0)
+
   packages/core:
     devDependencies:
       jsdom:

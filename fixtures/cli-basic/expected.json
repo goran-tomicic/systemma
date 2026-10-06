@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "summary": {
+    "files": 4,
+    "tokens": 14,
+    "errors": 3,
+    "warnings": 4,
+    "infos": 3
+  },
+  "failOn": "error",
+  "findings": [
+    {
+      "rule": "broken-ref",
+      "set": "integrity",
+      "severity": "error",
+      "id": "color-border-base",
+      "subject": "color/border/base",
+      "message": "light: references color-nope, which isn't defined",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "broken-usage",
+      "set": "integrity",
+      "severity": "error",
+      "id": null,
+      "subject": "Button",
+      "message": "uses color-fg-missing (color), which isn't defined",
+      "source": null
+    },
+    {
+      "rule": "contrast",
+      "set": "wcag",
+      "severity": "error",
+      "id": "color-fg-muted",
+      "subject": "color/fg/muted",
+      "message": "on color/surface/base · 2.81:1 (light)",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "mode-gap",
+      "set": "integrity",
+      "severity": "warn",
+      "id": "brand-hover",
+      "subject": "--brand-hover",
+      "message": "has a light value but no dark value",
+      "source": "styles/theme.css"
+    },
+    {
+      "rule": "mode-gap",
+      "set": "integrity",
+      "severity": "warn",
+      "id": "color-fg-base",
+      "subject": "color/fg/base",
+      "message": "has a light value but no dark value",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "mode-gap",
+      "set": "integrity",
+      "severity": "warn",
+      "id": "color-border-base",
+      "subject": "color/border/base",
+      "message": "has a light value but no dark value",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "dtcg-untyped",
+      "set": "dtcg",
+      "severity": "warn",
+      "id": "mystery",
+      "subject": "mystery",
+      "message": "no $type on the token or a parent group",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "unused",
+      "set": "integrity",
+      "severity": "info",
+      "id": "color-fg-base",
+      "subject": "color/fg/base",
+      "message": "not referenced by usage data or other tokens",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "unused",
+      "set": "integrity",
+      "severity": "info",
+      "id": "color-border-base",
+      "subject": "color/border/base",
+      "message": "not referenced by usage data or other tokens",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "base-unit",
+      "set": "scales",
+      "severity": "info",
+      "id": "space-13",
+      "subject": "space/13",
+      "message": "13px is not a multiple of the 4px base unit",
+      "source": "tokens/light.json"
+    }
+  ],
+  "inputWarnings": [
+    "tokens/broken.json: skipped. Invalid JSON: Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "color": {
+    "$type": "color",
+    "white": { "$value": "#ffffff" },
+    "black": { "$value": "#000000" },
+    "surface": { "base": { "$value": "{color.white}", "$description": "Page background" } },
+    "fg": {
+      "base": { "$value": "{color.black}", "$description": "Body text" },
+      "muted": { "$value": "#9a9a9a", "$description": "Secondary text" }
+    },
+    "border": { "base": { "$value": "{color.nope}", "$description": "Default border" } }
+  },
+  "space": {
+    "$type": "dimension",
+    "4": { "$value": "4px" },
+    "8": { "$value": "8px" },
+    "12": { "$value": "12px" },
+    "16": { "$value": "16px" },
+    "13": { "$value": "13px" }
+  },
+  "mystery": { "$value": "#123456" }
+}

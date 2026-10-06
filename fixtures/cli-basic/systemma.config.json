@@ -1,0 +1,8 @@
+{
+  "sources": ["tokens", "styles", "usage.json"],
+  "rules": {
+    "desc-missing": "off",
+    "contrast": { "severity": "error" }
+  },
+  "ignore": { "unused": ["brand*"] }
+}
