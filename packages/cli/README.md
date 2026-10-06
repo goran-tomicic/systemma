@@ -2,7 +2,7 @@
 
 Audits design tokens from the command line, using [`@systemma/core`](../core/README.md). It reads token files, runs the rules and prints a report, with an exit code you can fail a build on.
 
-> **Status.** Not published; the package name is a placeholder. This first version checks and reports. It does not write files, fix anything, or keep a baseline of accepted findings yet.
+> **Status.** Not published; the package name is a placeholder. It checks and reports, and can record today's findings as a baseline. It does not fix anything.
 
 ## Usage
 
@@ -25,6 +25,8 @@ All files go into one dataset, in path order. The first file to define a name ke
 | Option | |
 | --- | --- |
 | `--usage <path>` | A directory or file of code to scan for where tokens are used. Repeatable. See below |
+| `--baseline <file>` | Leave out the findings recorded in this file. See below |
+| `--update-baseline` | Record every current finding in the baseline file, then exit 0 |
 | `-c, --config <file>` | Config file. Default: `./systemma.config.json`, if it exists |
 | `-f, --format <format>` | `text` (default) or `json` |
 | `--fail-on <level>` | `error` (default) or `warn` |
@@ -55,6 +57,29 @@ systemma check tokens --usage src
 - **It adds to usage from a usage JSON file** you also pass, rather than replacing it.
 - **The property is read from the nearest declaration.** That is exact for CSS and approximate for JavaScript object literals.
 - If a scan finds no use of any token, that is reported as a warning, since it usually means the wrong directory.
+
+## Adopting it on an existing project: the baseline
+
+A project with a long history will have findings you cannot fix today. Record them once, then fail only on new ones:
+
+```
+systemma check tokens --baseline systemma.baseline.json --update-baseline   # record what is there now
+systemma check tokens --baseline systemma.baseline.json                     # from now on, only new findings
+```
+
+Commit the baseline file. The first command writes every current finding and exits 0. The second hides the findings the file lists, from the report and from the exit code, and says how many it accepted.
+
+```
+No new findings across 14 tokens in 4 files.
+10 findings accepted by the baseline (systemma.baseline.json).
+```
+
+- **What counts as the same finding.** The rule, the token it is about (its id, or the subject for a finding that is not about a token) and the message. Severity and source file are not part of it, so recoloring a rule or moving a token between files does not bring old findings back. A finding whose message changes, such as a contrast ratio that moved, is reported as new, because something changed.
+- **Repeats.** The file counts identical findings. If a finding occurred once when you recorded it and now occurs twice, the second is new.
+- **Fixed problems.** An entry that no longer matches anything is reported as stale and never fails a run. `--update-baseline` rewrites the file and removes it.
+- **`--update-baseline` replaces the file** with everything found now, including new problems. Review the diff before you commit it: that is how accepting a problem becomes a visible decision.
+- **The file is readable and sorted**, so a change to it can be reviewed in a pull request.
+- **The path** can be set once as `baseline` in the config file (relative to that file). A missing baseline file is an error that says how to create it, so a typo in the path cannot silently disable the check.
 
 ## The text report
 
@@ -94,11 +119,12 @@ tokens/light.json
       "source": null
     }
   ],
-  "inputWarnings": ["tokens/broken.json: skipped. Invalid JSON: ..."]
+  "inputWarnings": ["tokens/broken.json: skipped. Invalid JSON: ..."],
+  "baseline": null
 }
 ```
 
-`files` counts the token files read, and `usages` the use records, from usage JSON files and `--usage` together. `id` is the token's canonical id and `subject` its authored name, or the subject of a finding that is not about a token. `source` is the file the token came from. Findings are ordered most severe first; within a severity they keep the order the rules raised them in. Input warnings are in the JSON, not on stderr.
+`files` counts the token files read, and `usages` the use records, from usage JSON files and `--usage` together. `id` is the token's canonical id and `subject` its authored name, or the subject of a finding that is not about a token. `source` is the file the token came from. Findings are ordered most severe first; within a severity they keep the order the rules raised them in. Input warnings are in the JSON, not on stderr. `baseline` is `null` unless a baseline is in use, and then `{ "file", "accepted", "stale" }`; accepted findings are not in `findings` or the summary.
 
 ## The config file
 
@@ -106,6 +132,7 @@ tokens/light.json
 {
   "sources": ["tokens/**/*.json", "src/**/*.css"],
   "usage": ["src"],
+  "baseline": "systemma.baseline.json",
   "profile": "auto",
   "rulesets": { "wcag-aaa": true, "m3": false },
   "rules": {
@@ -127,6 +154,7 @@ tokens/light.json
 | --- | --- |
 | `sources` | Paths, directories or globs, relative to the config file. Paths on the command line replace it |
 | `usage` | Directories or files to scan for token usage, relative to the config file. `--usage` on the command line replaces it |
+| `baseline` | Where accepted findings are recorded, relative to the config file. `--baseline` on the command line replaces it |
 | `profile` | `"auto"` (default), `"tiered"`, `"generic"`, or a profile object (`id`, `tiers`, `groupSegment`). See the core README |
 | `rulesets` | `true` or `false` per ruleset, applied on top of the defaults |
 | `rules` | Per rule: `"off"`, `"error"`, `"warn"` or `"info"`, or `{ "severity", "pairs" }`. Only `contrast` takes `pairs` |
@@ -134,7 +162,7 @@ tokens/light.json
 | `modeGapKinds` | Which kinds of token the `mode-gap` rule expects to have a dark value. Default `["color"]` |
 | `stripSets` | `true` for Tokens Studio files, whose top-level keys are set names |
 
-Declared `pairs` replace the contrast pairs the rules would infer from token names. The config is checked strictly: an unknown option, a wrong type or an unknown rule is an error that names it, and every problem is listed at once. `baseline` is reserved and rejected for now.
+Declared `pairs` replace the contrast pairs the rules would infer from token names. The config is checked strictly: an unknown option, a wrong type or an unknown rule is an error that names it, and every problem is listed at once.
 
 ## Using it in CI
 
@@ -142,4 +170,4 @@ Declared `pairs` replace the contrast pairs the rules would infer from token nam
 systemma check tokens --format json > systemma-report.json
 ```
 
-The exit code does the gating, so no other step is needed: `--fail-on warn` for a strict check, the default to fail on errors only.
+The exit code does the gating, so no other step is needed: `--fail-on warn` for a strict check, the default to fail on errors only. With a committed baseline, a pull request fails only for findings it introduces.

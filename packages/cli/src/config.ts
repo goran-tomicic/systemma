@@ -8,12 +8,14 @@ export interface Config {
   sources: string[];
   // Directories or files to scan for token usage.
   usage: string[];
+  // Where accepted findings are recorded, as written in the config (relative to the config file).
+  baseline?: string;
   // Tokens Studio files nest tokens under set names; this drops them.
   stripSets: boolean;
   audit: AnalyzeOptions;
 }
 
-const TOP_LEVEL = ['sources', 'usage', 'profile', 'rulesets', 'rules', 'ignore', 'modeGapKinds', 'stripSets', 'baseline'] as const;
+const TOP_LEVEL = ['sources', 'usage', 'baseline', 'profile', 'rulesets', 'rules', 'ignore', 'modeGapKinds', 'stripSets'] as const;
 const SEVERITIES = ['error', 'warn', 'info'] as const;
 const TIERS = ['foundation', 'palette', 'common'] as const;
 
@@ -31,15 +33,18 @@ export function parseConfig(json: unknown): Config {
   if (!isRec(json)) throw new InputError(['config: expected a JSON object.']);
 
   for (const key of Object.keys(json)) {
-    if (!(TOP_LEVEL as readonly string[]).includes(key)) fail(key, `unknown option. Known options: ${TOP_LEVEL.filter((k) => k !== 'baseline').join(', ')}.`);
+    if (!(TOP_LEVEL as readonly string[]).includes(key)) fail(key, `unknown option. Known options: ${TOP_LEVEL.join(', ')}.`);
   }
-  if ('baseline' in json) fail('baseline', 'not supported yet.');
 
   const config: Config = { sources: [], usage: [], stripSets: false, audit: {} };
 
   if ('sources' in json) {
     if (isStringArray(json['sources'])) config.sources = json['sources'];
     else fail('sources', 'expected a list of paths or globs.');
+  }
+  if ('baseline' in json) {
+    if (typeof json['baseline'] === 'string' && json['baseline']) config.baseline = json['baseline'];
+    else fail('baseline', 'expected the path of a baseline file.');
   }
   if ('usage' in json) {
     if (isStringArray(json['usage'])) config.usage = json['usage'];

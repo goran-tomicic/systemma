@@ -1,0 +1,9 @@
+{
+  "sources": ["tokens", "styles", "usage.json"],
+  "baseline": "systemma.baseline.json",
+  "rules": {
+    "desc-missing": "off",
+    "contrast": { "severity": "error" }
+  },
+  "ignore": { "unused": ["brand*"] }
+}

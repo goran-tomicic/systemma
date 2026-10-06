@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "summary": {
+    "files": 4,
+    "tokens": 14,
+    "errors": 1,
+    "warnings": 1,
+    "infos": 2,
+    "usages": 2
+  },
+  "failOn": "error",
+  "findings": [
+    {
+      "rule": "broken-ref",
+      "set": "integrity",
+      "severity": "error",
+      "id": "color-accent",
+      "subject": "color/accent",
+      "message": "light: references color-gone, which isn't defined",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "mode-gap",
+      "set": "integrity",
+      "severity": "warn",
+      "id": "color-accent",
+      "subject": "color/accent",
+      "message": "has a light value but no dark value",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "unused",
+      "set": "integrity",
+      "severity": "info",
+      "id": "color-accent",
+      "subject": "color/accent",
+      "message": "not referenced by usage data or other tokens",
+      "source": "tokens/light.json"
+    },
+    {
+      "rule": "desc-intent",
+      "set": "descriptions",
+      "severity": "info",
+      "id": "color-accent",
+      "subject": "color/accent",
+      "message": "“Accent color” doesn't name where it's used",
+      "source": "tokens/light.json"
+    }
+  ],
+  "inputWarnings": [
+    "tokens/broken.json: skipped. Invalid JSON: Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+  ],
+  "baseline": {
+    "file": "systemma.baseline.json",
+    "accepted": 9,
+    "stale": 1
+  }
+}

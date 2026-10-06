@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "findings": [
+    {
+      "rule": "base-unit",
+      "id": "space-13",
+      "subject": "space/13",
+      "message": "13px is not a multiple of the 4px base unit"
+    },
+    {
+      "rule": "broken-ref",
+      "id": "color-border-base",
+      "subject": "color/border/base",
+      "message": "light: references color-nope, which isn't defined"
+    },
+    {
+      "rule": "broken-usage",
+      "id": null,
+      "subject": "Button",
+      "message": "uses color-fg-missing (color), which isn't defined"
+    },
+    {
+      "rule": "contrast",
+      "id": "color-fg-muted",
+      "subject": "color/fg/muted",
+      "message": "on color/surface/base · 2.81:1 (light)"
+    },
+    {
+      "rule": "dtcg-untyped",
+      "id": "mystery",
+      "subject": "mystery",
+      "message": "no $type on the token or a parent group"
+    },
+    {
+      "rule": "mode-gap",
+      "id": "brand-hover",
+      "subject": "--brand-hover",
+      "message": "has a light value but no dark value"
+    },
+    {
+      "rule": "mode-gap",
+      "id": "color-border-base",
+      "subject": "color/border/base",
+      "message": "has a light value but no dark value"
+    },
+    {
+      "rule": "mode-gap",
+      "id": "color-fg-base",
+      "subject": "color/fg/base",
+      "message": "has a light value but no dark value"
+    },
+    {
+      "rule": "unused",
+      "id": "color-border-base",
+      "subject": "color/border/base",
+      "message": "not referenced by usage data or other tokens"
+    },
+    {
+      "rule": "unused",
+      "id": "color-fg-base",
+      "subject": "color/fg/base",
+      "message": "not referenced by usage data or other tokens"
+    }
+  ]
+}

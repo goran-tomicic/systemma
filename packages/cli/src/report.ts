@@ -1,4 +1,4 @@
-import type { Analysis, Dataset, Finding, Severity } from '@systemma/core';
+import type { Dataset, Finding, Severity } from '@systemma/core';
 import type { FailOn } from './args.js';
 
 export interface ReportFinding {
@@ -19,22 +19,24 @@ export interface Report {
   failOn: FailOn;
   findings: ReportFinding[];
   inputWarnings: string[];
+  // Present when a baseline was used: findings it accepted are left out of `findings` and the summary.
+  baseline: { file: string; accepted: number; stale: number } | null;
 }
 
 const ORDER: Record<Severity, number> = { error: 0, warn: 1, info: 2 };
 
-export function buildReport(ds: Dataset, analysis: Analysis, files: number, inputWarnings: string[], failOn: FailOn): Report {
+export function buildReport(ds: Dataset, found: readonly Finding[], files: number, inputWarnings: string[], failOn: FailOn, baseline: Report['baseline'] = null): Report {
   const toReport = (f: Finding): ReportFinding => ({
     rule: f.rule, set: f.set, severity: f.severity, id: f.id, subject: f.subject, message: f.message,
     source: (f.id !== null ? ds.tokens.get(f.id)?.source : undefined) || null,
   });
   // Most severe first. The sort is stable, so findings of equal severity keep the order the audit raised them in.
-  const findings = analysis.findings.map(toReport).sort((a, b) => ORDER[a.severity] - ORDER[b.severity]);
+  const findings = found.map(toReport).sort((a, b) => ORDER[a.severity] - ORDER[b.severity]);
   const count = (s: Severity): number => findings.filter((f) => f.severity === s).length;
   return {
     version: 1,
     summary: { files, tokens: ds.tokens.size, errors: count('error'), warnings: count('warn'), infos: count('info'), usages: ds.usage.length },
-    failOn, findings, inputWarnings,
+    failOn, findings, inputWarnings, baseline,
   };
 }
 
@@ -61,9 +63,15 @@ export function formatText(r: Report): string {
   }
   const { errors, warnings, infos, tokens, files } = r.summary;
   const scope = `${plural(tokens, 'token')} in ${plural(files, 'file')}`;
+  const fresh = r.baseline ? 'new ' : '';
   lines.push(r.findings.length
     ? `${plural(errors, 'error')}, ${plural(warnings, 'warning')}, ${infos} info across ${scope}.`
-    : `No findings across ${scope}.`);
+    : `No ${fresh}findings across ${scope}.`);
+  if (r.baseline) {
+    lines.push(`${plural(r.baseline.accepted, 'finding')} accepted by the baseline (${r.baseline.file}).`);
+    const stale = r.baseline.stale;
+    if (stale) lines.push(`${stale === 1 ? '1 baseline entry no longer matches' : `${stale} baseline entries no longer match`} anything. Run with --update-baseline to remove ${stale === 1 ? 'it' : 'them'}.`);
+  }
   return lines.join('\n') + '\n';
 }
 

@@ -7,7 +7,7 @@ export type FailOn = 'error' | 'warn';
 export type CliArgs =
   | { command: 'help' }
   | { command: 'version' }
-  | { command: 'check'; paths: string[]; usage: string[]; config?: string; format: Format; failOn: FailOn };
+  | { command: 'check'; paths: string[]; usage: string[]; config?: string; baseline?: string; updateBaseline: boolean; format: Format; failOn: FailOn };
 
 const oneOf = <T extends string>(name: string, value: string, allowed: readonly T[]): T => {
   if ((allowed as readonly string[]).includes(value)) return value as T;
@@ -19,6 +19,8 @@ const OPTIONS = {
   format: { type: 'string', short: 'f' },
   'fail-on': { type: 'string' },
   usage: { type: 'string', multiple: true },
+  baseline: { type: 'string' },
+  'update-baseline': { type: 'boolean' },
   help: { type: 'boolean', short: 'h' },
   version: { type: 'boolean', short: 'v' },
 } as const;
@@ -40,5 +42,11 @@ export function parseCliArgs(argv: string[]): CliArgs {
   if (command !== 'check') throw new UsageError(`Unknown command "${command}". The only command is "check".`);
   const format = oneOf('format', values.format ?? 'text', ['text', 'json'] as const);
   const failOn = oneOf('fail-on', values['fail-on'] ?? 'error', ['error', 'warn'] as const);
-  return { command: 'check', paths, usage: values.usage ?? [], ...(values.config !== undefined ? { config: values.config } : {}), format, failOn };
+  const updateBaseline = values['update-baseline'] === true;
+  return {
+    command: 'check', paths, usage: values.usage ?? [],
+    ...(values.config !== undefined ? { config: values.config } : {}),
+    ...(values.baseline !== undefined ? { baseline: values.baseline } : {}),
+    updateBaseline, format, failOn,
+  };
 }

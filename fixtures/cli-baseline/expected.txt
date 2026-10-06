@@ -1,0 +1,9 @@
+tokens/light.json
+  error  broken-ref   color/accent  light: references color-gone, which isn't defined
+  warn   mode-gap     color/accent  has a light value but no dark value
+  info   unused       color/accent  not referenced by usage data or other tokens
+  info   desc-intent  color/accent  “Accent color” doesn't name where it's used
+
+1 error, 1 warning, 2 info across 14 tokens in 4 files.
+9 findings accepted by the baseline (systemma.baseline.json).
+1 baseline entry no longer matches anything. Run with --update-baseline to remove it.

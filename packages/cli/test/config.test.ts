@@ -53,6 +53,11 @@ describe('parseConfig', () => {
     expect(errorsOf({ profile: { id: 'x', tiers: { common: ['(unclosed'] } } })[0]).toMatch(/profile: Profile "x": "\(unclosed" is not a valid regular expression/);
   });
 
+  it('reads the baseline path as written', () => {
+    expect(parseConfig({ baseline: 'tokens/systemma.baseline.json' }).baseline).toBe('tokens/systemma.baseline.json');
+    expect(parseConfig({}).baseline).toBeUndefined();
+  });
+
   it('reads usage inputs', () => {
     expect(parseConfig({ usage: ['src', 'lib/app.tsx'] }).usage).toEqual(['src', 'lib/app.tsx']);
   });
@@ -65,8 +70,9 @@ describe('parseConfig', () => {
   });
 
   it.each([
-    [{ colour: 1 }, ['config colour: unknown option. Known options: sources, usage, profile, rulesets, rules, ignore, modeGapKinds, stripSets.']],
-    [{ baseline: 'x.json' }, ['config baseline: not supported yet.']],
+    [{ colour: 1 }, ['config colour: unknown option. Known options: sources, usage, baseline, profile, rulesets, rules, ignore, modeGapKinds, stripSets.']],
+    [{ baseline: 4 }, ['config baseline: expected the path of a baseline file.']],
+    [{ baseline: '' }, ['config baseline: expected the path of a baseline file.']],
     [{ sources: 'tokens' }, ['config sources: expected a list of paths or globs.']],
     [{ sources: [1] }, ['config sources: expected a list of paths or globs.']],
     [{ usage: 'src' }, ['config usage: expected a list of directories or files to scan.']],

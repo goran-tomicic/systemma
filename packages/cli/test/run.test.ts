@@ -147,8 +147,9 @@ describe('config', () => {
     expect((await call(project({ 'a.json': tokens(clean) }), 'check', 'a.json')).code).toBe(0);
   });
 
-  it('refuses a baseline for now', async () => {
-    expect((await call(dir({ sources: ['tokens'], baseline: 'b.json' }), 'check')).err).toContain('config baseline: not supported yet.');
+  it('reads a baseline file named in the config, and says how to create one when it is missing', async () => {
+    const r = await call(dir({ sources: ['tokens'], baseline: 'b.json' }), 'check');
+    expect(r).toMatchObject({ code: 2, err: 'systemma: baseline b.json: cannot be read. Create it with --update-baseline.\n' });
   });
 });
 
@@ -166,7 +167,8 @@ describe('output', () => {
   it('gives JSON a stable shape', async () => {
     const r = await call(project({ 'a.json': tokens(broken) }), 'check', 'a.json', '--format', 'json');
     const report = JSON.parse(r.out) as Report;
-    expect(Object.keys(report)).toEqual(['version', 'summary', 'failOn', 'findings', 'inputWarnings']);
+    expect(Object.keys(report)).toEqual(['version', 'summary', 'failOn', 'findings', 'inputWarnings', 'baseline']);
+    expect(report.baseline).toBeNull();
     expect(report).toMatchObject({ version: 1, failOn: 'error', summary: { files: 1, tokens: 1, errors: 1 } });
     expect(Object.keys(report.findings[0] ?? {})).toEqual(['rule', 'set', 'severity', 'id', 'subject', 'message', 'source']);
   });

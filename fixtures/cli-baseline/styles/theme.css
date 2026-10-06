@@ -1,0 +1,4 @@
+:root {
+  --brand: #0066ff; /* Brand accent color for buttons */
+  --brand-hover: var(--brand);
+}
