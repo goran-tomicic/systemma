@@ -3,6 +3,8 @@ export type {
   Category, Dataset, Kind, Mode, Tier, Token, TokenInfo, TokenValue, UsageRecord,
 } from './model/types.js';
 export { canon } from './model/ids.js';
+export { toRgba } from './model/color.js';
+export { toMs, toPx } from './model/units.js';
 export { parseValue, refsOf } from './model/value.js';
 export { createDataset } from './model/dataset.js';
 
