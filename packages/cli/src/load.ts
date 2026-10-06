@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { createDataset, detectFormat, parseCss, parseFigmaVariables, parseTokensJson, parseUsage } from '@systemma/core';
+import { createDataset, parseSource } from '@systemma/core';
 import type { Dataset } from '@systemma/core';
 import { InputError } from './errors.js';
 import type { SourceFile } from './sources.js';
@@ -29,17 +29,12 @@ export async function loadDataset(files: readonly SourceFile[], opts: { stripSet
       errors.push(`${file.path}: cannot be read (${e instanceof Error ? e.message : String(e)}).`);
       continue;
     }
-    const detected = detectFormat(text);
-    if (detected.kind === 'error') {
-      if (file.explicit) errors.push(`${file.path}: ${detected.message}`);
-      else warnings.push(`${file.path}: skipped. ${detected.message}`);
+    const result = parseSource(ds, text, { path: file.path, stripSets: opts.stripSets });
+    if (!result.ok) {
+      if (file.explicit) errors.push(`${file.path}: ${result.message}`);
+      else warnings.push(`${file.path}: skipped. ${result.message}`);
       continue;
     }
-    const result =
-      detected.kind === 'css' ? parseCss(ds, text, file.path)
-      : detected.kind === 'figma' ? parseFigmaVariables(ds, detected.json)
-      : detected.kind === 'usage' ? parseUsage(ds, detected.json)
-      : parseTokensJson(ds, detected.json, { mode: /dark/i.test(file.path) ? 'dark' : 'light', source: file.path, stripSet: opts.stripSets });
     loaded++;
     for (const w of result.warnings) warnings.push(`${file.path}: ${w}`);
   }
