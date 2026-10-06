@@ -6,19 +6,22 @@ import type { RuleGroup, SeverityFilter } from '../lib/findings';
 
 const PAGE = 50;
 
-function FindingRow({ f, ds }: { f: Finding; ds: Dataset }) {
-  const source = f.id ? ds.tokens.get(f.id)?.source : undefined;
+function FindingRow({ f, ds, onSelect }: { f: Finding; ds: Dataset; onSelect(id: string): void }) {
+  const token = f.id ? ds.tokens.get(f.id) : undefined;
+  const source = token?.source;
   return (
     <li>
       <span className={`sev ${f.severity}`} role="img" aria-label={SEVERITY_LABEL[f.severity]} />
-      <span className="fsubj">{f.subject}</span>
+      {f.id && token
+        ? <button type="button" className="fbtn" onClick={() => onSelect(f.id as string)}>{f.subject}</button>
+        : <span className="fsubj">{f.subject}</span>}
       <span className="fmsg">{f.message}</span>
       {source && <span className="fsrc">{source}</span>}
     </li>
   );
 }
 
-function Group({ group, ds, open }: { group: RuleGroup; ds: Dataset; open: boolean }) {
+function Group({ group, ds, open, onSelect }: { group: RuleGroup; ds: Dataset; open: boolean; onSelect(id: string): void }) {
   const [shown, setShown] = useState(PAGE);
   const { meta } = group;
   const counts = (['error', 'warn', 'info'] as Severity[]).filter((s) => group.counts[s]);
@@ -37,7 +40,7 @@ function Group({ group, ds, open }: { group: RuleGroup; ds: Dataset; open: boole
         </span>
       </summary>
       <ul className="finds">
-        {group.findings.slice(0, shown).map((f, i) => <FindingRow key={`${f.id ?? f.subject}-${i}`} f={f} ds={ds} />)}
+        {group.findings.slice(0, shown).map((f, i) => <FindingRow key={`${f.id ?? f.subject}-${i}`} f={f} ds={ds} onSelect={onSelect} />)}
       </ul>
       {group.findings.length > shown && (
         <p className="more">
@@ -77,7 +80,7 @@ function Rulesets({ ds, enabled, findings, onToggle }: { ds: Dataset; enabled: R
   );
 }
 
-export function Audit({ analysis, ds, enabled, onToggleRuleset }: { analysis: Analysis; ds: Dataset; enabled: ReadonlySet<RulesetId> | null; onToggleRuleset(id: RulesetId, on: boolean): void }) {
+export function Audit({ analysis, ds, enabled, onToggleRuleset, onSelect }: { analysis: Analysis; ds: Dataset; enabled: ReadonlySet<RulesetId> | null; onToggleRuleset(id: RulesetId, on: boolean): void; onSelect(id: string): void }) {
   const [severity, setSeverity] = useState<SeverityFilter>('all');
   const [query, setQuery] = useState('');
   const totals = useMemo(() => countBySeverity(analysis.findings), [analysis]);
@@ -104,7 +107,7 @@ export function Audit({ analysis, ds, enabled, onToggleRuleset }: { analysis: An
       </div>
       {analysis.findings.length === 0 && <p className="empty">No findings. Nothing in these tokens breaks a rule that is switched on.</p>}
       {analysis.findings.length > 0 && groups.length === 0 && filtering && <p className="empty">No findings match that filter.</p>}
-      {groups.map((g, i) => <Group key={g.rule} group={g} ds={ds} open={!filtering ? i < 3 && g.counts.error + g.counts.warn > 0 : true} />)}
+      {groups.map((g, i) => <Group key={g.rule} group={g} ds={ds} onSelect={onSelect} open={!filtering ? i < 3 && g.counts.error + g.counts.warn > 0 : true} />)}
     </section>
   );
 }

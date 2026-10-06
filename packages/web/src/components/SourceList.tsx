@@ -4,9 +4,14 @@ import type { LoadedSource } from '../lib/sources';
 
 export function SourceList({ sources, onRemove, onMode }: { sources: LoadedSource[]; onRemove(id: number): void; onMode(id: number, mode: Mode | undefined): void }) {
   if (!sources.length) return null;
+  // Open when something needs a look, closed when every source loaded cleanly.
+  const problems = sources.filter((s) => s.error || s.warnings.length).length;
   return (
-    <section aria-label="Sources">
-      <h2>Sources</h2>
+    <details className="sourcebox" open={problems > 0} aria-label="Sources" role="region">
+      <summary>
+        Sources <span className="badge">{sources.length}</span>
+        {problems > 0 && <span className="badge warn">{problems} to check</span>}
+      </summary>
       <ul className="sources">
         {sources.map((s) => (
           <li key={s.id} className={s.error ? 'bad' : undefined}>
@@ -31,6 +36,6 @@ export function SourceList({ sources, onRemove, onMode }: { sources: LoadedSourc
           </li>
         ))}
       </ul>
-    </section>
+    </details>
   );
 }

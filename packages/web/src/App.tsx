@@ -1,14 +1,18 @@
-import { useCallback, useMemo, useReducer } from 'react';
+import { useCallback, useMemo, useReducer, useState } from 'react';
 import { RULESETS, analyze } from '@systemma/core';
 import type { Mode, RulesetId } from '@systemma/core';
 import { Audit } from './components/Audit';
+import { Detail } from './components/Detail';
 import { Header } from './components/Header';
 import { Importer } from './components/Importer';
 import type { NewSource } from './components/Importer';
 import { Settings } from './components/Settings';
 import type { ProfileChoice } from './components/Settings';
 import { SourceList } from './components/SourceList';
+import { Tabs } from './components/Tabs';
+import { TokensView } from './components/TokensView';
 import { EXAMPLE_SOURCES } from './lib/example';
+import { countBySeverity } from './lib/findings';
 import { loadSources } from './lib/sources';
 import type { SourceEntry } from './lib/sources';
 
@@ -65,8 +69,13 @@ export function reducer(state: State, action: Action): State {
   }
 }
 
+type TabId = 'tokens' | 'audit';
+
 export function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [tab, setTab] = useState<TabId>('audit');
+  const [mode, setMode] = useState<Mode>('light');
+  const [selected, setSelected] = useState<string | null>(null);
   const loaded = useMemo(() => loadSources(state.entries, { stripSets: state.stripSets }), [state.entries, state.stripSets]);
   const analysis = useMemo(
     () => analyze(loaded.ds, { profile: state.profile, ...(state.enabled ? { enabledRulesets: state.enabled } : {}) }),
@@ -75,16 +84,40 @@ export function App() {
 
   const add = useCallback((items: NewSource[]) => dispatch({ type: 'add', items }), []);
   const hasTokens = loaded.ds.tokens.size > 0;
+  const totals = useMemo(() => countBySeverity(analysis.findings), [analysis]);
+  // A selection that no longer exists in the data (its source was removed) is no selection.
+  const open = selected !== null && (loaded.ds.tokens.has(selected) || analysis.dependents.has(selected)) ? selected : null;
 
   return (
     <div className="wrap">
-      <Header analysis={analysis} files={loaded.sources.length} onClear={() => dispatch({ type: 'clear' })} />
+      <Header analysis={analysis} files={loaded.sources.length} onClear={() => { setSelected(null); dispatch({ type: 'clear' }); }} />
       <Importer onAdd={add} onExample={() => add(EXAMPLE_SOURCES)} hasSources={state.entries.length > 0} />
-      <SourceList sources={loaded.sources} onRemove={(id) => dispatch({ type: 'remove', id })} onMode={(id, mode) => dispatch({ type: 'mode', id, mode })} />
+      <SourceList sources={loaded.sources} onRemove={(id) => dispatch({ type: 'remove', id })} onMode={(id, m) => dispatch({ type: 'mode', id, mode: m })} />
       {state.entries.length > 0 && (
         <Settings profile={state.profile} stripSets={state.stripSets} onProfile={(profile) => dispatch({ type: 'profile', profile })} onStripSets={(on) => dispatch({ type: 'stripSets', on })} />
       )}
-      {hasTokens && <Audit analysis={analysis} ds={loaded.ds} enabled={state.enabled} onToggleRuleset={(id, on) => dispatch({ type: 'ruleset', id, on })} />}
+      {hasTokens && (
+        <>
+          <Tabs<TabId>
+            active={tab}
+            onChange={setTab}
+            tabs={[
+              { id: 'tokens', label: 'Tokens', badge: loaded.ds.tokens.size },
+              { id: 'audit', label: 'Audit', badge: totals.error || analysis.findings.length, alert: totals.error > 0 },
+            ]}
+          />
+          <div className="layout">
+            <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="main">
+              {tab === 'tokens' && <TokensView ds={loaded.ds} analysis={analysis} mode={mode} onMode={setMode} selected={open} onSelect={setSelected} />}
+              {tab === 'audit' && <Audit analysis={analysis} ds={loaded.ds} enabled={state.enabled} onToggleRuleset={(id, on) => dispatch({ type: 'ruleset', id, on })} onSelect={setSelected} />}
+            </div>
+            <aside id="detail" className={open ? 'open' : undefined} aria-label="Token details">
+              {open ? <Detail ds={loaded.ds} analysis={analysis} mode={mode} id={open} onSelect={setSelected} onClose={() => setSelected(null)} />
+                : <p className="hint">Select a token to see where it comes from and where it goes.</p>}
+            </aside>
+          </div>
+        </>
+      )}
       {!hasTokens && state.entries.length > 0 && <p className="empty">None of these sources contained tokens.</p>}
     </div>
   );
