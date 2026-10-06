@@ -166,7 +166,7 @@ To leave a rule alone for some tokens, give it ignore globs:
 analyze(ds, { ignore: { unused: ['color/palette/**'], 'desc-missing': ['legacy/*'] } });
 ```
 
-A pattern is matched against a token's authored label (without a leading `--`) and its canonical id, ignoring case. `*` matches within one `/` segment, `**` across segments and `?` one character. A finding that is not about a token, such as a broken usage record, is matched on its subject.
+A pattern is matched against a token's authored label (without a leading `--`) and its canonical id, ignoring case. `*` matches within one `/` segment, `**` across segments (and `**/` also matches no directory, so `a/**/b` matches `a/b`) and `?` one character. A finding that is not about a token, such as a broken usage record, is matched on its subject.
 
 The `mode-gap` rule flags semantic colors that have no dark value once some color has one. `modeGapKinds: ['color', 'dimension']` widens it to other kinds. Each kind is checked on its own, only once a token of that kind has a dark value.
 

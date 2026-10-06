@@ -27,7 +27,7 @@ export { resolve } from './resolve/resolve.js';
 export type { Profile, ProfileConfig, ProfileSpec } from './resolve/profile.js';
 export { chooseProfile, createProfile, GENERIC_PROFILE, PROFILES, resolveProfile, TIERED_PROFILE } from './resolve/profile.js';
 export { classify } from './resolve/classify.js';
-export { categoryOf, inferKind } from './resolve/kinds.js';
+export { categoryOf, inferKind, isKind } from './resolve/kinds.js';
 
 export type { AuditOptions, Confidence, ContrastPair, Finding, RuleId, RuleMeta, Ruleset, RulesetId, Severity } from './rules/types.js';
 export { RULE_IDS, RULESET_IDS } from './rules/types.js';
@@ -43,3 +43,4 @@ export type { Candidate, FileLike, Progress, ScanCandidates, ScanSummary } from 
 export { componentNameFromPath } from './scan/component-name.js';
 export { scanCandidates } from './scan/candidates.js';
 export { scanUsage } from './scan/usage.js';
+export { compileGlob } from './rules/glob.js';
