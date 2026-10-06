@@ -58,6 +58,32 @@ systemma check tokens --usage src
 - **The property is read from the nearest declaration.** That is exact for CSS and approximate for JavaScript object literals.
 - If a scan finds no use of any token, that is reported as a warning, since it usually means the wrong directory.
 
+## As a GitHub Action
+
+The repository root is an action. It builds the command line from its own source the first time it runs (about 30 to 60 seconds, and it needs no npm package), then runs `systemma check`. The job fails when the exit code is 1 or 2, and a text report is added to the job summary.
+
+```yaml
+steps:
+  - uses: actions/checkout@<a commit hash>
+  - uses: goran-tomicic/systemma@<a commit hash>
+    with:
+      paths: tokens
+      usage: src
+      baseline: systemma.baseline.json
+```
+
+| Input | |
+| --- | --- |
+| `paths` | Token files, directories or globs, one per line. Empty uses `sources` from the config file |
+| `usage` | Directories or files of code to scan for token usage, one per line |
+| `config` | Config file. Default: `systemma.config.json` in the working directory, if it exists |
+| `baseline` | Baseline file of accepted findings |
+| `fail-on` | `error` (default) or `warn` |
+| `format` | `text` (default) or `json`. Only a text report goes to the job summary |
+| `working-directory` | Where to run. Default: the repository root |
+
+Pin the action to a commit hash, as you would any third-party action: the repository's name and layout may still change. The action's own checks run in this repository's CI, on a clean project (must pass) and on one with errors (must fail).
+
 ## Adopting it on an existing project: the baseline
 
 A project with a long history will have findings you cannot fix today. Record them once, then fail only on new ones:

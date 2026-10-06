@@ -57,3 +57,28 @@ jobs:
           # The fixture has a deliberate error. Exit 1 is the right answer: 0 would mean the rules did
           # not run, and 2 an input error.
           test "$code" -eq 1
+
+  # The action builds the command line from its own source, with no pnpm set up for it, the way a project that
+  # uses it would run it. It must pass on clean tokens and fail on a project that has errors.
+  action:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Passes on tokens with no findings
+        uses: ./
+        with:
+          paths: fixtures/action-clean
+
+      - name: Fails on a project with errors
+        id: failing
+        uses: ./
+        continue-on-error: true
+        with:
+          working-directory: fixtures/cli-basic
+
+      - name: The failing run really failed
+        run: test "${{ steps.failing.outcome }}" = failure

@@ -1,0 +1,62 @@
+name: systemma check
+description: Audit design tokens against published standards, and fail the job on findings.
+
+inputs:
+  paths:
+    description: Token files, directories or globs to check, one per line. Leave empty to use "sources" from the config file.
+    required: false
+    default: ''
+  usage:
+    description: Directories or files of code to scan for where tokens are used, one per line.
+    required: false
+    default: ''
+  config:
+    description: Config file. Defaults to systemma.config.json in the working directory, if it exists.
+    required: false
+    default: ''
+  baseline:
+    description: Baseline file of accepted findings. Only findings it does not list are reported and can fail the job.
+    required: false
+    default: ''
+  fail-on:
+    description: The lowest severity that fails the job, "error" or "warn".
+    required: false
+    default: error
+  format:
+    description: Report format, "text" or "json". A text report is also added to the job summary.
+    required: false
+    default: text
+  working-directory:
+    description: Where to run, and what relative paths are relative to.
+    required: false
+    default: .
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 22
+
+    # The compiled command line is not committed, so build it from this action's own source the first time.
+    - name: Build systemma
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        if [ ! -f packages/cli/dist/bin.js ]; then
+          corepack enable
+          pnpm install --frozen-lockfile
+          pnpm --filter @systemma/cli... build
+        fi
+
+    - name: Check tokens
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        INPUT_PATHS: ${{ inputs.paths }}
+        INPUT_USAGE: ${{ inputs.usage }}
+        INPUT_CONFIG: ${{ inputs.config }}
+        INPUT_BASELINE: ${{ inputs.baseline }}
+        INPUT_FAIL_ON: ${{ inputs.fail-on }}
+        INPUT_FORMAT: ${{ inputs.format }}
+      run: bash "$GITHUB_ACTION_PATH/scripts/run-action.sh"
