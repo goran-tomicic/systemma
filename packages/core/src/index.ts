@@ -34,6 +34,7 @@ export { categoryOf, inferKind, isKind } from './resolve/kinds.js';
 export type { AuditOptions, Confidence, ContrastPair, Finding, RuleId, RuleMeta, Ruleset, RulesetId, Severity } from './rules/types.js';
 export { RULE_IDS, RULESET_IDS } from './rules/types.js';
 export { RULESETS } from './rules/rulesets.js';
+export { activeRulesets } from './rules/options.js';
 export { RULE_META } from './rules/meta.js';
 export type { Analysis, AnalyzeOptions } from './analyze/types.js';
 export { analyze } from './analyze/analyze.js';
