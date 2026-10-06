@@ -1,0 +1,10 @@
+.button {
+  --button-pad: 6px;
+  background: var(--color-surface-base);
+  color: var(--color-fg-base);
+  padding: var(--button-pad) var(--space-4);
+  --focus-ring: var(--color-border-base);
+}
+.badge {
+  background: var(--color-fg-base);
+}

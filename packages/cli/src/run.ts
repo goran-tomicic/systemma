@@ -9,6 +9,7 @@ import { InputError, UsageError } from './errors.js';
 import { loadDataset } from './load.js';
 import { buildReport, exitCodeFor, formatJson, formatText } from './report.js';
 import { expandSources } from './sources.js';
+import { scanUsageInputs } from './usage.js';
 
 export interface Env {
   cwd: string;
@@ -27,6 +28,8 @@ Paths are token files (DTCG or Tokens Studio JSON, a Figma variables export, CSS
 usage JSON), directories, or globs. With none, "sources" from the config file is used.
 
 Options
+      --usage <path>       A directory or file of code to scan for where tokens are used. Repeatable.
+                           With none, "usage" from the config file is used.
   -c, --config <file>      Config file. Default: ./${DEFAULT_CONFIG} if it exists.
   -f, --format <format>    text (default) or json.
       --fail-on <level>    error (default) or warn. Exit 1 when a finding reaches that level.
@@ -71,13 +74,20 @@ export async function run(argv: string[], env: Env): Promise<0 | 1 | 2> {
     if (args.command === 'version') { env.stdout(`${await readVersion()}\n`); return 0; }
 
     const loaded = await readConfig(args, env.cwd);
-    const config: Config = loaded?.config ?? { sources: [], stripSets: false, audit: {} };
+    const config: Config = loaded?.config ?? { sources: [], usage: [], stripSets: false, audit: {} };
     // Paths on the command line are relative to where you are; "sources" in a config file are relative to that file.
     const [patterns, base] = args.paths.length ? [args.paths, env.cwd] : [config.sources, loaded?.base ?? env.cwd];
     if (!patterns.length) throw new UsageError('No files to check. Pass paths, or set "sources" in the config file.');
 
     const files = await expandSources(patterns, base, env.cwd);
     const { ds, files: count, warnings } = await loadDataset(files, { stripSets: config.stripSets });
+
+    // Like sources, usage paths on the command line replace the config's and are relative to where you are.
+    const [usageInputs, usageBase] = args.usage.length ? [args.usage, env.cwd] : [config.usage, loaded?.base ?? env.cwd];
+    if (usageInputs.length) {
+      const scan = await scanUsageInputs(usageInputs, usageBase, env.cwd, ds, new Set(files.map((f) => f.abs)));
+      warnings.push(...scan.warnings);
+    }
     const report = buildReport(ds, analyze(ds, config.audit), count, warnings, args.failOn);
 
     if (args.format === 'json') env.stdout(formatJson(report));

@@ -24,6 +24,7 @@ All files go into one dataset, in path order. The first file to define a name ke
 
 | Option | |
 | --- | --- |
+| `--usage <path>` | A directory or file of code to scan for where tokens are used. Repeatable. See below |
 | `-c, --config <file>` | Config file. Default: `./systemma.config.json`, if it exists |
 | `-f, --format <format>` | `text` (default) or `json` |
 | `--fail-on <level>` | `error` (default) or `warn` |
@@ -38,6 +39,22 @@ All files go into one dataset, in path order. The first file to define a name ke
 | 2 | A usage or input error: a bad option, a missing or unreadable file, an invalid config |
 
 `info` findings never fail a run.
+
+## Finding where tokens are used
+
+Some rules need to know where tokens are used in code: `broken-usage`, `unused`, `usage-role`, `contrast-focus`, `foundation-direct` and `pairing`. Without usage data they have nothing to say, so `unused` stays quiet instead of calling everything unused.
+
+```
+systemma check tokens --usage src
+```
+
+`--usage` scans the code under a directory (or a single file) for `var(--token)` in style files and components, and for quoted token paths such as `'space.8'` in script files. Each use records the component, file, CSS property and token. Test and spec files, `node_modules`, `dist`, `build` and similar folders are skipped.
+
+- **The token files you loaded are not scanned.** A token file's own aliases (`--gap: var(--space-4)`) are not use, and counting them would make every aliased token look used.
+- **A token-shaped name that nothing declares is recorded.** `var(--color-fg-gone)` in code, when the tokens have `color-fg-*` and no style file declares it, becomes a `broken-usage` finding. A component's own custom property (`--button-pad` declared in its stylesheet) is not.
+- **It adds to usage from a usage JSON file** you also pass, rather than replacing it.
+- **The property is read from the nearest declaration.** That is exact for CSS and approximate for JavaScript object literals.
+- If a scan finds no use of any token, that is reported as a warning, since it usually means the wrong directory.
 
 ## The text report
 
@@ -64,7 +81,7 @@ tokens/light.json
 ```json
 {
   "version": 1,
-  "summary": { "files": 4, "tokens": 14, "errors": 3, "warnings": 4, "infos": 3 },
+  "summary": { "files": 4, "tokens": 14, "errors": 3, "warnings": 4, "infos": 3, "usages": 2 },
   "failOn": "error",
   "findings": [
     {
@@ -81,13 +98,14 @@ tokens/light.json
 }
 ```
 
-`id` is the token's canonical id and `subject` its authored name, or the subject of a finding that is not about a token. `source` is the file the token came from. Findings are ordered most severe first; within a severity they keep the order the rules raised them in. Input warnings are in the JSON, not on stderr.
+`files` counts the token files read, and `usages` the use records, from usage JSON files and `--usage` together. `id` is the token's canonical id and `subject` its authored name, or the subject of a finding that is not about a token. `source` is the file the token came from. Findings are ordered most severe first; within a severity they keep the order the rules raised them in. Input warnings are in the JSON, not on stderr.
 
 ## The config file
 
 ```json
 {
   "sources": ["tokens/**/*.json", "src/**/*.css"],
+  "usage": ["src"],
   "profile": "auto",
   "rulesets": { "wcag-aaa": true, "m3": false },
   "rules": {
@@ -108,6 +126,7 @@ tokens/light.json
 | Option | |
 | --- | --- |
 | `sources` | Paths, directories or globs, relative to the config file. Paths on the command line replace it |
+| `usage` | Directories or files to scan for token usage, relative to the config file. `--usage` on the command line replaces it |
 | `profile` | `"auto"` (default), `"tiered"`, `"generic"`, or a profile object (`id`, `tiers`, `groupSegment`). See the core README |
 | `rulesets` | `true` or `false` per ruleset, applied on top of the defaults |
 | `rules` | Per rule: `"off"`, `"error"`, `"warn"` or `"info"`, or `{ "severity", "pairs" }`. Only `contrast` takes `pairs` |

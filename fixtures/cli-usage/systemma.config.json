@@ -1,0 +1,5 @@
+{
+  "sources": ["tokens"],
+  "usage": ["src"],
+  "rules": { "desc-missing": "off" }
+}

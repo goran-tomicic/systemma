@@ -6,12 +6,14 @@ import { InputError } from './errors.js';
 
 export interface Config {
   sources: string[];
+  // Directories or files to scan for token usage.
+  usage: string[];
   // Tokens Studio files nest tokens under set names; this drops them.
   stripSets: boolean;
   audit: AnalyzeOptions;
 }
 
-const TOP_LEVEL = ['sources', 'profile', 'rulesets', 'rules', 'ignore', 'modeGapKinds', 'stripSets', 'baseline'] as const;
+const TOP_LEVEL = ['sources', 'usage', 'profile', 'rulesets', 'rules', 'ignore', 'modeGapKinds', 'stripSets', 'baseline'] as const;
 const SEVERITIES = ['error', 'warn', 'info'] as const;
 const TIERS = ['foundation', 'palette', 'common'] as const;
 
@@ -33,11 +35,15 @@ export function parseConfig(json: unknown): Config {
   }
   if ('baseline' in json) fail('baseline', 'not supported yet.');
 
-  const config: Config = { sources: [], stripSets: false, audit: {} };
+  const config: Config = { sources: [], usage: [], stripSets: false, audit: {} };
 
   if ('sources' in json) {
     if (isStringArray(json['sources'])) config.sources = json['sources'];
     else fail('sources', 'expected a list of paths or globs.');
+  }
+  if ('usage' in json) {
+    if (isStringArray(json['usage'])) config.usage = json['usage'];
+    else fail('usage', 'expected a list of directories or files to scan.');
   }
   if ('stripSets' in json) {
     if (typeof json['stripSets'] === 'boolean') config.stripSets = json['stripSets'];

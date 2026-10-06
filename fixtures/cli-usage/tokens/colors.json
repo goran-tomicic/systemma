@@ -1,0 +1,13 @@
+{
+  "color": {
+    "$type": "color",
+    "white": { "$value": "#ffffff" },
+    "black": { "$value": "#000000" },
+    "surface": { "base": { "$value": "{color.white}", "$description": "Page background" } },
+    "fg": {
+      "base": { "$value": "{color.black}", "$description": "Body text" },
+      "muted": { "$value": "{color.black}", "$description": "Secondary text" }
+    },
+    "border": { "base": { "$value": "#dddddd", "$description": "Default border" } }
+  }
+}

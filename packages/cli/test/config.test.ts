@@ -15,7 +15,7 @@ const errorsOf = (json: unknown): string[] => {
 
 describe('parseConfig', () => {
   it('accepts an empty config', () => {
-    expect(parseConfig({})).toEqual({ sources: [], stripSets: false, audit: {} });
+    expect(parseConfig({})).toEqual({ sources: [], usage: [], stripSets: false, audit: {} });
   });
 
   it('reads the spec sketch', () => {
@@ -53,6 +53,10 @@ describe('parseConfig', () => {
     expect(errorsOf({ profile: { id: 'x', tiers: { common: ['(unclosed'] } } })[0]).toMatch(/profile: Profile "x": "\(unclosed" is not a valid regular expression/);
   });
 
+  it('reads usage inputs', () => {
+    expect(parseConfig({ usage: ['src', 'lib/app.tsx'] }).usage).toEqual(['src', 'lib/app.tsx']);
+  });
+
   it('accepts modeGapKinds, stripSets and a severity per rule', () => {
     const c = parseConfig({ modeGapKinds: ['color', 'dimension'], stripSets: true, rules: { 'mode-gap': 'info' } });
     expect(c.audit.modeGapKinds).toEqual(['color', 'dimension']);
@@ -61,10 +65,12 @@ describe('parseConfig', () => {
   });
 
   it.each([
-    [{ colour: 1 }, ['config colour: unknown option. Known options: sources, profile, rulesets, rules, ignore, modeGapKinds, stripSets.']],
+    [{ colour: 1 }, ['config colour: unknown option. Known options: sources, usage, profile, rulesets, rules, ignore, modeGapKinds, stripSets.']],
     [{ baseline: 'x.json' }, ['config baseline: not supported yet.']],
     [{ sources: 'tokens' }, ['config sources: expected a list of paths or globs.']],
     [{ sources: [1] }, ['config sources: expected a list of paths or globs.']],
+    [{ usage: 'src' }, ['config usage: expected a list of directories or files to scan.']],
+    [{ usage: [1] }, ['config usage: expected a list of directories or files to scan.']],
     [{ stripSets: 'yes' }, ['config stripSets: expected true or false.']],
     [{ profile: 'fancy' }, ['config profile: expected "auto", "tiered", "generic" or a profile object.']],
     [{ profile: { tiers: {} } }, ['config profile.id: expected a name for the profile.']],

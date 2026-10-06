@@ -5,7 +5,8 @@
     "tokens": 14,
     "errors": 3,
     "warnings": 4,
-    "infos": 3
+    "infos": 3,
+    "usages": 2
   },
   "failOn": "error",
   "findings": [

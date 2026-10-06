@@ -1,0 +1,5 @@
+:root {
+  --space-4: 4px; /* Base gap between related elements */
+  --space-8: 8px; /* Gap between groups of elements */
+  --gap: var(--space-4); /* An alias inside the token file is not usage */
+}

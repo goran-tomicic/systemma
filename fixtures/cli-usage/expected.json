@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "summary": {
+    "files": 2,
+    "tokens": 9,
+    "errors": 1,
+    "warnings": 2,
+    "infos": 4,
+    "usages": 8
+  },
+  "failOn": "error",
+  "findings": [
+    {
+      "rule": "broken-usage",
+      "set": "integrity",
+      "severity": "error",
+      "id": null,
+      "subject": "components/Card",
+      "message": "uses color-fg-gone (color), which isn't defined",
+      "source": null
+    },
+    {
+      "rule": "contrast-focus",
+      "set": "wcag",
+      "severity": "warn",
+      "id": "color-border-base",
+      "subject": "components/Button",
+      "message": "focus indicator color/border/base is 1.36:1 against color/surface/base (light)",
+      "source": "tokens/colors.json"
+    },
+    {
+      "rule": "usage-role",
+      "set": "descriptions",
+      "severity": "warn",
+      "id": "color-fg-base",
+      "subject": "components/Button",
+      "message": "color/fg/base is a text/icon token, used as background via 'background'",
+      "source": "tokens/colors.json"
+    },
+    {
+      "rule": "unused",
+      "set": "integrity",
+      "severity": "info",
+      "id": "color-fg-muted",
+      "subject": "color/fg/muted",
+      "message": "not referenced by usage data or other tokens",
+      "source": "tokens/colors.json"
+    },
+    {
+      "rule": "unused",
+      "set": "integrity",
+      "severity": "info",
+      "id": "gap",
+      "subject": "--gap",
+      "message": "not referenced by usage data or other tokens",
+      "source": "tokens/spacing.css"
+    },
+    {
+      "rule": "duplicate-semantic",
+      "set": "scales",
+      "severity": "info",
+      "id": "color-fg-muted",
+      "subject": "color/fg/muted",
+      "message": "same resolved value as color/fg/base",
+      "source": "tokens/colors.json"
+    },
+    {
+      "rule": "contrast-nontext",
+      "set": "wcag",
+      "severity": "info",
+      "id": "color-border-base",
+      "subject": "color/border/base",
+      "message": "1.36:1 against color/surface/base (light)",
+      "source": "tokens/colors.json"
+    }
+  ],
+  "inputWarnings": []
+}

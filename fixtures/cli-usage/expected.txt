@@ -1,0 +1,14 @@
+(not tied to a file)
+  error  broken-usage        components/Card  uses color-fg-gone (color), which isn't defined
+
+tokens/colors.json
+  warn   contrast-focus      components/Button  focus indicator color/border/base is 1.36:1 against color/surface/base (light)
+  warn   usage-role          components/Button  color/fg/base is a text/icon token, used as background via 'background'
+  info   unused              color/fg/muted  not referenced by usage data or other tokens
+  info   duplicate-semantic  color/fg/muted  same resolved value as color/fg/base
+  info   contrast-nontext    color/border/base  1.36:1 against color/surface/base (light)
+
+tokens/spacing.css
+  info   unused              --gap  not referenced by usage data or other tokens
+
+1 error, 2 warnings, 4 info across 9 tokens in 2 files.

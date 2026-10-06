@@ -15,7 +15,7 @@ export interface ReportFinding {
 
 export interface Report {
   version: 1;
-  summary: { files: number; tokens: number; errors: number; warnings: number; infos: number };
+  summary: { files: number; tokens: number; errors: number; warnings: number; infos: number; usages: number };
   failOn: FailOn;
   findings: ReportFinding[];
   inputWarnings: string[];
@@ -33,7 +33,7 @@ export function buildReport(ds: Dataset, analysis: Analysis, files: number, inpu
   const count = (s: Severity): number => findings.filter((f) => f.severity === s).length;
   return {
     version: 1,
-    summary: { files, tokens: ds.tokens.size, errors: count('error'), warnings: count('warn'), infos: count('info') },
+    summary: { files, tokens: ds.tokens.size, errors: count('error'), warnings: count('warn'), infos: count('info'), usages: ds.usage.length },
     failOn, findings, inputWarnings,
   };
 }
