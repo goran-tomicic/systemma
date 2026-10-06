@@ -1,3 +1,4 @@
+import reactHooks from 'eslint-plugin-react-hooks';
 import tseslint from 'typescript-eslint';
 
 // Core must run in a browser, Node and a worker, so DOM globals and Node built-ins are banned in src.
@@ -8,6 +9,8 @@ export default tseslint.config(
   // Fixtures are sample input for the parsers and the scan, and docs/ holds private working files, not code to lint.
   { ignores: ['**/dist/**', '**/node_modules/**', 'prototype/**', 'fixtures/**', 'docs/**'] },
   ...tseslint.configs.recommended,
+  // The web app is React, where a hook called in the wrong place is a bug that tests rarely catch.
+  { files: ['packages/web/**/*.{ts,tsx}'], ...reactHooks.configs.flat.recommended },
   {
     files: ['packages/core/src/**/*.ts'],
     rules: {
