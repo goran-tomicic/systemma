@@ -2,14 +2,14 @@ import type { Mode } from '@systemma/core';
 import { KIND_LABEL } from '../lib/sources';
 import type { LoadedSource } from '../lib/sources';
 
-export function SourceList({ sources, onRemove, onMode }: { sources: LoadedSource[]; onRemove(id: number): void; onMode(id: number, mode: Mode | undefined): void }) {
+export function SourceList({ title = 'Sources', sources, onRemove, onMode }: { title?: string; sources: LoadedSource[]; onRemove(id: number): void; onMode(id: number, mode: Mode | undefined): void }) {
   if (!sources.length) return null;
   // Open when something needs a look, closed when every source loaded cleanly.
   const problems = sources.filter((s) => s.error || s.warnings.length).length;
   return (
-    <details className="sourcebox" open={problems > 0} aria-label="Sources" role="region">
+    <details className="sourcebox" open={problems > 0} aria-label={title} role="region">
       <summary>
-        Sources <span className="badge">{sources.length}</span>
+        {title} <span className="badge">{sources.length}</span>
         {problems > 0 && <span className="badge warn">{problems} to check</span>}
       </summary>
       <ul className="sources">

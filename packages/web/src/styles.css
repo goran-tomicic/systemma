@@ -217,3 +217,13 @@ details.connections { margin-top: 12px; background: var(--surface); border: 1px 
 details.connections > summary { cursor: pointer; padding: 10px 12px; font-weight: 500; display: flex; gap: 10px; align-items: baseline; }
 details.connections ul { margin: 0; padding: 0 12px 12px 30px; font-size: 13px; }
 details.connections .hint { padding: 0 12px 12px; }
+
+fieldset.target { border: 0; margin: 0 12px 8px; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+fieldset.target legend { float: left; padding: 0; margin-right: 12px; color: var(--ink2); font-size: 13px; }
+fieldset.target label { display: inline-flex; gap: 6px; align-items: center; }
+.sum { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.sum .push { margin-left: auto; }
+.row.change .pair { display: inline-flex; align-items: center; gap: 6px; flex: none; min-width: 64px; }
+.row.change .arrow { color: var(--ink3); }
+.rsub .old { text-decoration: line-through; text-decoration-color: var(--ink3); }
+.rsub .new { color: var(--ink); }

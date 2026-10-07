@@ -44,6 +44,28 @@ describe('the example', () => {
     expect(screen.getByText('3 errors')).toBeTruthy();
   });
 
+  // A browser fires "toggle" when a details element first appears open; jsdom does not. That event is not the
+  // person opening the panel, and must not stop it from closing once there is something to look at.
+  it('collapses the add-tokens panel once there are sources, even after the browser\'s own toggle event', () => {
+    render(<App />);
+    const panel = document.querySelector('details.importer') as HTMLDetailsElement;
+    fireEvent(panel, new Event('toggle'));
+    loadExample();
+    expect((document.querySelector('details.importer') as HTMLDetailsElement).open).toBe(false);
+  });
+
+  it('stays closed when the person closes it, and open when they open it again', () => {
+    render(<App />);
+    loadExample();
+    const panel = document.querySelector('details.importer') as HTMLDetailsElement;
+    panel.open = true;
+    fireEvent(panel, new Event('toggle'));
+    expect((document.querySelector('details.importer') as HTMLDetailsElement).open).toBe(true);
+    (document.querySelector('details.importer') as HTMLDetailsElement).open = false;
+    fireEvent(document.querySelector('details.importer') as HTMLDetailsElement, new Event('toggle'));
+    expect((document.querySelector('details.importer') as HTMLDetailsElement).open).toBe(false);
+  });
+
   it('collapses the add-tokens panel once there are sources', () => {
     render(<App />);
     loadExample();

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import type { DragEvent } from 'react';
+import type { SourceSet } from '../lib/sources';
 
 export interface NewSource {
   name: string;
@@ -20,7 +21,15 @@ export async function readFiles(files: ArrayLike<File>): Promise<NewSource[]> {
   }));
 }
 
-export function Importer({ onAdd, onExample, hasSources }: { onAdd(items: NewSource[]): void; onExample(): void; hasSources: boolean }) {
+export function Importer({ onAdd, onExample, onExampleCompare, target, onTarget, open, onOpen }: {
+  onAdd(items: NewSource[]): void;
+  onExample(): void;
+  onExampleCompare(): void;
+  target: SourceSet;
+  onTarget(t: SourceSet): void;
+  open: boolean;
+  onOpen(open: boolean): void;
+}) {
   const input = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
   const [name, setName] = useState('pasted.json');
@@ -36,8 +45,13 @@ export function Importer({ onAdd, onExample, hasSources }: { onAdd(items: NewSou
   };
 
   return (
-    <details className="importer" open={!hasSources}>
+    <details className="importer" open={open} onToggle={(e) => { if (e.currentTarget.open !== open) onOpen(e.currentTarget.open); }}>
       <summary>Add tokens</summary>
+      <fieldset className="target">
+        <legend>Add to</legend>
+        <label><input type="radio" name="target" checked={target === 'base'} onChange={() => onTarget('base')} /> These tokens</label>
+        <label><input type="radio" name="target" checked={target === 'compare'} onChange={() => onTarget('compare')} /> Compare against</label>
+      </fieldset>
       <div
         className={`drop${over ? ' over' : ''}`}
         onDragOver={(e) => { e.preventDefault(); setOver(true); }}
@@ -48,6 +62,7 @@ export function Importer({ onAdd, onExample, hasSources }: { onAdd(items: NewSou
         <div className="actions">
           <button className="btn primary" type="button" onClick={() => input.current?.click()}>Choose files</button>
           <button className="btn" type="button" onClick={onExample}>Load an example</button>
+          <button className="btn" type="button" onClick={onExampleCompare}>Load an example to compare</button>
         </div>
         <input
           ref={input}

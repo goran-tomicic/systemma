@@ -7,7 +7,7 @@ import { loadSources } from '../src/lib/sources';
 import type { SourceEntry } from '../src/lib/sources';
 import { TIERS, tierCounts } from '../src/lib/tiers';
 
-const entry = (id: number, name: string, text: string, extra: Partial<SourceEntry> = {}): SourceEntry => ({ id, name, text, ...extra });
+const entry = (id: number, name: string, text: string, extra: Partial<SourceEntry> = {}): SourceEntry => ({ id, set: 'base', name, text, ...extra });
 const color = (v: string) => ({ $type: 'color', $value: v });
 const json = (v: unknown): string => JSON.stringify(v);
 
