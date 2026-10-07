@@ -40,7 +40,7 @@ describe('tabs', () => {
     render(<App />);
     paste(json(LIGHT), 'light.json');
     const tabs = screen.getAllByRole('tab');
-    expect(tabs.map((t) => t.textContent)).toEqual(['Map', 'Tokens9', 'Audit1', 'Compare']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Map', 'Tokens9', 'Audit1', 'Compare', 'Color vision']);
     expect(screen.getByRole('tab', { name: /Audit/ }).getAttribute('aria-selected')).toBe('true');
     expect(document.querySelector('.tab .n.err')).toBeTruthy();
     expect(screen.getByRole('tabpanel').getAttribute('aria-labelledby')).toBe('tab-audit');

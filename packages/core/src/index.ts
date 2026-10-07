@@ -49,3 +49,4 @@ export { componentNameFromPath } from './scan/component-name.js';
 export { scanCandidates } from './scan/candidates.js';
 export { scanUsage } from './scan/usage.js';
 export { compileGlob } from './rules/glob.js';
+export { roleOfToken } from './rules/helpers.js';

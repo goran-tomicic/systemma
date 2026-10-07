@@ -41,7 +41,7 @@ const hotEdges = (): number => document.querySelectorAll('.edge.hot').length;
 describe('the map tab', () => {
   it('is a tab, next to the list and the audit', () => {
     setup();
-    expect(screen.getAllByRole('tab').map((t) => t.textContent)).toEqual(['Map', expect.stringMatching(/^Tokens/), expect.stringMatching(/^Audit/), 'Compare']);
+    expect(screen.getAllByRole('tab').map((t) => t.textContent)).toEqual(['Map', expect.stringMatching(/^Tokens/), expect.stringMatching(/^Audit/), 'Compare', 'Color vision']);
     expect(screen.getByRole('tab', { name: 'Map' }).getAttribute('aria-selected')).toBe('true');
   });
 
