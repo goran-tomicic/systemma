@@ -5,6 +5,7 @@ import { Audit } from './components/Audit';
 import { Detail } from './components/Detail';
 import { Header } from './components/Header';
 import { Importer } from './components/Importer';
+import { MapView } from './components/MapView';
 import type { NewSource } from './components/Importer';
 import { Settings } from './components/Settings';
 import type { ProfileChoice } from './components/Settings';
@@ -69,7 +70,7 @@ export function reducer(state: State, action: Action): State {
   }
 }
 
-type TabId = 'tokens' | 'audit';
+type TabId = 'map' | 'tokens' | 'audit';
 
 export function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -102,12 +103,14 @@ export function App() {
             active={tab}
             onChange={setTab}
             tabs={[
+              { id: 'map', label: 'Map' },
               { id: 'tokens', label: 'Tokens', badge: loaded.ds.tokens.size },
               { id: 'audit', label: 'Audit', badge: totals.error || analysis.findings.length, alert: totals.error > 0 },
             ]}
           />
           <div className="layout">
             <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="main">
+              {tab === 'map' && <MapView ds={loaded.ds} analysis={analysis} mode={mode} onMode={setMode} onSelect={setSelected} />}
               {tab === 'tokens' && <TokensView ds={loaded.ds} analysis={analysis} mode={mode} onMode={setMode} selected={open} onSelect={setSelected} />}
               {tab === 'audit' && <Audit analysis={analysis} ds={loaded.ds} enabled={state.enabled} onToggleRuleset={(id, on) => dispatch({ type: 'ruleset', id, on })} onSelect={setSelected} />}
             </div>
