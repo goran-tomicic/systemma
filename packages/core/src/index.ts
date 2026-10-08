@@ -42,6 +42,8 @@ export { activeRulesets } from './rules/options.js';
 export { RULE_META } from './rules/meta.js';
 export type { Analysis, AnalyzeOptions } from './analyze/types.js';
 export { analyze } from './analyze/analyze.js';
+export type { Impact, ImpactedComponent, ImpactedToken } from './analyze/impact.js';
+export { impact } from './analyze/impact.js';
 export { audit } from './rules/audit.js';
 export type { DiffChange, DiffResult } from './analyze/diff.js';
 export { diff } from './analyze/diff.js';
