@@ -1,4 +1,5 @@
-import { resolve } from '@systemma/core';
+import { useMemo } from 'react';
+import { impact, resolve } from '@systemma/core';
 import type { Analysis, Dataset, Mode, Severity, Token } from '@systemma/core';
 import { SEVERITY_LABEL } from '../lib/findings';
 import { TIER_LABEL } from '../lib/tiers';
@@ -67,24 +68,32 @@ function ModeValue({ id, label, mode, ...p }: Props & { id: string; label: strin
 
 const sevOrder: Severity[] = ['error', 'warn', 'info'];
 
+const plural = (n: number, one: string, many = one + 's'): string => `${n} ${n === 1 ? one : many}`;
+const SHOWN = 30;
+
 function Used({ id, ...p }: Props & { id: string }) {
   const { analysis } = p;
-  const dependents = [...(analysis.dependents.get(id) ?? [])];
-  const usage = analysis.usageBy.get(id) ?? [];
-  const byComponent = new Map<string, { file: string; props: string[] }>();
-  for (const u of usage) {
-    const entry = byComponent.get(u.component) ?? { file: u.file, props: [] };
-    if (u.prop && !entry.props.includes(u.prop)) entry.props.push(u.prop);
-    byComponent.set(u.component, entry);
-  }
+  const reach = useMemo(() => impact(analysis, id), [analysis, id]);
+  const direct = reach.tokens.filter((t) => t.depth === 1);
+  const indirect = reach.tokens.filter((t) => t.depth > 1);
   return (
     <>
+      {(reach.tokens.length > 0 || reach.components.length > 0) && (
+        <p className="impact">Changing it can reach {plural(reach.tokens.length, 'token')} and {plural(reach.components.length, 'component')}.</p>
+      )}
       <h3>Used by tokens</h3>
-      {dependents.length ? <div className="chips">{dependents.slice(0, 30).map((d) => <TokenChip key={d} {...p} id={d} />)}{dependents.length > 30 && <span className="dim2"> and {dependents.length - 30} more</span>}</div> : <p className="dim">No other token refers to it.</p>}
+      {direct.length ? <div className="chips">{direct.slice(0, SHOWN).map((t) => <TokenChip key={t.id} {...p} id={t.id} />)}{direct.length > SHOWN && <span className="dim2"> and {direct.length - SHOWN} more</span>}</div> : <p className="dim">No other token refers to it.</p>}
+      {indirect.length > 0 && (
+        <>
+          <h3>Reached through other tokens</h3>
+          <div className="chips">{indirect.slice(0, SHOWN).map((t) => <TokenChip key={t.id} {...p} id={t.id} extra={`${t.depth} steps`} />)}{indirect.length > SHOWN && <span className="dim2"> and {indirect.length - SHOWN} more</span>}</div>
+        </>
+      )}
       <h3>Used in components</h3>
-      {byComponent.size ? [...byComponent].map(([component, { file, props }]) => (
-        <div className="comp" key={component}>
-          <div title={file || undefined}>{component}{props.map((pr) => <span className="prop" key={pr}> {pr}</span>)}</div>
+      {reach.components.length ? reach.components.map((c) => (
+        <div className="comp" key={c.component}>
+          <div title={c.file || undefined}>{c.component}{c.props.map((pr) => <span className="prop" key={pr}> {pr}</span>)}</div>
+          {!c.tokens.includes(id) && <div className="dim2 via">through {c.tokens.slice(0, 3).map((t) => <TokenChip key={t} {...p} id={t} />)}{c.tokens.length > 3 && ` and ${c.tokens.length - 3} more`}</div>}
         </div>
       )) : <p className="dim">{p.ds.usage.length ? 'No component uses it.' : 'No usage data was added.'}</p>}
     </>

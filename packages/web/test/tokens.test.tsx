@@ -261,3 +261,42 @@ describe('the sources list', () => {
     expect(screen.getByText('1 to check')).toBeTruthy();
   });
 });
+
+describe('what a change reaches', () => {
+  function withChain() {
+    const ctx = setup();
+    // white <- surface/base <- panel <- card-bg, and a component that uses only card-bg.
+    paste(json({ color: { panel: color('{color.surface.base}'), 'card-bg': color('{color.panel}') } }), 'more.json');
+    paste(json([{ component: 'Card', file: 'Card.tsx', tokens: { background: 'color/card-bg' } }]), 'usage.json');
+    fireEvent.click(row('white'));
+    return ctx;
+  }
+
+  it('sums up the tokens and components a change can reach', () => {
+    const { detail } = withChain();
+    expect(detail().getByText('Changing it can reach 3 tokens and 1 component.')).toBeTruthy();
+  });
+
+  it('keeps direct users apart from those reached through other tokens, with how far away', () => {
+    const { detail } = withChain();
+    const direct = detail().getByText('Used by tokens').nextElementSibling as HTMLElement;
+    expect(within(direct).getAllByRole('button').map((b) => b.textContent)).toEqual(['surface/base']);
+    const indirect = detail().getByText('Reached through other tokens').nextElementSibling as HTMLElement;
+    expect(within(indirect).getAllByRole('button').map((b) => b.textContent)).toEqual(['panel2 steps', 'card-bg3 steps']);
+  });
+
+  it('lists a component that reaches the token only through another, and names it', () => {
+    const { detail } = withChain();
+    const comps = detail().getByText('Used in components').parentElement as HTMLElement;
+    expect(within(comps).getByText('Card')).toBeTruthy();
+    expect(comps.textContent).toContain('through');
+    expect(within(comps.querySelector('.via') as HTMLElement).getByRole('button', { name: /card-bg/ })).toBeTruthy();
+  });
+
+  it('says nothing for a token that nothing reaches', () => {
+    const { detail } = setup();
+    fireEvent.click(row('space/4'));
+    expect(document.querySelector('.impact')).toBeNull();
+    expect(detail().queryByText('Reached through other tokens')).toBeNull();
+  });
+});
