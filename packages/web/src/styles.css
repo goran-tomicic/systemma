@@ -25,6 +25,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--sans); -webkit-text-size-adjust: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; }
+input { accent-color: var(--focus); }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .wrap { max-width: 1280px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 h1 { font-size: 20px; line-height: 1.2; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
@@ -231,7 +232,6 @@ fieldset.target label { display: inline-flex; gap: 6px; align-items: center; }
 /* Color vision */
 .badge.fail { background: var(--err); color: var(--on-fill); }
 .badge.ok { background: var(--line2); color: var(--ink2); }
-.sev-row input { accent-color: var(--focus); }
 .sev-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: var(--ink2); }
 .simout { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 14px 14px; margin: 8px 0; }
 .simout h3 { font-size: 13px; font-weight: 600; margin: 14px 0 6px; color: var(--ink2); }
@@ -244,3 +244,10 @@ fieldset.target label { display: inline-flex; gap: 6px; align-items: center; }
 .row .pair { display: inline-flex; align-items: center; gap: 6px; flex: none; min-width: 64px; }
 .row .arrow { color: var(--ink3); }
 @media (max-width: 640px) { .simout { overflow-x: auto; } }
+
+/* Repo scan */
+.scan { margin: 12px 12px 0; padding-top: 12px; border-top: 1px solid var(--line2); }
+.scan .actions { align-items: center; }
+.candidates { list-style: none; margin: 0 0 10px; padding: 0; max-height: 240px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.candidates li { padding: 5px 10px; border-top: 1px solid var(--line2); }
+.candidates li:first-child { border-top: 0; }

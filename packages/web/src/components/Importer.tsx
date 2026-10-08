@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react';
 import type { DragEvent } from 'react';
-import type { SourceSet } from '../lib/sources';
+import type { ScanData, SourceSet } from '../lib/sources';
+import { ScanPanel } from './ScanPanel';
 
 export interface NewSource {
   name: string;
   text: string;
   readError?: string;
+  scan?: ScanData;
 }
 
 // Reads dropped or chosen files. A file that cannot be read still becomes a source, carrying its error, so it
@@ -74,6 +76,7 @@ export function Importer({ onAdd, onExample, onExampleCompare, target, onTarget,
           onChange={(e) => { void add(e.target.files ?? []); e.target.value = ''; }}
         />
       </div>
+      <ScanPanel onAdd={onAdd} />
       <form
         className="paste"
         onSubmit={(e) => {
