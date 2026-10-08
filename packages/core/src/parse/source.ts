@@ -26,6 +26,7 @@ export type SourceResult =
 export function parseSource(ds: Dataset, text: string, opts: SourceOptions): SourceResult {
   const detected = detectFormat(text);
   if (detected.kind === 'error') return { ok: false, message: detected.message };
+  if (detected.kind === 'resolver') return { ok: false, message: 'A DTCG resolver document needs the files it references, which are not available here.' };
   const result =
     detected.kind === 'css' ? parseCss(ds, text, opts.path)
     : detected.kind === 'figma' ? parseFigmaVariables(ds, detected.json)

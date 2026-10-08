@@ -22,6 +22,8 @@ export { parseFigmaVariables } from './parse/figma.js';
 export { parseUsage } from './parse/usage.js';
 export type { SourceKind, SourceOptions, SourceResult } from './parse/source.js';
 export { parseSource } from './parse/source.js';
+export type { ReadRef, ResolverOptions, ResolverResult } from './parse/resolver.js';
+export { isResolver, loadResolver } from './parse/resolver.js';
 export type { Detected, DetectedKind } from './parse/detect.js';
 export { detectFormat } from './parse/detect.js';
 
