@@ -86,8 +86,22 @@ detectFormat(':root { --a: 1 }').kind;   // 'css'
 detectFormat('[]').kind;                  // 'usage'
 detectFormat('{"meta":{"variables":{}}}').kind;   // 'figma'
 detectFormat('{"a":{"$value":1}}').kind;  // 'dtcg'
+detectFormat('{"version":"2025.10","resolutionOrder":[]}').kind;  // 'resolver'
 detectFormat('nope');                     // { kind: 'error', message: 'Unrecognized format. ...' }
 ```
+
+### DTCG resolver documents
+
+A [Resolver Module 2025.10](https://www.designtokens.org/TR/2025.10/resolver/) document orders sets and modifiers of token files. Core has no file access, so you pass a reader for the files it references:
+
+```ts
+import { loadResolver } from '@systemma/core';
+
+const result = await loadResolver(ds, resolverJson, async (ref) => ({ json: await readJson(ref), path: ref }), { path: 'tokens.resolver.json' });
+// { ok: true, count, warnings, files }  or  { ok: false, errors }
+```
+
+The modifier whose contexts are `light` and `dark` (any case) becomes the two modes. Any other modifier is read with its `default` context, with a warning naming the contexts left out, and one with no default is skipped with a warning. Later entries in `resolutionOrder` win. A failure adds nothing to the dataset. `parseSource` declines a resolver, since it cannot read the files.
 
 ## Resolving values
 

@@ -20,6 +20,8 @@ Paths are token files, directories or globs:
 
 Each file is recognized by its content: DTCG or Tokens Studio JSON, a Figma variables export, CSS custom properties, or usage JSON. A file found by a directory or glob that is not a token file is skipped with a warning; a file you named outright is an error.
 
+A DTCG resolver document (Resolver Module 2025.10, usually `*.resolver.json`) is recognized by its `resolutionOrder`. It is loaded together with the files it references (paths relative to the resolver, local files only), and those files are not read again on their own. The modifier whose contexts are `light` and `dark` becomes the two modes. Any other modifier is read with its `default` context, and a warning names the contexts that were left out; one without a default is skipped, with a warning. Later entries in `resolutionOrder` win.
+
 All files go into one dataset, in path order. The first file to define a name keeps it. A JSON file with `dark` anywhere in its path is read as the dark mode; every other file is light.
 
 | Option | |

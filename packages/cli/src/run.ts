@@ -84,12 +84,12 @@ export async function run(argv: string[], env: Env): Promise<0 | 1 | 2> {
     if (!patterns.length) throw new UsageError('No files to check. Pass paths, or set "sources" in the config file.');
 
     const files = await expandSources(patterns, base, env.cwd);
-    const { ds, files: count, warnings } = await loadDataset(files, { stripSets: config.stripSets });
+    const { ds, files: count, warnings, read } = await loadDataset(files, { stripSets: config.stripSets });
 
     // Like sources, usage paths on the command line replace the config's and are relative to where you are.
     const [usageInputs, usageBase] = args.usage.length ? [args.usage, env.cwd] : [config.usage, loaded?.base ?? env.cwd];
     if (usageInputs.length) {
-      const scan = await scanUsageInputs(usageInputs, usageBase, env.cwd, ds, new Set(files.map((f) => f.abs)));
+      const scan = await scanUsageInputs(usageInputs, usageBase, env.cwd, ds, read);
       warnings.push(...scan.warnings);
     }
     const found = analyze(ds, config.audit).findings;
