@@ -50,10 +50,22 @@ export interface UsageRecord {
   token: string;
 }
 
+// A raw color or length written in code where a token could have been used.
+export interface LiteralUse {
+  component: string;
+  file: string;
+  prop: string;
+  // As written, e.g. "#2563EB" or "16px".
+  value: string;
+  kind: 'color' | 'length';
+}
+
 export interface Dataset {
   name: string;
   tokens: Map<string, Token>;
   usage: UsageRecord[];
+  // Set by the repo scan only; absent when no code was scanned.
+  literals?: LiteralUse[];
   renames?: Record<string, string>;
 }
 

@@ -7,6 +7,7 @@ const SRC = {
   dtcg: { name: 'W3C Design Tokens Format Module 2025.10', url: 'https://www.designtokens.org/TR/2025.10/format/' },
   curtis: { name: 'Nathan Curtis, "Naming Tokens in Design Systems"', url: 'https://nathanacurtis.substack.com/p/naming-tokens-in-design-systems-9e86c7444676' },
   atlassian: { name: 'Atlassian Design System, Spacing', url: 'https://atlassian.design/foundations/spacing' },
+  codex: { name: 'Wikimedia Codex, Design tokens', url: 'https://doc.wikimedia.org/codex/latest/design-tokens/overview.html' },
   tiered: { name: 'Tiered naming scheme docs' },
   wcagMin: { name: 'WCAG 2.2 SC 1.4.3 Contrast (Minimum)', url: 'https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html' },
   wcagNonText: { name: 'WCAG 2.2 SC 1.4.11 Non-text Contrast', url: 'https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html' },
@@ -26,6 +27,9 @@ export const RULE_META: Readonly<Record<RuleId, RuleMeta>> = {
   // collisions are reported here too, and again by dtcg-case, which is the DTCG-specific wording.
   'id-collision': { set: 'integrity', title: 'Names collide', description: 'Two different names produce the same id, so only the first was kept and the other was not merged.', defaultSeverity: 'error', source: SRC.basic, confidence: 'high' },
   'mode-gap': { set: 'integrity', title: 'No dark value', description: 'Dark values exist elsewhere in the set, but not for this color token above the foundation tier.', defaultSeverity: 'warn', source: SRC.basic, confidence: 'high' },
+  // The cited page states the purpose of tokens (use them instead of hard-coded values); it does not prescribe
+  // a check, so confidence is medium. Opened 2026-10-08.
+  'hardcoded-value': { set: 'integrity', title: 'Hardcoded value', description: 'Code uses a raw color or length that a token already has. Reported only when a token with the same resolved value exists, and only when code was scanned.', defaultSeverity: 'warn', source: SRC.codex, confidence: 'medium' },
   unused: { set: 'integrity', title: 'Unused semantic token', description: 'Nothing in the usage data or in other tokens refers to it. Partial usage data inflates this.', defaultSeverity: 'info', source: SRC.basic, confidence: 'high' },
 
   // dtcg. dtcg-name is an error for DTCG-format tokens and a warning for tokens from other formats.

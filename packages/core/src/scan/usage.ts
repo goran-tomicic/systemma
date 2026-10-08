@@ -3,6 +3,7 @@ import type { Dataset } from '../model/types.js';
 import { detectFormat } from '../parse/detect.js';
 import { parseCss } from '../parse/css.js';
 import { parseTokensJson } from '../parse/dtcg.js';
+import { findLiterals } from './literals.js';
 import { componentNameFromPath } from './component-name.js';
 import { CODE_EXT, SCRIPT_EXT, baseName, readAll } from './files.js';
 import type { FileLike, Progress, ScanCandidates, ScanSummary } from './types.js';
@@ -25,6 +26,7 @@ export async function scanUsage(scan: ScanCandidates, chosenPaths: ReadonlySet<s
   }
 
   ds.usage = [];
+  ds.literals = [];
   const defPaths = new Set(chosen.map((c) => c.path));
   const prefixes = new Set([...ds.tokens.keys()].map((id) => id.split('-')[0]));
   const sources: FileLike[] = scan.usable.filter((f) => {
@@ -32,6 +34,7 @@ export async function scanUsage(scan: ScanCandidates, chosenPaths: ReadonlySet<s
     return CODE_EXT.test(name) && !defPaths.has(f.path) && !/\.(test|spec)\./.test(name);
   });
   const seen = new Set<string>();
+  const seenLiterals = new Set<string>();
   let filesWithUsage = 0;
 
   await readAll(sources, (f, text) => {
@@ -64,6 +67,12 @@ export async function scanUsage(scan: ScanCandidates, chosenPaths: ReadonlySet<s
         const id = canon(m[1] ?? '');
         if (ds.tokens.has(id)) add(id, '');
       }
+    }
+    for (const l of findLiterals(text, SCRIPT_EXT.test(f.path))) {
+      const key = `${component}|${l.prop}|${l.value.toLowerCase()}`;
+      if (seenLiterals.has(key)) continue;
+      seenLiterals.add(key);
+      ds.literals?.push({ component, file: f.path, prop: l.prop, value: l.value, kind: l.kind });
     }
     if (any) filesWithUsage++;
   }, onProgress);

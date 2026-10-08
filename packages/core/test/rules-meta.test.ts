@@ -5,9 +5,9 @@ import { activeRulesets, severityFor } from '../src/rules/options.js';
 import { addToken } from './helpers/add.js';
 
 describe('ids', () => {
-  it('lists 37 unique rules and 9 unique rulesets', () => {
-    expect(RULE_IDS).toHaveLength(37);
-    expect(new Set(RULE_IDS).size).toBe(37);
+  it('lists 38 unique rules and 9 unique rulesets', () => {
+    expect(RULE_IDS).toHaveLength(38);
+    expect(new Set(RULE_IDS).size).toBe(38);
     expect(RULESET_IDS).toHaveLength(9);
     expect(new Set(RULESET_IDS).size).toBe(9);
   });
@@ -82,7 +82,7 @@ describe('rule metadata', () => {
       'base-unit', 'contrast-aaa', 'contrast-nontext', 'desc-intent', 'desc-missing', 'duplicate-semantic',
       'm3-motion-names', 'm3-type-role', 'state-position', 'unused',
     ]);
-    expect(bySeverity('warn')).toHaveLength(37 - 6 - 10);
+    expect(bySeverity('warn')).toHaveLength(38 - 6 - 10);
   });
 
   it('shares one source object across rules that cite the same page', () => {

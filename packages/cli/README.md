@@ -44,7 +44,7 @@ All files go into one dataset, in path order. The first file to define a name ke
 
 ## Finding where tokens are used
 
-Some rules need to know where tokens are used in code: `broken-usage`, `unused`, `usage-role`, `contrast-focus`, `foundation-direct` and `pairing`. Without usage data they have nothing to say, so `unused` stays quiet instead of calling everything unused.
+Some rules need to know where tokens are used in code: `broken-usage`, `unused`, `usage-role`, `contrast-focus`, `foundation-direct`, `pairing` and `hardcoded-value`. Without usage data they have nothing to say, so `unused` stays quiet instead of calling everything unused.
 
 ```
 systemma check tokens --usage src
@@ -55,6 +55,7 @@ systemma check tokens --usage src
 - **The token files you loaded are not scanned.** A token file's own aliases (`--gap: var(--space-4)`) are not use, and counting them would make every aliased token look used.
 - **A token-shaped name that nothing declares is recorded.** `var(--color-fg-gone)` in code, when the tokens have `color-fg-*` and no style file declares it, becomes a `broken-usage` finding. A component's own custom property (`--button-pad` declared in its stylesheet) is not.
 - **It adds to usage from a usage JSON file** you also pass, rather than replacing it.
+- **Raw values are recorded too.** A color (`#hex`, `rgb()`, `hsl()`) or a `px` or `rem` length written in a declaration, in a style file or a style object, is reported by `hardcoded-value` when a token already has that value: `padding: 4px is the value of space-4`. Colors are compared as colors (`#fff` equals `rgb(255, 255, 255)`), lengths in pixels (`1rem` equals `16px`). A value no token has is not reported. A token that code should use is chosen from the non-foundation tier first, and `(and 1 more)` says other tokens have the same value. Custom property definitions, `var()` fallbacks and test files are left out. It is a warning, so it fails a run only with `--fail-on warn`; turn it off with `"hardcoded-value": "off"` under `rules`.
 - **The property is read from the nearest declaration.** That is exact for CSS and approximate for JavaScript object literals.
 - If a scan finds no use of any token, that is reported as a warning, since it usually means the wrong directory.
 

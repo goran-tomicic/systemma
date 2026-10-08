@@ -7,7 +7,7 @@ export const RULESETS: readonly Ruleset[] = [
     name: 'Integrity',
     description: 'Aliases resolve, nothing loops, components use real tokens, names do not collide, and dark values exist where light ones do.',
     defaultOn: true,
-    rules: ['broken-ref', 'cycle', 'broken-usage', 'id-collision', 'mode-gap', 'unused'],
+    rules: ['broken-ref', 'cycle', 'broken-usage', 'id-collision', 'mode-gap', 'unused', 'hardcoded-value'],
   },
   {
     id: 'dtcg',

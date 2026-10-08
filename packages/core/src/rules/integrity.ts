@@ -1,3 +1,5 @@
+import { toRgba } from '../model/color.js';
+import { toPx } from '../model/units.js';
 import { refsOf } from '../model/value.js';
 import { resolve } from '../resolve/resolve.js';
 import type { Kind, Mode } from '../model/types.js';
@@ -5,6 +7,14 @@ import type { RuleFn } from './context.js';
 import type { RuleId } from './types.js';
 
 const MODES: readonly Mode[] = ['light', 'dark'];
+
+// Two values are the same when they paint the same color or come to the same pixel length.
+function literalKey(value: string): string | null {
+  const c = toRgba(value);
+  if (c) return `c:${c[0]},${c[1]},${c[2]},${(c[3] ?? 1).toFixed(2)}`;
+  const px = toPx(value);
+  return px === null ? null : `l:${px}`;
+}
 
 const brokenRef: RuleFn = ({ ds, tokens, add }) => {
   for (const t of tokens) {
@@ -84,6 +94,35 @@ const unused: RuleFn = ({ ds, tokens, analysis, add }) => {
   }
 };
 
+// A raw value in code that a token already holds. Nothing is said when no token matches, since many raw values
+// have no token yet. When several tokens match, a non-foundation one is suggested first.
+const hardcodedValue: RuleFn = ({ ds, analysis, add }) => {
+  if (!ds.literals?.length) return;
+  const index = new Map<string, string[]>();
+  for (const t of ds.tokens.values()) {
+    for (const mode of MODES) {
+      if (!t.modes[mode]) continue;
+      const r = resolve(ds, t.id, mode);
+      if (!('value' in r)) continue;
+      const key = literalKey(r.value);
+      if (!key) continue;
+      const ids = index.get(key);
+      if (!ids) index.set(key, [t.id]);
+      else if (!ids.includes(t.id)) ids.push(t.id);
+    }
+  }
+  const rank = (id: string): number => (analysis.info.get(id)?.tier === 'foundation' ? 1 : 0);
+  for (const u of ds.literals) {
+    const key = literalKey(u.value);
+    const ids = key ? index.get(key) : undefined;
+    if (!ids) continue;
+    const best = [...ids].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b))[0];
+    if (!best) continue;
+    const label = ds.tokens.get(best)?.label ?? best;
+    add('hardcoded-value', 'warn', null, u.component, `${u.prop ? u.prop + ': ' : ''}${u.value} is the value of ${label}${ids.length > 1 ? ` (and ${ids.length - 1} more)` : ''}`);
+  }
+};
+
 export const INTEGRITY_RULES: Partial<Record<RuleId, RuleFn>> = {
   'broken-ref': brokenRef,
   cycle,
@@ -91,4 +130,5 @@ export const INTEGRITY_RULES: Partial<Record<RuleId, RuleFn>> = {
   'id-collision': idCollision,
   'mode-gap': modeGap,
   unused,
+  'hardcoded-value': hardcodedValue,
 };

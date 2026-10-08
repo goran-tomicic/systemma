@@ -177,3 +177,27 @@ describe('cli-usage fixture', () => {
     }
   });
 });
+
+describe('hardcoded values', () => {
+  const files = {
+    ...tokenFiles,
+    'src/Card.module.css': '.card { background: #FFFFFF; padding: 4px; margin: 7px; color: var(--color-base, #fff); --local: #ffffff; }',
+  };
+
+  // The alias is suggested before the foundation token it points at, since code should use the semantic name.
+  it('reports a raw value that a token holds, and only with --usage', async () => {
+    const dir = project(files);
+    const found = rules((await json(dir, 'check', 'tokens', '--usage', 'src')).report, 'hardcoded-value');
+    expect(found).toEqual([
+      'src/Card: background: #FFFFFF is the value of color/alias (and 1 more)',
+      'src/Card: padding: 4px is the value of --gap (and 1 more)',
+    ]);
+    expect(rules((await json(dir, 'check', 'tokens')).report, 'hardcoded-value')).toEqual([]);
+  });
+
+  it('is a warning, so it fails a run only with --fail-on warn', async () => {
+    const dir = project(files);
+    expect((await call(dir, 'check', 'tokens', '--usage', 'src')).code).toBe(0);
+    expect((await call(dir, 'check', 'tokens', '--usage', 'src', '--fail-on', 'warn')).code).toBe(1);
+  });
+});
