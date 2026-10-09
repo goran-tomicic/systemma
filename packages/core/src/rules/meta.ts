@@ -30,6 +30,9 @@ export const RULE_META: Readonly<Record<RuleId, RuleMeta>> = {
   // The cited page states the purpose of tokens (use them instead of hard-coded values); it does not prescribe
   // a check, so confidence is medium. Opened 2026-10-08.
   'hardcoded-value': { set: 'integrity', title: 'Hardcoded value', description: 'Code uses a raw color or length that a token already has. Reported only when a token with the same resolved value exists, and only when code was scanned.', defaultSeverity: 'warn', source: SRC.codex, confidence: 'medium' },
+  // $deprecated is defined by the format (true: deprecated, no explanation; string: deprecated, with one). The format
+  // does not ask tools to warn about use of a deprecated token, so this is a convention built on its meaning. Opened 2026-10-09.
+  'deprecated-in-use': { set: 'integrity', title: 'Deprecated token still in use', description: 'A token marked $deprecated is still used by a component, or referenced by a token that is not deprecated.', defaultSeverity: 'warn', source: SRC.dtcg, confidence: 'low' },
   unused: { set: 'integrity', title: 'Unused semantic token', description: 'Nothing in the usage data or in other tokens refers to it. Partial usage data inflates this.', defaultSeverity: 'info', source: SRC.basic, confidence: 'high' },
 
   // dtcg. dtcg-name is an error for DTCG-format tokens and a warning for tokens from other formats.
@@ -38,6 +41,11 @@ export const RULE_META: Readonly<Record<RuleId, RuleMeta>> = {
   'dtcg-untyped': { set: 'dtcg', title: 'No explicit type', description: 'The format requires a declared or inherited type; tools must not guess it from the value.', defaultSeverity: 'warn', source: SRC.dtcg, confidence: 'high' },
   'dtcg-composite': { set: 'dtcg', title: 'Incomplete composite', description: 'A typography, shadow, border or transition value is missing required sub-values.', defaultSeverity: 'error', source: SRC.dtcg, confidence: 'high' },
   // dtcg-units drops to info for dimensions and durations that did not come from a DTCG file.
+  // The format leaves a declared $type that differs from an alias's target undefined; section 8 says a value that does not
+  // match the syntax of its explicit type is invalid and an error should be shown. Opened 2026-10-09.
+  'alias-type-mismatch': { set: 'dtcg', title: 'Alias of another type', description: 'A token declares a $type but its alias points at a token of a different type, so its value cannot be of the declared type.', defaultSeverity: 'warn', source: SRC.dtcg, confidence: 'medium' },
+  // The format defines `true` as "deprecated, no explanation provided". Whether that is a problem is a convention. Opened 2026-10-09.
+  'deprecated-no-reason': { set: 'dtcg', title: 'Deprecated without a reason', description: '$deprecated is true with no explanation, so a user cannot tell what to use instead.', defaultSeverity: 'info', source: SRC.dtcg, confidence: 'low' },
   'dtcg-units': { set: 'dtcg', title: 'Value outside the spec', description: 'Units or ranges the format cannot represent: dimension in px or rem, duration in ms or s, easing x within 0 to 1, weight within 1 to 1000.', defaultSeverity: 'warn', source: SRC.dtcg, confidence: 'high' },
 
   // structure. The article supports structured, consistently ordered levels in general, not these specific checks.

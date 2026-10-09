@@ -184,7 +184,7 @@ A pattern is matched against a token's authored label (without a leading `--`) a
 
 The `mode-gap` rule flags semantic colors that have no dark value once some color has one. `modeGapKinds: ['color', 'dimension']` widens it to other kinds. Each kind is checked on its own, only once a token of that kind has a dark value.
 
-`RULESETS` lists the rulesets and which are on by default. `RULE_META` has, for each of the 38 rules, its ruleset, title, description, default severity, source name, source URL and confidence.
+`RULESETS` lists the rulesets and which are on by default. `RULE_META` has, for each of the 41 rules, its ruleset, title, description, default severity, source name, source URL and confidence.
 
 ```ts
 import { RULE_META } from '@systemma/core';

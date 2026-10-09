@@ -7,14 +7,14 @@ export const RULESETS: readonly Ruleset[] = [
     name: 'Integrity',
     description: 'Aliases resolve, nothing loops, components use real tokens, names do not collide, and dark values exist where light ones do.',
     defaultOn: true,
-    rules: ['broken-ref', 'cycle', 'broken-usage', 'id-collision', 'mode-gap', 'unused', 'hardcoded-value'],
+    rules: ['broken-ref', 'cycle', 'broken-usage', 'id-collision', 'mode-gap', 'unused', 'hardcoded-value', 'deprecated-in-use'],
   },
   {
     id: 'dtcg',
     name: 'W3C DTCG 2025.10',
     description: 'Name characters, explicit types, composite sub-values, units and ranges.',
     defaultOn: true,
-    rules: ['dtcg-name', 'dtcg-case', 'dtcg-untyped', 'dtcg-composite', 'dtcg-units'],
+    rules: ['dtcg-name', 'dtcg-case', 'dtcg-untyped', 'dtcg-composite', 'dtcg-units', 'alias-type-mismatch', 'deprecated-no-reason'],
   },
   {
     id: 'structure',

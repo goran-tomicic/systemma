@@ -5,9 +5,9 @@ import { activeRulesets, severityFor } from '../src/rules/options.js';
 import { addToken } from './helpers/add.js';
 
 describe('ids', () => {
-  it('lists 38 unique rules and 9 unique rulesets', () => {
-    expect(RULE_IDS).toHaveLength(38);
-    expect(new Set(RULE_IDS).size).toBe(38);
+  it('lists 41 unique rules and 9 unique rulesets', () => {
+    expect(RULE_IDS).toHaveLength(41);
+    expect(new Set(RULE_IDS).size).toBe(41);
     expect(RULESET_IDS).toHaveLength(9);
     expect(new Set(RULESET_IDS).size).toBe(9);
   });
@@ -79,10 +79,10 @@ describe('rule metadata', () => {
     const bySeverity = (sev: string): string[] => entries.filter(([, m]) => m.defaultSeverity === sev).map(([id]) => id).sort();
     expect(bySeverity('error')).toEqual(['broken-ref', 'broken-usage', 'cycle', 'dtcg-composite', 'dtcg-name', 'id-collision']);
     expect(bySeverity('info')).toEqual([
-      'base-unit', 'contrast-aaa', 'contrast-nontext', 'desc-intent', 'desc-missing', 'duplicate-semantic',
+      'base-unit', 'contrast-aaa', 'contrast-nontext', 'deprecated-no-reason', 'desc-intent', 'desc-missing', 'duplicate-semantic',
       'm3-motion-names', 'm3-type-role', 'state-position', 'unused',
     ]);
-    expect(bySeverity('warn')).toHaveLength(38 - 6 - 10);
+    expect(bySeverity('warn')).toHaveLength(41 - 6 - 11);
   });
 
   it('shares one source object across rules that cite the same page', () => {

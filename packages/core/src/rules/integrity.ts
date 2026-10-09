@@ -123,6 +123,22 @@ const hardcodedValue: RuleFn = ({ ds, analysis, add }) => {
   }
 };
 
+// A deprecated token that something still depends on. Tokens that are themselves deprecated may refer to it, since
+// they are on their way out too. Without usage data only token references can show it.
+const deprecatedInUse: RuleFn = ({ ds, tokens, analysis, add, label }) => {
+  for (const t of tokens) {
+    if (!t.deprecated) continue;
+    const components = new Set((analysis.usageBy.get(t.id) ?? []).map((u) => u.component));
+    const users = [...(analysis.dependents.get(t.id) ?? [])].filter((id) => !ds.tokens.get(id)?.deprecated);
+    if (!components.size && !users.length) continue;
+    const parts = [
+      components.size ? `${components.size} ${components.size === 1 ? 'component' : 'components'} (${[...components].sort().slice(0, 3).join(', ')}${components.size > 3 ? ', …' : ''})` : '',
+      users.length ? `${users.length} ${users.length === 1 ? 'token' : 'tokens'} (${users.sort().slice(0, 3).map(label).join(', ')}${users.length > 3 ? ', …' : ''})` : '',
+    ].filter(Boolean);
+    add('deprecated-in-use', 'warn', t.id, t.label, `is deprecated${typeof t.deprecated === 'string' ? ` (${t.deprecated})` : ''} but still used by ${parts.join(' and ')}`);
+  }
+};
+
 export const INTEGRITY_RULES: Partial<Record<RuleId, RuleFn>> = {
   'broken-ref': brokenRef,
   cycle,
@@ -131,4 +147,5 @@ export const INTEGRITY_RULES: Partial<Record<RuleId, RuleFn>> = {
   'mode-gap': modeGap,
   unused,
   'hardcoded-value': hardcodedValue,
+  'deprecated-in-use': deprecatedInUse,
 };

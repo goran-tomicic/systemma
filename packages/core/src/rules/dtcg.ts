@@ -86,10 +86,35 @@ const dtcgUnits: RuleFn = ({ ds, tokens, analysis, add }) => {
   }
 };
 
+// A fontWeight is a number or a name, and a number token is a fair target for one, so the pair is not a mismatch.
+const COMPATIBLE: ReadonlySet<string> = new Set(['fontWeight|number', 'number|fontWeight']);
+
+const aliasTypeMismatch: RuleFn = ({ ds, tokens, analysis, label, add }) => {
+  for (const t of tokens) {
+    if (t.format !== 'dtcg' || !t.declaredType || !t.type) continue;
+    const seen = new Set<string>();
+    for (const [mode, value] of Object.entries(t.modes)) {
+      if (!('ref' in value) || !value.ref || seen.has(value.ref)) continue;
+      seen.add(value.ref);
+      // A target that is missing is broken-ref's to report. One whose type was only guessed from its value is not
+      // trusted enough to call a mismatch.
+      const target = ds.tokens.get(value.ref)?.declaredType ? analysis.info.get(value.ref)?.kind : undefined;
+      if (!target || target === t.type || COMPATIBLE.has(`${t.type}|${target}`)) continue;
+      add('alias-type-mismatch', 'warn', t.id, t.label, `${mode}: declares $type ${t.type} but refers to ${label(value.ref)}, which is ${target}`);
+    }
+  }
+};
+
+const deprecatedNoReason: RuleFn = ({ tokens, add }) => {
+  for (const t of tokens) if (t.deprecated === true) add('deprecated-no-reason', 'info', t.id, t.label, 'is deprecated, with no explanation of why or what to use instead');
+};
+
 export const DTCG_RULES: Partial<Record<RuleId, RuleFn>> = {
   'dtcg-name': dtcgName,
   'dtcg-case': dtcgCase,
   'dtcg-untyped': dtcgUntyped,
   'dtcg-composite': dtcgComposite,
   'dtcg-units': dtcgUnits,
+  'alias-type-mismatch': aliasTypeMismatch,
+  'deprecated-no-reason': deprecatedNoReason,
 };
